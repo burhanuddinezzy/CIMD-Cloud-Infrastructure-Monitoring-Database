@@ -1,0 +1,28 @@
+# Real-World Use Cases
+
+1. **Infrastructure Monitoring**:
+    - **Detecting high CPU/memory usage and automatically notifying admins**: Alerts can be configured to notify administrators when CPU or memory usage exceeds predefined thresholds. This enables prompt intervention before performance degradation or server crashes occur. For example, admins could be alerted if CPU usage exceeds 85% for 5 minutes, ensuring proactive management of server resources.
+    - **Disk space usage monitoring**: Set alerts for when disk space usage exceeds a specified percentage, preventing servers from running out of storage and causing potential data loss or downtime.
+    - **Network bandwidth monitoring**: Trigger alerts if bandwidth usage exceeds a certain threshold, indicating potential network congestion or DDoS attack.
+2. **Security Alerts**:
+    - **Triggering alerts when unauthorized access is detected**: Alerts can be configured to monitor for failed login attempts, access from unusual IP addresses, or logins outside business hours. For example, an alert could be triggered if there are five failed login attempts within a minute, which could indicate a brute-force attack. Similarly, access from an unknown IP range can trigger a high-priority security alert.
+    - **Monitoring for privilege escalation**: Alerts can be set to monitor user role changes or unauthorized elevation of privileges, such as an employee gaining access to sensitive data without proper authorization. This helps detect potential insider threats or misconfigurations.
+3. **Cost Management**:
+    - **Setting alerts for high cloud resource consumption to prevent unexpected costs**: Cloud service usage (e.g., compute resources, storage, or networking) can be monitored, and alerts can be triggered when costs reach a predefined threshold. For instance, administrators can receive an alert if cloud storage usage exceeds 80% of their allocated quota, enabling them to manage resources more effectively and prevent unexpected charges.
+    - **Cloud cost anomaly detection**: Alert configurations can track unusual patterns in resource usage, such as a sudden spike in cloud service consumption or an increase in hourly usage costs, which may indicate misconfigured resources or inefficient usage. The system can automatically trigger a notification to prevent budget overruns.
+4. **Compliance Monitoring**:
+    - **Alerting on non-compliance with regulatory standards**: In regulated industries such as healthcare (HIPAA) or finance (PCI-DSS), alerts can be set to notify the security team when an action or access pattern violates compliance policies. For example, if sensitive data is accessed by an employee who doesn’t have the necessary clearance, an alert can be triggered to prevent a data breach and ensure compliance with laws and regulations.
+    - **Audit logging and reporting**: Compliance audits require that certain actions (e.g., data access or system configuration changes) be logged and reviewed. Alerts can be configured to ensure that logs are generated for critical actions and sent to designated personnel for review.
+5. **Application Performance Monitoring**:
+    - **Alerts for application downtime**: Configure alerts to notify the appropriate team if an application or service becomes unavailable (e.g., through server-side metrics or application logs). This ensures quick response times to application issues, minimizing downtime.
+    - **Monitoring API response times**: Set alerts based on the response time of APIs or microservices, ensuring that application performance remains within acceptable limits. For example, if the response time of a critical API exceeds a specified threshold, an alert can trigger, allowing the team to address any performance bottlenecks.
+6. **Incident Response & Management**:
+    - **Triggering alerts during incidents**: During a service outage or security breach, alerts can be triggered to notify incident response teams, ensuring that the team is aware of the issue immediately. Alerts can also include automated actions, such as initiating backup processes or scaling resources to handle high traffic volumes.
+    - **Alerting for incident escalation**: As incidents evolve, alerts can be triggered at different severity levels, notifying teams based on the criticality of the incident. For example, an alert could escalate from "warning" to "critical" based on metrics like system health, number of users impacted, or application uptime.
+7. **User Behavior Monitoring**:
+    - **Monitoring abnormal user behavior**: Set alerts to trigger when abnormal patterns are detected in user access or actions. For instance, if a user accesses a large volume of sensitive data within a short time frame or accesses systems they typically don’t interact with, an alert can be triggered for further investigation.
+    - **Alerting on user authentication failures**: Set alerts to notify admins when a user repeatedly fails authentication, which could indicate a potential compromised account or malicious activity.
+8. **Data Integrity Monitoring**:
+    - **Configuring alerts for database anomalies**: Set alerts to monitor for anomalies in database activity, such as unusual query patterns, unexpected deletions, or changes to critical data. This ensures that database integrity is maintained and can help quickly identify potential breaches or data corruption.
+
+These use cases reflect real-world applications of the **Alerts Configuration** table, demonstrating its importance in proactive monitoring, rapid response to issues, and maintaining system security, performance, and compliance. By using configurable alerts, organizations can minimize risk, reduce downtime, and maintain optimal system performance.
