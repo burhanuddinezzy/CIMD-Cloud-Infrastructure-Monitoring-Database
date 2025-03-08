@@ -65,7 +65,7 @@ This table stores pre-processed, summarized performance data for each server ove
     | `s1a2b3` | `us-east-1` | 72.45 | 65.30 | 1,200,000 | 350,000 | 99.95 |
     | `s4c5d6` | `eu-west-2` | 89.67 | 78.20 | 950,000 | 420,000 | 99.87 |
 
-[**What Queries Would Be Used?**](What Queries Would Be Used.md)
+[**What Queries Would Be Used?**](What%20Queries%20Would%20Be%20Used.md)
 
 [**Alternative Approaches**](Aggregated%20Metrics%2019bead362d93807b9664c97496f8cc05/Alternative%20Approaches%2019dead362d938019b018fe2438523201.md)
 
