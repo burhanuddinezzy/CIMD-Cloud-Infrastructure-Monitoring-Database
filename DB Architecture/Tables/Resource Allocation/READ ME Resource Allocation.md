@@ -2,7 +2,7 @@
 
 This table tracks how computing resources (CPU, memory, disk space) are allocated to different applications on servers. It is critical for resource monitoring, capacity planning, cost optimization, and ensuring workloads receive the necessary resources.
 
-[**When a New Application is Deployed on a Server**](Resource%20Allocation%2019bead362d9380efbe66c8372fb3745a/When%20a%20New%20Application%20is%20Deployed%20on%20a%20Server%201a3ead362d93806da390dac86864d0ec.md)
+[**When a New Application is Deployed on a Server**](When%20a%20New%20Application%20is%20Deployed%20on%20a%20Server.md)
 
 ### **Data Points (Columns) – Purpose, Thought Process, and Data Type**
 
@@ -68,7 +68,7 @@ This table tracks how computing resources (CPU, memory, disk space) are allocate
     
 - **`resource_tag` (VARCHAR(100))**
     
-    [**Difference Between `resource_tag` and `workload_type`**](Resource%20Allocation%2019bead362d9380efbe66c8372fb3745a/Difference%20Between%20resource_tag%20and%20workload_type%201a3ead362d93804aa558e9142f2d1692.md)
+    [**Difference Between `resource_tag` and `workload_type`**](Difference%20Between%20resource_tag%20and%20workload_type.md)
     
     **Purpose**: Labels servers based on project, department, or team.
     
@@ -100,7 +100,7 @@ This table tracks how computing resources (CPU, memory, disk space) are allocate
     
 - **`autoscaling_enabled` (BOOLEAN)**
     
-    [**Autoscaling Data Point Handbook**](Resource%20Allocation%2019bead362d9380efbe66c8372fb3745a/Autoscaling%20Data%20Point%20Handbook%201a3ead362d9380d890dffc4a9855db31.md)
+    [**Autoscaling Data Point Handbook**](Autoscaling%20Data%20Point%20Handbook.md)
     
     **Purpose**: Indicates whether the allocation is static or managed by an auto scaler.
     
@@ -112,7 +112,7 @@ This table tracks how computing resources (CPU, memory, disk space) are allocate
     
 - **`max_allocated_memory` (INTEGER, MB or GB)**
     
-    [**What is `max_allocated_memory`?**](Resource%20Allocation%2019bead362d9380efbe66c8372fb3745a/What%20is%20max_allocated_memory%201a3ead362d9380b3ae28e32578a97df3.md)
+    [**What is `max_allocated_memory`?**](What%20is%20max_allocated_memory.md)
     
     - **Purpose**: Tracks the highest memory allocation recorded for an application.
     - **How I Thought of Including It**: Applications often experience spikes in memory usage. Tracking peak allocation helps in autoscaling and capacity planning.
@@ -154,34 +154,23 @@ This table tracks how computing resources (CPU, memory, disk space) are allocate
     - **Why I Thought of Including It**: Helps in **tracking resource lifecycle**, making it easier to **audit and clean up unused allocations**.
     - **Data Type Used & Why**: `ENUM` for efficiency, since the **values are predefined** and don’t need excessive storage.
 
-[**How It Interacts with Other Tables**](Resource%20Allocation%2019bead362d9380efbe66c8372fb3745a/How%20It%20Interacts%20with%20Other%20Tables%2019cead362d9380ee895fdb9161d2193a.md)
-
-- **Example of Stored Data**
-    
+- **Example of Stored Data**   
     
     | server_id | app_id | workload_type | allocated_memory | allocated_cpu | allocated_disk_space | resource_tag |
     | --- | --- | --- | --- | --- | --- | --- |
     | `s1a2b3` | `a9x8y7` | "Web Server" | 8192 MB | 2.00 Cores | 100 GB | "Finance Team" |
     | `s4c5d6` | `b3k4m5` | "ML Training" | 32768 MB | 8.50 Cores | 500 GB | "AI Research" |
-
-[**What Queries Would Be Used? (Expanded & Optimized)**](Resource%20Allocation%2019bead362d9380efbe66c8372fb3745a/What%20Queries%20Would%20Be%20Used%20(Expanded%20&%20Optimized)%2019cead362d938087ba0bd0d41b5a3323.md)
-
-[**Alternative Approaches (Expanded & Compared)**](Resource%20Allocation%2019bead362d9380efbe66c8372fb3745a/Alternative%20Approaches%20(Expanded%20&%20Compared)%2019cead362d9380c2b157c823e63e4223.md)
-
-[**Real-World Use Cases (Expanded & Detailed)**](Resource%20Allocation%2019bead362d9380efbe66c8372fb3745a/Real-World%20Use%20Cases%20(Expanded%20&%20Detailed)%2019cead362d9380449233e68e3d7154d1.md)
-
-[**Performance Considerations & Scalability (Expanded & Detailed)**](Resource%20Allocation%2019bead362d9380efbe66c8372fb3745a/Performance%20Considerations%20&%20Scalability%20(Expanded%2019cead362d9380b1b56ce844f8796842.md)
-
-[**Query Optimization Techniques (Expanded & Detailed)**](Resource%20Allocation%2019bead362d9380efbe66c8372fb3745a/Query%20Optimization%20Techniques%20(Expanded%20&%20Detailed%2019cead362d93801cb88bf2a2aed931b2.md)
-
-[**Handling Large-Scale Data**](Resource%20Allocation%2019bead362d9380efbe66c8372fb3745a/Handling%20Large-Scale%20Data%2019cead362d9380adba85ea296fa6412a.md)
-
-[**Data Retention & Cleanup (Expanded & Detailed)**](Resource%20Allocation%2019bead362d9380efbe66c8372fb3745a/Data%20Retention%20&%20Cleanup%20(Expanded%20&%20Detailed)%2019cead362d9380979e3af3a1233ddf6f.md)
-
-[**Security & Compliance**](Resource%20Allocation%2019bead362d9380efbe66c8372fb3745a/Security%20&%20Compliance%2019cead362d93807990fdca16990d8d3b.md)
-
-[**Alerting & Automation**](Resource%20Allocation%2019bead362d9380efbe66c8372fb3745a/Alerting%20&%20Automation%2019cead362d938090bee5c74e16230c9c.md)
-
-[**How You Tested & Validated Data Integrity**](Resource%20Allocation%2019bead362d9380efbe66c8372fb3745a/How%20You%20Tested%20&%20Validated%20Data%20Integrity%2019cead362d9380eda315f14dc50208a4.md)
-
-[**Thought Process Behind Decisions**](Resource%20Allocation%2019bead362d9380efbe66c8372fb3745a/Thought%20Process%20Behind%20Decisions%2019cead362d93809b879ce1b0336ca1a5.md)
+  
+## Dive Into Details
+- [**How It Interacts with Other Tables**](How%20It%20Interacts%20with%20Other%20Tables.md)
+- [**What Queries Would Be Used? (Expanded & Optimized)**](What%20Queries%20Would%20Be%20Used%20(Expanded%20&%20Optimized).md)
+- [**Alternative Approaches (Expanded & Compared)**](Alternative%20Approaches%20(Expanded%20&%20Compared).md)
+- [**Real-World Use Cases (Expanded & Detailed)**](Real-World%20Use%20Cases%20(Expanded%20&%20Detailed).md)
+- [**Performance Considerations & Scalability (Expanded & Detailed)**](Performance%20Considerations%20&%20Scalability%20(Expanded.md)
+- [**Query Optimization Techniques (Expanded & Detailed)**](Query%20Optimization%20Techniques%20(Expanded%20&%20Detailed).md)
+- [**Handling Large-Scale Data**](Handling%20Large-Scale%20Data.md)
+- [**Data Retention & Cleanup (Expanded & Detailed)**](Data%20Retention%20&%20Cleanup%20(Expanded%20&%20Detailed).md)
+- [**Security & Compliance**](Security%20&%20Compliance.md)
+- [**Alerting & Automation**](Alerting%20&%20Automation.md)
+- [**How You Tested & Validated Data Integrity**](How%20You%20Tested%20&%20Validated%20Data%20Integrity.md)
+- [**Thought Process Behind Decisions**](Thought%20Process%20Behind%20Decisions.md)
