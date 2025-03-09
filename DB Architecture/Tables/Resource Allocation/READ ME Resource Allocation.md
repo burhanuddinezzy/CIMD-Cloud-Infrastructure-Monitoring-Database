@@ -166,7 +166,7 @@ This table tracks how computing resources (CPU, memory, disk space) are allocate
 - [**What Queries Would Be Used? (Expanded & Optimized)**](What%20Queries%20Would%20Be%20Used%20(Expanded%20&%20Optimized).md)
 - [**Alternative Approaches (Expanded & Compared)**](Alternative%20Approaches%20(Expanded%20&%20Compared).md)
 - [**Real-World Use Cases (Expanded & Detailed)**](Real-World%20Use%20Cases%20(Expanded%20&%20Detailed).md)
-- [**Performance Considerations & Scalability (Expanded & Detailed)**](Performance%20Considerations%20&%20Scalability%20(Expanded.md)
+- [**Performance Considerations & Scalability (Expanded & Detailed)**](Performance%20Considerations%20&%20Scalability%20(Expanded.md))
 - [**Query Optimization Techniques (Expanded & Detailed)**](Query%20Optimization%20Techniques%20(Expanded%20&%20Detailed).md)
 - [**Handling Large-Scale Data**](Handling%20Large-Scale%20Data.md)
 - [**Data Retention & Cleanup (Expanded & Detailed)**](Data%20Retention%20&%20Cleanup%20(Expanded%20&%20Detailed).md)
