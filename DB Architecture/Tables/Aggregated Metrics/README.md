@@ -67,22 +67,22 @@ This table stores pre-processed, summarized performance data for each server ove
 
 [**What Queries Would Be Used?**](What%20Queries%20Would%20Be%20Used.md)
 
-[**Alternative Approaches**](Aggregated%20Metrics%2019bead362d93807b9664c97496f8cc05/Alternative%20Approaches%2019dead362d938019b018fe2438523201.md)
+[**Alternative Approaches**]()
 
-[**Real-World Use Cases**](Aggregated%20Metrics%2019bead362d93807b9664c97496f8cc05/Real-World%20Use%20Cases%2019dead362d9380bca87ae5dd656ad770.md)
+[**Real-World Use Cases**]()
 
-[**Performance Considerations & Scalability**](Aggregated%20Metrics%2019bead362d93807b9664c97496f8cc05/Performance%20Considerations%20&%20Scalability%2019dead362d93809ba15bea3c87015212.md)
+[**Performance Considerations & Scalability**]()
 
-[**Query Optimization Techniques for Aggregated Metrics**](Aggregated%20Metrics%2019bead362d93807b9664c97496f8cc05/Query%20Optimization%20Techniques%20for%20Aggregated%20Metri%2019dead362d93800daeefebec60c6d739.md)
+[**Query Optimization Techniques for Aggregated Metrics**]()
 
-[**Handling Large-Scale Data Efficiently in Aggregated Metrics**](Aggregated%20Metrics%2019bead362d93807b9664c97496f8cc05/Handling%20Large-Scale%20Data%20Efficiently%20in%20Aggregate%2019dead362d9380638f38f4436a5679f8.md)
+[**Handling Large-Scale Data Efficiently in Aggregated Metrics**]()
 
-[**Data Retention & Cleanup Strategies**](Aggregated%20Metrics%2019bead362d93807b9664c97496f8cc05/Data%20Retention%20&%20Cleanup%20Strategies%2019dead362d93800f9f9ad379c51cdc01.md)
+[**Data Retention & Cleanup Strategies**]()
 
-[**Security & Compliance for Aggregated Metrics**](Aggregated%20Metrics%2019bead362d93807b9664c97496f8cc05/Security%20&%20Compliance%20for%20Aggregated%20Metrics%2019dead362d938022a9a3e884eb74a424.md)
+[**Security & Compliance for Aggregated Metrics**]()
 
-[**Alerting & Automation for Aggregated Metrics**](Aggregated%20Metrics%2019bead362d93807b9664c97496f8cc05/Alerting%20&%20Automation%20for%20Aggregated%20Metrics%2019dead362d9380428bf5d42c87a3256a.md)
+[**Alerting & Automation for Aggregated Metrics**]()
 
-[**Testing & Validation for Data Integrity**](Aggregated%20Metrics%2019bead362d93807b9664c97496f8cc05/Testing%20&%20Validation%20for%20Data%20Integrity%2019dead362d93808397ebcfc7534fb7fa.md)
+[**Testing & Validation for Data Integrity**]()
 
-[**Thought Process Behind Decisions**](Aggregated%20Metrics%2019bead362d93807b9664c97496f8cc05/Thought%20Process%20Behind%20Decisions%2019dead362d93801fa178d0add68dee23.md)
+[**Thought Process Behind Decisions**]()
