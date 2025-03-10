@@ -133,24 +133,18 @@ This table stores **performance and health metrics** for each server in a distri
     | `a1b2c3` | us-east-1 | 2024-01-30 12:34:56 | 78.5 | 65.3 | 240 | 315 | 56789012 | 43210987 | 10320 | 12.5 | 500 |
     | `d4e5f6` | eu-west-2 | 2024-01-30 12:35:56 | 45.3 | 50.8 | 180 | 290 | 46872341 | 39012345 | 20430 | 9.8 | 420 |
 
-[**What Queries Would Be Used?**](Server%20Metrics%2019bead362d93807788d0f64ed32e2552/What%20Queries%20Would%20Be%20Used%2019bead362d9380e78289caa84077d1da.md)
 
-[**Alternative Approaches**](Server%20Metrics%2019bead362d93807788d0f64ed32e2552/Alternative%20Approaches%2019bead362d9380b58447dba4c38cade5.md)
 
-[**Performance Considerations & Scalability**](Server%20Metrics%2019bead362d93807788d0f64ed32e2552/Performance%20Considerations%20&%20Scalability%2019bead362d93807f9267e155533ced38.md)
+## Dive Into Details
 
-[**Query Optimization Techniques**](Server%20Metrics%2019bead362d93807788d0f64ed32e2552/Query%20Optimization%20Techniques%2019bead362d9380749c3df75d58380e23.md)
-
-[**Handling Large-Scale Data**](Server%20Metrics%2019bead362d93807788d0f64ed32e2552/Handling%20Large-Scale%20Data%2019bead362d9380eeb87cecfe363030bb.md)
-
-[**Data Retention & Cleanup**](Server%20Metrics%2019bead362d93807788d0f64ed32e2552/Data%20Retention%20&%20Cleanup%2019bead362d938009994ae1de52e53b7d.md)
-
-[**Security & Compliance**](Server%20Metrics%2019bead362d93807788d0f64ed32e2552/Security%20&%20Compliance%2019bead362d93807ca0deea799d67704f.md)
-
-[**Alerting & Automation**](Server%20Metrics%2019bead362d93807788d0f64ed32e2552/Alerting%20&%20Automation%2019bead362d9380b8aa42e784a48088fe.md)
-
-[**How You Tested & Validated Data Integrity**](Server%20Metrics%2019bead362d93807788d0f64ed32e2552/How%20You%20Tested%20&%20Validated%20Data%20Integrity%2019bead362d9380d38fe0ed6598d85f1a.md)
-
-[**Thought Process Behind Decisions**](Server%20Metrics%2019bead362d93807788d0f64ed32e2552/Thought%20Process%20Behind%20Decisions%2019bead362d9380ac83c7fae9c202d6c9.md)
-
----
+- [**How `server_metrics` Interacts with Other Tables**](How%20server_metrics%20Interacts%20with%20Other%20Tables.md)
+- [**What Queries Would Be Used?**](What%20Queries%20Would%20Be%20Used.md)
+- [**Alternative Approaches**](Alternative%20Approaches.md)
+- [**Performance Considerations & Scalability**](Performance%20Considerations%20&%20Scalability.md)
+- [**Query Optimization Techniques**](Query%20Optimization%20Techniques.md)
+- [**Handling Large-Scale Data**](Handling%20Large-Scale%20Data.md)
+- [**Data Retention & Cleanup**](Data%20Retention%20&%20Cleanup.md)
+- [**Security & Compliance**](Security%20&%20Compliance.md)
+- [**Alerting & Automation**](Alerting%20&%20Automation.md)
+- [**How You Tested & Validated Data Integrity**](How%20You%20Tested%20&%20Validated%20Data%20Integrity.md)
+- [**Thought Process Behind Decisions**](Thought%20Process%20Behind%20Decisions.md)
