@@ -72,24 +72,17 @@ This table tracks **teams, their members, and their assigned servers** in a clou
     | `team-001` | DevOps Team | `user-123` | Engineer | `devops@example.com` | `["srv-101", "srv-102"]` |
     | `team-002` | Security Team | `user-456` | Manager | `security@example.com` | `["srv-201", "srv-202"]` |
 
-[**What Queries Would Be Used?**](Team%20Management%2019bead362d9380b5bcebf8cd77591e92/What%20Queries%20Would%20Be%20Used%2019dead362d9380e5877fd427a4811929.md)
-
-[**Alternative Approaches**](Team%20Management%2019bead362d9380b5bcebf8cd77591e92/Alternative%20Approaches%2019dead362d938069b71bfaff2387fc2b.md)
-
-[**Real-World Use Cases**](Team%20Management%2019bead362d9380b5bcebf8cd77591e92/Real-World%20Use%20Cases%2019dead362d9380fe8b58c25f5488d06d.md)
-
-[**Performance Considerations & Scalability**](Team%20Management%2019bead362d9380b5bcebf8cd77591e92/Performance%20Considerations%20&%20Scalability%2019dead362d9380c1a830c5848f3672e6.md)
-
-[**Query Optimization Techniques**](Team%20Management%2019bead362d9380b5bcebf8cd77591e92/Query%20Optimization%20Techniques%2019dead362d9380dc92bef70d656dcce0.md)
-
-[**Handling Large-Scale Data**](Team%20Management%2019bead362d9380b5bcebf8cd77591e92/Handling%20Large-Scale%20Data%2019dead362d938018b491eda25f2ee335.md)
-
-[**Data Retention & Cleanup**](Team%20Management%2019bead362d9380b5bcebf8cd77591e92/Data%20Retention%20&%20Cleanup%2019dead362d9380fa83b1ffcf0e98c199.md)
-
-[**Security & Compliance**](Team%20Management%2019bead362d9380b5bcebf8cd77591e92/Security%20&%20Compliance%2019dead362d93805cbdc9c10225f4763b.md)
-
-[**Alerting & Automation**](Team%20Management%2019bead362d9380b5bcebf8cd77591e92/Alerting%20&%20Automation%2019dead362d938000ae83f48e1da394d4.md)
-
-[**How You Tested & Validated Data Integrity**](Team%20Management%2019bead362d9380b5bcebf8cd77591e92/How%20You%20Tested%20&%20Validated%20Data%20Integrity%2019dead362d9380f18b4fe039ebfd3ca9.md)
-
-[**Thought Process Behind Decisions**](Team%20Management%2019bead362d9380b5bcebf8cd77591e92/Thought%20Process%20Behind%20Decisions%2019dead362d9380ce82caca5465c96273.md)
+## Dive Into Details
+- [**Alerting & Automation**](Alerting%20&%20Automation.md)
+- [**Alternative Approaches**](Alternative%20Approaches.md)
+- [**Data Retention & Cleanup**](Data%20Retention%20&%20Cleanup.md)
+- [**Handling Large-Scale Data**](Handling%20Large-Scale%20Data.md)
+- [**How It Interacts with Other Tables**](How%20It%20Interacts%20with%20Other%20Tables.md)
+- [**How You Tested & Validated Data Integrity**](How%20You%20Tested%20&%20Validated%20Data%20Integrity.md)
+- [**Performance Considerations & Scalability**](Performance%20Considerations%20&%20Scalability.md)
+- [**Query Optimization Techniques**](Query%20Optimization%20Techniques.md)
+- [**READ ME Team Management**](READ%20ME%20Team%20Management.md)
+- [**Real-World Use Cases**](Real-World%20Use%20Cases.md)
+- [**Security & Compliance**](Security%20&%20Compliance.md)
+- [**Thought Process Behind Decisions**](Thought%20Process%20Behind%20Decisions.md)
+- [**What Queries Would Be Used**](What%20Queries%20Would%20Be%20Used.md)
