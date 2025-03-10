@@ -33,5 +33,3 @@ Modern cloud environments generate vast amounts of data, making it difficult to 
 
 ## Contributing
 This is an evolving project. As the design and implementation progress, contributions and feedback are welcome to refine the database schema, improve monitoring features, and optimize performance.
-
-More detailed technical documentation and implementation specifics will be maintained in the **Wiki**.
