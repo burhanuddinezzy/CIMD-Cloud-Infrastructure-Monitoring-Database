@@ -50,24 +50,20 @@ This table stores **detailed logs of user interactions with servers and applicat
     | `a1b2c3d4` | `usr123` | `srv456` | `READ` | `2024-01-31 12:00:00 UTC` | `192.168.1.10` |
     | `d5e6f7g8` | `usr789` | `srv123` | `WRITE` | `2024-01-31 12:05:10 UTC` | `203.0.113.45` |
 
-[**What Queries Would Be Used?**](User%20Access%20Logs%2019bead362d9380dfbc13ec57ebd95e94/What%20Queries%20Would%20Be%20Used%2019dead362d9380cd8e02d2891c3b5667.md)
 
-[**Alternative Approaches**](User%20Access%20Logs%2019bead362d9380dfbc13ec57ebd95e94/Alternative%20Approaches%2019dead362d9380cbbb36f2d04ba56454.md)
+## Dive Into Detail
 
-[**Real-World Use Cases**](User%20Access%20Logs%2019bead362d9380dfbc13ec57ebd95e94/Real-World%20Use%20Cases%2019dead362d93809e9cf3e707e863f577.md)
+- [**Alerting & Automation**](Alerting%20&%20Automation.md)
+- [**Alternative Approaches**](Alternative%20Approaches.md)
+- [**Data Retention & Cleanup**](Data%20Retention%20&%20Cleanup.md)
+- [**Handling Large-Scale Data**](Handling%20Large-Scale%20Data.md)
+- [**How It Interacts with Other Tables**](How%20It%20Interacts%20with%20Other%20Tables.md)
+- [**How You Tested & Validated Data Integrity**](How%20You%20Tested%20&%20Validated%20Data%20Integrity.md)
+- [**Performance Considerations & Scalability**](Performance%20Considerations%20&%20Scalability.md)
+- [**Query Optimization Techniques**](Query%20Optimization%20Techniques.md)
+- [**READ ME User Access Logs**](READ%20ME%20User%20Access%20Logs.md)
+- [**Real-World Use Cases**](Real-World%20Use%20Cases.md)
+- [**Security & Compliance**](Security%20&%20Compliance.md)
+- [**Thought Process Behind Decisions**](Thought%20Process%20Behind%20Decisions.md)
+- [**What Queries Would Be Used**](What%20Queries%20Would%20Be%20Used.md)
 
-[**Performance Considerations & Scalability**](User%20Access%20Logs%2019bead362d9380dfbc13ec57ebd95e94/Performance%20Considerations%20&%20Scalability%2019dead362d93805aa469edce8c5a9b31.md)
-
-[**Query Optimization Techniques**](User%20Access%20Logs%2019bead362d9380dfbc13ec57ebd95e94/Query%20Optimization%20Techniques%2019dead362d938085a889dc69838395ed.md)
-
-[**Handling Large-Scale Data**](User%20Access%20Logs%2019bead362d9380dfbc13ec57ebd95e94/Handling%20Large-Scale%20Data%2019dead362d93803ba989e3283dd3bcfd.md)
-
-[**Data Retention & Cleanup**](User%20Access%20Logs%2019bead362d9380dfbc13ec57ebd95e94/Data%20Retention%20&%20Cleanup%2019dead362d93805488acd62610237d17.md)
-
-[**Security & Compliance**](User%20Access%20Logs%2019bead362d9380dfbc13ec57ebd95e94/Security%20&%20Compliance%2019dead362d93806d97d9ef5219896761.md)
-
-[**Alerting & Automation**](User%20Access%20Logs%2019bead362d9380dfbc13ec57ebd95e94/Alerting%20&%20Automation%2019dead362d9380cdaa03f33209e95f3b.md)
-
-[**How You Tested & Validated Data Integrity**](User%20Access%20Logs%2019bead362d9380dfbc13ec57ebd95e94/How%20You%20Tested%20&%20Validated%20Data%20Integrity%2019dead362d93801499d4f7fa0c6288f2.md)
-
-[**Thought Process Behind Decisions**](User%20Access%20Logs%2019bead362d9380dfbc13ec57ebd95e94/Thought%20Process%20Behind%20Decisions%2019dead362d938055b9edcae01f4cc2f0.md)
