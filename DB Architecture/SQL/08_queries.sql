@@ -14,3 +14,23 @@ SELECT server_id, region, disk_read_throughput
 FROM server_metrics
 ORDER BY disk_read_throughput DESC
 LIMIT 5;
+
+
+
+-- Get servers with an error rate above 2%
+SELECT server_id, error_rate 
+FROM aggregated_metrics 
+WHERE error_rate > 2.00;
+
+-- Get the top 5 regions with the highest average response time
+SELECT region, AVG(average_response_time) AS avg_response_time
+FROM aggregated_metrics
+GROUP BY region
+ORDER BY avg_response_time DESC
+LIMIT 5;
+
+-- Get the total number of requests processed per region
+SELECT region, SUM(total_requests) AS total_requests
+FROM aggregated_metrics
+GROUP BY region;
+
