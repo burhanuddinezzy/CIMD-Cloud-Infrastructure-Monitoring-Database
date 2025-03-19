@@ -78,3 +78,17 @@ WHERE server_id = '550e8400-e29b-41d4-a716-446655440000'
 AND log_timestamp > now() - INTERVAL '24 hours'
 ORDER BY log_timestamp DESC;
 
+
+
+-- 08_queries.sql - Useful queries
+-- Query to retrieve the top 5 most expensive servers
+SELECT server_id, region, total_monthly_cost 
+FROM cost_data 
+ORDER BY total_monthly_cost DESC 
+LIMIT 5;
+
+-- Query to calculate the average daily cost per team
+SELECT team_allocation, AVG(cost_per_day) AS avg_daily_cost
+FROM cost_data
+GROUP BY team_allocation;
+
