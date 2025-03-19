@@ -34,3 +34,14 @@ SELECT region, SUM(total_requests) AS total_requests
 FROM aggregated_metrics
 GROUP BY region;
 
+
+
+-- 08_queries.sql - Common Queries
+-- Get all unresolved alerts
+SELECT * FROM alert_history WHERE alert_status = 'OPEN';
+
+-- Get alerts for a specific server
+SELECT * FROM alert_history WHERE server_id = 'your-server-id';
+
+-- Count alerts by severity
+SELECT alert_severity, COUNT(*) FROM alert_history GROUP BY alert_severity;
