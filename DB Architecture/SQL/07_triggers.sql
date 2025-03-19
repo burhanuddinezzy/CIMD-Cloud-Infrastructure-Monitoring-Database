@@ -74,6 +74,17 @@ AFTER INSERT ON application_logs
 FOR EACH ROW EXECUTE FUNCTION log_security_alert();
 
 
+-- 07_triggers.sql - Triggers for automation
+CREATE OR REPLACE FUNCTION update_cost_adjustment() RETURNS TRIGGER AS $$
+BEGIN
+    NEW.cost_adjustment := NEW.cost_per_hour * 24 * 30 - NEW.total_monthly_cost;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER cost_adjustment_trigger
+BEFORE INSERT OR UPDATE ON cost_data
+FOR EACH ROW EXECUTE FUNCTION update_cost_adjustment();
 
 
 
