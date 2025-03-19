@@ -17,3 +17,10 @@ GROUP BY region;
 -- 05_views.sql - Create Views
 CREATE VIEW open_alerts AS
 SELECT * FROM alert_history WHERE alert_status = 'OPEN';
+
+
+
+-- 05_views.sql - Useful views for querying
+CREATE VIEW active_alerts AS
+SELECT alert_config_id, server_id, metric_name, threshold_value, alert_frequency, contact_email, alert_type, severity_level
+FROM alert_configuration WHERE alert_enabled = TRUE;
