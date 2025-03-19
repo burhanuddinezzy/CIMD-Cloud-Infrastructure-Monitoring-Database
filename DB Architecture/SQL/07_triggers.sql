@@ -58,6 +58,21 @@ FOR EACH ROW EXECUTE FUNCTION log_alert_update();
 
 
 
+-- 07_triggers.sql - Triggers for automation
+CREATE FUNCTION log_security_alert() RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.log_source = 'SECURITY' AND NEW.log_level = 'CRITICAL' THEN
+        INSERT INTO security_alerts (log_id, server_id, log_timestamp, description)
+        VALUES (NEW.log_id, NEW.server_id, NEW.log_timestamp, 'Critical security log detected');
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_security_alert
+AFTER INSERT ON application_logs
+FOR EACH ROW EXECUTE FUNCTION log_security_alert();
+
 
 
 
