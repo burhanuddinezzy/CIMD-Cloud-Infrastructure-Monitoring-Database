@@ -50,3 +50,12 @@ BEGIN
     VALUES (p_server_id, p_app_name, p_log_level, p_error_code, p_trace_id, p_span_id, p_source_ip, p_user_id, p_log_source);
 END;
 $$ LANGUAGE plpgsql;
+
+
+
+-- 06_functions.sql - Stored procedures
+CREATE OR REPLACE FUNCTION calculate_annual_cost(server UUID) RETURNS DECIMAL(10,2) AS $$
+BEGIN
+    RETURN (SELECT SUM(total_monthly_cost) * 12 FROM cost_data WHERE server_id = server);
+END;
+$$ LANGUAGE plpgsql;
