@@ -16,3 +16,9 @@ CREATE INDEX idx_alert_history_severity ON alert_history(alert_severity);
 -- 04_indexes.sql - Indexes for performance
 CREATE INDEX idx_alert_config_server ON alert_configuration(server_id);
 CREATE INDEX idx_alert_config_metric ON alert_configuration(metric_name);
+
+
+-- 04_indexes.sql - Indexes for performance
+CREATE INDEX idx_application_logs_server ON application_logs(server_id);
+CREATE INDEX idx_application_logs_timestamp ON application_logs(log_timestamp DESC);
+CREATE INDEX idx_application_logs_log_level ON application_logs(log_level);
