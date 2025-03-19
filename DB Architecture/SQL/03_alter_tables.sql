@@ -12,3 +12,8 @@ ALTER TABLE alert_history ADD COLUMN response_time INTERVAL;
 
 -- 03_alter_tables.sql - Modifications (if any)
 ALTER TABLE alert_configuration ADD COLUMN notification_channel VARCHAR(50);
+
+
+
+-- 03_alter_tables.sql - Modifications (if any)
+ALTER TABLE application_logs ADD COLUMN response_time_ms INTEGER;
