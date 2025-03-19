@@ -64,3 +64,24 @@ CREATE TABLE alert_configuration (
     FOREIGN KEY (server_id) REFERENCES server_metrics(server_id) ON DELETE CASCADE
 );
 
+
+
+
+-- 01_create_tables.sql - Defines the application_logs table
+CREATE TABLE application_logs (
+    log_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    server_id UUID NOT NULL REFERENCES servers(server_id) ON DELETE CASCADE,
+    app_name VARCHAR(255) NOT NULL,
+    log_level ENUM('DEBUG', 'INFO', 'WARN', 'ERROR', 'CRITICAL') NOT NULL,
+    error_code VARCHAR(50),
+    log_timestamp TIMESTAMP WITH TIME ZONE DEFAULT now(),
+    trace_id UUID,
+    span_id UUID,
+    source_ip INET,
+    user_id UUID REFERENCES users(user_id) ON DELETE SET NULL,
+    log_source ENUM('APP', 'DATABASE', 'SECURITY', 'SYSTEM') NOT NULL
+);
+
+
+
+
