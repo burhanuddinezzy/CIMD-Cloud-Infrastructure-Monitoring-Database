@@ -14,3 +14,6 @@ FROM aggregated_metrics
 GROUP BY region;
 
 
+-- 05_views.sql - Create Views
+CREATE VIEW open_alerts AS
+SELECT * FROM alert_history WHERE alert_status = 'OPEN';
