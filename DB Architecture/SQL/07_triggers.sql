@@ -43,6 +43,27 @@ FOR EACH ROW EXECUTE FUNCTION notify_high_severity_alerts();
 
 
 
+-- 07_triggers.sql - Triggers for automation
+CREATE OR REPLACE FUNCTION log_alert_update() RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO alert_log (alert_config_id, action, changed_at)
+    VALUES (NEW.alert_config_id, 'UPDATED', NOW());
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER alert_update_trigger
+AFTER UPDATE ON alert_configuration
+FOR EACH ROW EXECUTE FUNCTION log_alert_update();
+
+
+
+
+
+
+
+
+
 
 
 
