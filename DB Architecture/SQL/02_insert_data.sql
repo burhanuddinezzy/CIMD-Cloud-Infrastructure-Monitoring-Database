@@ -33,3 +33,17 @@ INSERT INTO alert_history (
     gen_random_uuid(), 'CPU Overload', 95.75, 'OPEN', 'HIGH',
     'CPU usage exceeded 95% for 5 minutes.', NULL, 'Monitoring System', 'Performance Degradation'
 );
+
+
+
+
+-- 02_insert_data.sql - Provides sample data
+INSERT INTO alert_configuration (server_id, metric_name, threshold_value, alert_frequency, contact_email, alert_enabled, alert_type, severity_level)
+VALUES
+    ('550e8400-e29b-41d4-a716-446655440000', 'CPU Usage', 85.5, '5 minutes', 'admin@example.com', TRUE, 'EMAIL', 'HIGH'),
+    ('550e8400-e29b-41d4-a716-446655440001', 'Memory Usage', 90.0, '10 minutes', 'ops@example.com', TRUE, 'WEBHOOK', 'CRITICAL'),
+    ('550e8400-e29b-41d4-a716-446655440002', 'Disk Space', 80.0, '30 minutes', 'support@example.com', FALSE, 'SMS', 'MEDIUM');
+
+
+
+
