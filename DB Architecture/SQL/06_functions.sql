@@ -17,3 +17,14 @@ BEGIN
     WHERE error_rate > threshold;
 END;
 $$ LANGUAGE plpgsql;
+
+
+
+-- 06_functions.sql - Stored Procedures
+CREATE OR REPLACE FUNCTION get_high_severity_alerts()
+RETURNS TABLE(alert_id UUID, alert_type VARCHAR, alert_severity VARCHAR) AS $$
+BEGIN
+    RETURN QUERY 
+    SELECT alert_id, alert_type, alert_severity FROM alert_history WHERE alert_severity = 'CRITICAL';
+END;
+$$ LANGUAGE plpgsql;
