@@ -35,3 +35,10 @@ ORDER BY log_timestamp DESC
 LIMIT 100;
 
 
+
+-- 05_views.sql - Useful views for querying
+CREATE VIEW cost_summary AS
+SELECT region, SUM(total_monthly_cost) AS total_cost
+FROM cost_data
+GROUP BY region;
+
