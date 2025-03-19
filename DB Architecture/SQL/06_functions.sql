@@ -28,3 +28,11 @@ BEGIN
     SELECT alert_id, alert_type, alert_severity FROM alert_history WHERE alert_severity = 'CRITICAL';
 END;
 $$ LANGUAGE plpgsql;
+
+
+-- 06_functions.sql - Stored procedures for automation
+CREATE OR REPLACE FUNCTION disable_alert(alert_id UUID) RETURNS VOID AS $$
+BEGIN
+    UPDATE alert_configuration SET alert_enabled = FALSE WHERE alert_config_id = alert_id;
+END;
+$$ LANGUAGE plpgsql;
