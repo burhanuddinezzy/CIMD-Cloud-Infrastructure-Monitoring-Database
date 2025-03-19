@@ -57,3 +57,24 @@ SELECT * FROM alert_configuration WHERE severity_level = 'CRITICAL';
 
 -- Count of alerts by type
 SELECT alert_type, COUNT(*) FROM alert_configuration GROUP BY alert_type;
+
+
+
+-- 08_queries.sql - Useful queries
+-- Retrieve the last 50 critical logs
+SELECT * FROM application_logs
+WHERE log_level = 'CRITICAL'
+ORDER BY log_timestamp DESC
+LIMIT 50;
+
+-- Count logs per application
+SELECT app_name, COUNT(*) AS log_count FROM application_logs
+GROUP BY app_name
+ORDER BY log_count DESC;
+
+-- Find logs from a specific server in the last 24 hours
+SELECT * FROM application_logs
+WHERE server_id = '550e8400-e29b-41d4-a716-446655440000'
+AND log_timestamp > now() - INTERVAL '24 hours'
+ORDER BY log_timestamp DESC;
+
