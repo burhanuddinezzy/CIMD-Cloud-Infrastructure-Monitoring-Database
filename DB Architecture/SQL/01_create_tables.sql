@@ -84,4 +84,20 @@ CREATE TABLE application_logs (
 
 
 
+-- 01_create_tables.sql - Defines the cost_data table
+CREATE TABLE cost_data (
+    server_id UUID NOT NULL,
+    region VARCHAR(20) NOT NULL,
+    timestamp TIMESTAMP NOT NULL,
+    cost_per_hour DECIMAL(10,2) NOT NULL,
+    total_monthly_cost DECIMAL(10,2) NOT NULL,
+    team_allocation VARCHAR(50),
+    cost_per_day DECIMAL(10,2),
+    cost_type VARCHAR(50),
+    cost_adjustment DECIMAL(10,2),
+    cost_adjustment_reason TEXT,
+    cost_basis VARCHAR(50),
+    PRIMARY KEY (server_id, timestamp),
+    FOREIGN KEY (server_id) REFERENCES servers(server_id) ON DELETE CASCADE
+);
 
