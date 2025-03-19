@@ -31,3 +31,19 @@ CREATE TABLE aggregated_metrics (
     average_response_time DECIMAL(5,2) NOT NULL,
     PRIMARY KEY (server_id, timestamp)
 );
+
+-- 01_create_tables.sql - Create Alert History Table
+CREATE TABLE alert_history (
+    alert_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    server_id UUID REFERENCES servers(server_id) ON DELETE CASCADE,
+    alert_type VARCHAR(50) NOT NULL,
+    threshold_value DECIMAL(10,2) NOT NULL,
+    alert_triggered_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    resolved_at TIMESTAMP NULL,
+    alert_status VARCHAR(10) CHECK (alert_status IN ('OPEN', 'CLOSED')) NOT NULL,
+    alert_severity VARCHAR(10) CHECK (alert_severity IN ('LOW', 'MEDIUM', 'HIGH', 'CRITICAL')) NOT NULL,
+    alert_description TEXT,
+    resolved_by VARCHAR(100),
+    alert_source VARCHAR(100),
+    impact VARCHAR(50)
+);
