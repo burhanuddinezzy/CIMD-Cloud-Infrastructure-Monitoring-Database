@@ -7,3 +7,8 @@ ALTER TABLE aggregated_metrics ADD COLUMN peak_memory_usage DECIMAL(5,2);
 
 -- 03_alter_tables.sql - Modify Table Structure
 ALTER TABLE alert_history ADD COLUMN response_time INTERVAL;
+
+
+
+-- 03_alter_tables.sql - Modifications (if any)
+ALTER TABLE alert_configuration ADD COLUMN notification_channel VARCHAR(50);
