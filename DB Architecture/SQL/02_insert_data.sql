@@ -47,3 +47,12 @@ VALUES
 
 
 
+-- 02_insert_data.sql - Provides sample data
+INSERT INTO application_logs (server_id, app_name, log_level, error_code, trace_id, span_id, source_ip, user_id, log_source)
+VALUES
+    ('550e8400-e29b-41d4-a716-446655440000', 'Billing Service', 'ERROR', 'HTTP 500', '123e4567-e89b-12d3-a456-426614174000', '456e7890-e89b-12d3-a456-426614174001', '192.168.1.100', '660e8400-e29b-41d4-a716-446655440001', 'APP'),
+    ('660e8400-e29b-41d4-a716-446655440002', 'Auth Service', 'CRITICAL', 'DB 23505', NULL, NULL, '10.0.0.5', NULL, 'DATABASE');
+
+
+
+
