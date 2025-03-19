@@ -22,3 +22,10 @@ CREATE INDEX idx_alert_config_metric ON alert_configuration(metric_name);
 CREATE INDEX idx_application_logs_server ON application_logs(server_id);
 CREATE INDEX idx_application_logs_timestamp ON application_logs(log_timestamp DESC);
 CREATE INDEX idx_application_logs_log_level ON application_logs(log_level);
+
+
+
+-- 04_indexes.sql - Indexes for performance
+CREATE INDEX idx_cost_data_server ON cost_data (server_id);
+CREATE INDEX idx_cost_data_timestamp ON cost_data (timestamp);
+
