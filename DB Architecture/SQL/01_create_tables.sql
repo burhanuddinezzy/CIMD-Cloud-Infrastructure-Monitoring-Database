@@ -47,3 +47,20 @@ CREATE TABLE alert_history (
     alert_source VARCHAR(100),
     impact VARCHAR(50)
 );
+
+
+
+-- 01_create_tables.sql - Defines the alert_configuration table
+CREATE TABLE alert_configuration (
+    alert_config_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    server_id UUID NOT NULL,
+    metric_name VARCHAR(50) NOT NULL,
+    threshold_value FLOAT NOT NULL,
+    alert_frequency INTERVAL NOT NULL,
+    contact_email VARCHAR(255) NOT NULL,
+    alert_enabled BOOLEAN DEFAULT TRUE,
+    alert_type TEXT CHECK (alert_type IN ('EMAIL', 'SMS', 'WEBHOOK', 'SLACK')) NOT NULL,
+    severity_level TEXT CHECK (severity_level IN ('LOW', 'MEDIUM', 'HIGH', 'CRITICAL')) NOT NULL,
+    FOREIGN KEY (server_id) REFERENCES server_metrics(server_id) ON DELETE CASCADE
+);
+
