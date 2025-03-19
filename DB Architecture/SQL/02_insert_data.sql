@@ -22,3 +22,14 @@ INSERT INTO aggregated_metrics (
     gen_random_uuid(), 'us-east-1', NOW(), 45.75, 70.20, 
     1048576000, 524288000, 99.95, 150000, 0.15, 200.50
 );
+
+
+-- 02_insert_data.sql - Sample Data
+INSERT INTO alert_history (
+    server_id, alert_type, threshold_value, alert_status, alert_severity, 
+    alert_description, resolved_by, alert_source, impact
+) VALUES 
+(
+    gen_random_uuid(), 'CPU Overload', 95.75, 'OPEN', 'HIGH',
+    'CPU usage exceeded 95% for 5 minutes.', NULL, 'Monitoring System', 'Performance Degradation'
+);
