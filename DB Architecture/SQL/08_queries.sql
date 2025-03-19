@@ -45,3 +45,15 @@ SELECT * FROM alert_history WHERE server_id = 'your-server-id';
 
 -- Count alerts by severity
 SELECT alert_severity, COUNT(*) FROM alert_history GROUP BY alert_severity;
+
+
+
+-- 08_queries.sql - Useful queries
+-- Get all active alerts
+SELECT * FROM active_alerts;
+
+-- Find alerts by severity level
+SELECT * FROM alert_configuration WHERE severity_level = 'CRITICAL';
+
+-- Count of alerts by type
+SELECT alert_type, COUNT(*) FROM alert_configuration GROUP BY alert_type;
