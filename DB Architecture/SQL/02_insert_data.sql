@@ -56,3 +56,7 @@ VALUES
 
 
 
+-- 02_insert_data.sql - Provides sample data
+INSERT INTO cost_data (server_id, region, timestamp, cost_per_hour, total_monthly_cost, team_allocation, cost_per_day, cost_type, cost_adjustment, cost_adjustment_reason, cost_basis) VALUES
+('550e8400-e29b-41d4-a716-446655440000', 'us-east-1', '2025-03-16 12:00:00', 0.50, 360.00, 'DevOps', 12.00, 'Infrastructure', -10.00, 'Promotional Discount', 'Usage-Based'),
+('660e8400-e29b-41d4-a716-446655440111', 'eu-west-1', '2025-03-16 12:00:00', 0.75, 540.00, 'Security', 18.00, 'Cloud Services', 0.00, '', 'Flat-Rate');
