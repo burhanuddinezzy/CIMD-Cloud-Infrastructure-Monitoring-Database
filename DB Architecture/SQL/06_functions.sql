@@ -36,3 +36,17 @@ BEGIN
     UPDATE alert_configuration SET alert_enabled = FALSE WHERE alert_config_id = alert_id;
 END;
 $$ LANGUAGE plpgsql;
+
+
+
+-- 06_functions.sql - Stored procedures
+CREATE FUNCTION insert_application_log(
+    p_server_id UUID, p_app_name VARCHAR, p_log_level application_logs.log_level%TYPE,
+    p_error_code VARCHAR, p_trace_id UUID, p_span_id UUID, p_source_ip INET,
+    p_user_id UUID, p_log_source application_logs.log_source%TYPE
+) RETURNS VOID AS $$
+BEGIN
+    INSERT INTO application_logs (server_id, app_name, log_level, error_code, trace_id, span_id, source_ip, user_id, log_source)
+    VALUES (p_server_id, p_app_name, p_log_level, p_error_code, p_trace_id, p_span_id, p_source_ip, p_user_id, p_log_source);
+END;
+$$ LANGUAGE plpgsql;
