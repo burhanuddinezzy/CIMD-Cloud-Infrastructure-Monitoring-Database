@@ -24,3 +24,14 @@ SELECT * FROM alert_history WHERE alert_status = 'OPEN';
 CREATE VIEW active_alerts AS
 SELECT alert_config_id, server_id, metric_name, threshold_value, alert_frequency, contact_email, alert_type, severity_level
 FROM alert_configuration WHERE alert_enabled = TRUE;
+
+
+
+-- 05_views.sql - Useful views for querying
+CREATE VIEW recent_errors AS
+SELECT * FROM application_logs
+WHERE log_level IN ('ERROR', 'CRITICAL')
+ORDER BY log_timestamp DESC
+LIMIT 100;
+
+
