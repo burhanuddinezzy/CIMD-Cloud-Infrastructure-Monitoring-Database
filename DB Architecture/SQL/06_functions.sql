@@ -97,3 +97,25 @@ BEGIN
     RETURN error_count;
 END;
 $$ LANGUAGE plpgsql;
+
+
+-- Function to update an incident status
+CREATE OR REPLACE FUNCTION update_incident_status(incident_id_param UUID, new_status VARCHAR)
+RETURNS VOID AS $$
+BEGIN
+    UPDATE incident_response_logs
+    SET status = new_status
+    WHERE incident_id = incident_id_param;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Function to calculate the average resolution time of resolved incidents
+CREATE OR REPLACE FUNCTION get_avg_resolution_time()
+RETURNS NUMERIC AS $$
+DECLARE
+    avg_time NUMERIC;
+BEGIN
+    SELECT AVG(resolution_time_minutes) INTO avg_time FROM incident_response_logs WHERE status = 'Resolved';
+    RETURN avg_time;
+END;
+$$ LANGUAGE plpgsql;
