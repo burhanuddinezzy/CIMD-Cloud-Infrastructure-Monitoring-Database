@@ -133,3 +133,23 @@ CREATE TABLE error_logs (
     FOREIGN KEY (incident_id) REFERENCES incident_management(incident_id) ON DELETE SET NULL
 );
 
+
+
+
+CREATE TABLE incident_response_logs (
+    incident_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    server_id UUID NOT NULL,
+    timestamp TIMESTAMP NOT NULL DEFAULT NOW(),
+    response_team_id UUID NOT NULL,
+    incident_summary TEXT NOT NULL,
+    resolution_time_minutes INTEGER CHECK (resolution_time_minutes >= 0) NULL,
+    status VARCHAR(50) CHECK (status IN ('Open', 'In Progress', 'Resolved', 'Escalated')) NOT NULL DEFAULT 'Open',
+    priority_level VARCHAR(20) CHECK (priority_level IN ('Low', 'Medium', 'High', 'Critical')) NOT NULL DEFAULT 'Medium',
+    incident_type VARCHAR(100) NOT NULL,
+    root_cause TEXT NULL,
+    escalation_flag BOOLEAN NOT NULL DEFAULT FALSE,
+    audit_log_id UUID NULL,
+    FOREIGN KEY (server_id) REFERENCES server_metrics(server_id) ON DELETE CASCADE,
+    FOREIGN KEY (response_team_id) REFERENCES team_management(team_id) ON DELETE SET NULL,
+    FOREIGN KEY (audit_log_id) REFERENCES user_access_logs(audit_log_id) ON DELETE SET NULL
+);
