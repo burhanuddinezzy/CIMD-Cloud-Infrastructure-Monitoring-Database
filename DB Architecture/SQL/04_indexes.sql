@@ -45,3 +45,13 @@ CREATE INDEX idx_unresolved_critical_errors ON error_logs (error_severity, resol
 
 -- Index for efficient timestamp-based searches
 CREATE INDEX idx_error_logs_timestamp ON error_logs (timestamp DESC);
+
+
+-- Index for quick lookups by status
+CREATE INDEX idx_incident_status ON incident_response_logs (status);
+
+-- Index for faster retrieval of unresolved incidents
+CREATE INDEX idx_open_incidents ON incident_response_logs (status) WHERE status != 'Resolved';
+
+-- Index for performance optimization on priority level filtering
+CREATE INDEX idx_priority_level ON incident_response_logs (priority_level);
