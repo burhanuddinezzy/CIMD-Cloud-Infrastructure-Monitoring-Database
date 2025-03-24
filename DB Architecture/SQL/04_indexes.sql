@@ -35,3 +35,13 @@ CREATE INDEX idx_cost_data_timestamp ON cost_data (timestamp);
 CREATE INDEX idx_downtime_server ON downtime_logs(server_id);
 CREATE INDEX idx_downtime_start_time ON downtime_logs(start_time);
 CREATE INDEX idx_downtime_incident ON downtime_logs(incident_id);
+
+
+-- Index for faster searches by server_id
+CREATE INDEX idx_error_logs_server_id ON error_logs (server_id);
+
+-- Index for quickly finding unresolved critical errors
+CREATE INDEX idx_unresolved_critical_errors ON error_logs (error_severity, resolved) WHERE resolved = FALSE AND error_severity = 'CRITICAL';
+
+-- Index for efficient timestamp-based searches
+CREATE INDEX idx_error_logs_timestamp ON error_logs (timestamp DESC);
