@@ -49,3 +49,22 @@ CREATE VIEW downtime_summary AS
 SELECT server_id, COUNT(*) AS total_downtime_events, SUM(downtime_duration_minutes) AS total_downtime_minutes
 FROM downtime_logs
 GROUP BY server_id;
+
+
+
+-- View showing unresolved errors with detailed information
+CREATE VIEW view_unresolved_errors AS
+SELECT 
+    error_id, server_id, timestamp, error_severity, error_message, error_source
+FROM error_logs
+WHERE resolved = FALSE;
+
+-- View showing error resolution statistics
+CREATE VIEW view_error_resolution_stats AS
+SELECT 
+    error_severity,
+    COUNT(*) AS total_errors,
+    COUNT(CASE WHEN resolved THEN 1 END) AS resolved_errors,
+    COUNT(CASE WHEN NOT resolved THEN 1 END) AS unresolved_errors
+FROM error_logs
+GROUP BY error_severity;
