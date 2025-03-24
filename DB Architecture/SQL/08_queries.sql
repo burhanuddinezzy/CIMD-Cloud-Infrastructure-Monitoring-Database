@@ -92,3 +92,18 @@ SELECT team_allocation, AVG(cost_per_day) AS avg_daily_cost
 FROM cost_data
 GROUP BY team_allocation;
 
+-- 08_queries.sql - Useful queries
+-- 1. Retrieve all downtime logs for a specific server
+SELECT * FROM downtime_logs WHERE server_id = '550e8400-e29b-41d4-a716-446655440000';
+
+-- 2. Count downtime events per server
+SELECT server_id, COUNT(*) AS total_downtime FROM downtime_logs GROUP BY server_id;
+
+-- 3. Get total downtime duration per server
+SELECT server_id, SUM(downtime_duration_minutes) AS total_downtime_minutes FROM downtime_logs GROUP BY server_id;
+
+-- 4. Identify the most common downtime causes
+SELECT downtime_cause, COUNT(*) AS occurrences FROM downtime_logs GROUP BY downtime_cause ORDER BY occurrences DESC;
+
+-- 5. Find downtime events affecting SLA compliance
+SELECT * FROM downtime_logs WHERE sla_tracking = TRUE;
