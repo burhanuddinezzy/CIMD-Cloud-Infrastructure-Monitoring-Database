@@ -33,3 +33,11 @@ ALTER TABLE error_logs ADD COLUMN created_at TIMESTAMP DEFAULT NOW();
 -- Add a new severity level if needed
 ALTER TABLE error_logs DROP CONSTRAINT error_logs_error_severity_check;
 ALTER TABLE error_logs ADD CONSTRAINT error_logs_error_severity_check CHECK (error_severity IN ('INFO', 'WARNING', 'CRITICAL', 'FATAL'));
+
+
+
+-- Add a column for tracking incident resolution timestamps
+ALTER TABLE incident_response_logs ADD COLUMN resolved_at TIMESTAMP NULL;
+
+-- Modify escalation_flag to default to NULL instead of FALSE for better tracking
+ALTER TABLE incident_response_logs ALTER COLUMN escalation_flag DROP DEFAULT;
