@@ -59,3 +59,19 @@ BEGIN
     RETURN (SELECT SUM(total_monthly_cost) * 12 FROM cost_data WHERE server_id = server);
 END;
 $$ LANGUAGE plpgsql;
+
+
+
+-- 06_functions.sql - Stored procedures
+CREATE FUNCTION get_downtime_for_server(p_server_id UUID) RETURNS TABLE (
+    start_time TIMESTAMP,
+    end_time TIMESTAMP,
+    downtime_cause VARCHAR(255),
+    downtime_duration_minutes INTEGER
+) AS $$
+BEGIN
+    RETURN QUERY SELECT start_time, end_time, downtime_cause, downtime_duration_minutes 
+    FROM downtime_logs WHERE server_id = p_server_id;
+END;
+$$ LANGUAGE plpgsql;
+
