@@ -67,3 +67,11 @@ INSERT INTO downtime_logs (server_id, start_time, end_time, downtime_cause, sla_
 VALUES
     ('550e8400-e29b-41d4-a716-446655440000', '2025-03-15 12:30:00', '2025-03-15 13:15:00', 'Hardware failure', TRUE, NULL, FALSE, 'Replaced faulty power unit'),
     ('550e8400-e29b-41d4-a716-446655440001', '2025-03-14 22:00:00', NULL, 'Network outage', TRUE, '550e8400-e29b-41d4-a716-446655440002', FALSE, 'ISP notified');
+
+
+INSERT INTO error_logs (server_id, timestamp, error_severity, error_message, resolved, resolved_at, incident_id, error_source, error_code, recovery_action)
+VALUES
+    ('a1b2c3-d4e5f6-g7h8i9', '2024-01-30 12:45:00', 'CRITICAL', 'Database connection timeout', FALSE, NULL, NULL, 'Database', NULL, NULL),
+    ('d4e5f6-g7h8i9-a1b2c3', '2024-01-30 13:10:00', 'WARNING', 'Disk usage at 85%', TRUE, '2024-01-30 14:00:00', NULL, 'Storage', NULL, 'Cleared unnecessary files'),
+    ('b1c2d3-e4f5g6-h7i8j9', '2024-01-31 09:20:00', 'INFO', 'Successful backup completed', TRUE, '2024-01-31 09:25:00', NULL, 'Backup System', NULL, NULL);
+
