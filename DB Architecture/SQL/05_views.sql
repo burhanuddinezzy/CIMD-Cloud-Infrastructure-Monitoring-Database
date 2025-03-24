@@ -86,3 +86,20 @@ FROM incident_response_logs
 WHERE resolution_time_minutes IS NOT NULL
 GROUP BY priority_level;
 
+
+-- View to monitor high utilization resources
+CREATE VIEW high_utilization_resources AS
+SELECT 
+    server_id, app_id, workload_type, allocated_memory, allocated_cpu, allocated_disk_space,
+    utilization_percentage, autoscaling_enabled, allocation_status
+FROM resource_allocation
+WHERE utilization_percentage > 80;
+
+-- View to estimate total cost per server
+CREATE VIEW server_resource_cost AS
+SELECT 
+    server_id, SUM(cost_per_hour) AS total_hourly_cost
+FROM resource_allocation
+GROUP BY server_id;
+
+
