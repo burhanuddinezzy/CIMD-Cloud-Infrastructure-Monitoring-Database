@@ -75,3 +75,25 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+
+
+-- Function to automatically resolve an error and log resolution time
+CREATE OR REPLACE FUNCTION resolve_error(error_id_param UUID, resolution_action VARCHAR)
+RETURNS VOID AS $$
+BEGIN
+    UPDATE error_logs
+    SET resolved = TRUE, resolved_at = NOW(), recovery_action = resolution_action
+    WHERE error_id = error_id_param;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Function to count unresolved errors by severity
+CREATE OR REPLACE FUNCTION count_unresolved_errors(severity TEXT)
+RETURNS INT AS $$
+DECLARE
+    error_count INT;
+BEGIN
+    SELECT COUNT(*) INTO error_count FROM error_logs WHERE error_severity = severity AND resolved = FALSE;
+    RETURN error_count;
+END;
+$$ LANGUAGE plpgsql;
