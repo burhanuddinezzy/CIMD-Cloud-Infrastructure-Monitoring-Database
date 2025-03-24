@@ -75,3 +75,11 @@ VALUES
     ('d4e5f6-g7h8i9-a1b2c3', '2024-01-30 13:10:00', 'WARNING', 'Disk usage at 85%', TRUE, '2024-01-30 14:00:00', NULL, 'Storage', NULL, 'Cleared unnecessary files'),
     ('b1c2d3-e4f5g6-h7i8j9', '2024-01-31 09:20:00', 'INFO', 'Successful backup completed', TRUE, '2024-01-31 09:25:00', NULL, 'Backup System', NULL, NULL);
 
+
+
+
+INSERT INTO incident_response_logs (server_id, timestamp, response_team_id, incident_summary, resolution_time_minutes, status, priority_level, incident_type, root_cause, escalation_flag, audit_log_id)
+VALUES
+    ('a1b2c3-d4e5f6-g7h8i9', '2024-02-01 10:30:00', 'team-1234', 'Network outage due to ISP failure', 90, 'Resolved', 'High', 'Network Failure', 'ISP service disruption', FALSE, 'audit-5678'),
+    ('d4e5f6-g7h8i9-a1b2c3', '2024-02-02 14:15:00', 'team-5678', 'Unauthorized access attempt detected', NULL, 'Escalated', 'Critical', 'Security Breach', NULL, TRUE, 'audit-7890'),
+    ('b1c2d3-e4f5g6-h7i8j9', '2024-02-03 08:00:00', 'team-3456', 'Server overload causing slow response times', 45, 'Resolved', 'Medium', 'Performance Issue', 'High CPU usage due to unoptimized queries', FALSE, NULL);
