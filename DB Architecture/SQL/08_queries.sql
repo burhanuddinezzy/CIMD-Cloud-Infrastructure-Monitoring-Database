@@ -129,3 +129,24 @@ SELECT AVG(EXTRACT(EPOCH FROM (resolved_at - timestamp)) / 60) AS avg_resolution
 FROM error_logs
 WHERE resolved = TRUE;
 
+
+
+
+-- Get all unresolved high-priority incidents
+SELECT * FROM incident_response_logs WHERE status NOT IN ('Resolved') AND priority_level IN ('High', 'Critical');
+
+-- Get the most recent incidents
+SELECT * FROM incident_response_logs ORDER BY timestamp DESC LIMIT 10;
+
+-- Count incidents by status
+SELECT status, COUNT(*) AS count FROM incident_response_logs GROUP BY status;
+
+-- Find incidents that required escalation
+SELECT * FROM incident_response_logs WHERE escalation_flag = TRUE;
+
+-- Get the team responsible for resolving the most incidents
+SELECT response_team_id, COUNT(*) AS resolved_incidents
+FROM incident_response_logs
+WHERE status = 'Resolved'
+GROUP BY response_team_id
+ORDER BY resolved_incidents DESC LIMIT 1;
