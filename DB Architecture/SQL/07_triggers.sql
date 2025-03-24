@@ -143,3 +143,20 @@ BEFORE UPDATE ON incident_response_logs
 FOR EACH ROW
 WHEN (NEW.status = 'Resolved')
 EXECUTE FUNCTION set_resolved_timestamp();
+
+
+
+-- Trigger to update last_updated timestamp on modification
+CREATE TRIGGER update_last_modified
+BEFORE UPDATE ON resource_allocation
+FOR EACH ROW
+EXECUTE FUNCTION set_last_modified();
+
+-- Function to set the last_updated timestamp
+CREATE FUNCTION set_last_modified()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.last_updated = NOW();
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
