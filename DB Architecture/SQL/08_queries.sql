@@ -150,3 +150,24 @@ FROM incident_response_logs
 WHERE status = 'Resolved'
 GROUP BY response_team_id
 ORDER BY resolved_incidents DESC LIMIT 1;
+
+
+-- Find all active resource allocations
+SELECT * FROM resource_allocation WHERE allocation_status = 'active';
+
+-- Get the highest utilization percentage for each workload type
+SELECT workload_type, MAX(utilization_percentage) AS max_util
+FROM resource_allocation
+GROUP BY workload_type;
+
+-- Identify applications with over-allocated resources (where actual usage is significantly lower)
+SELECT app_id, allocated_memory, actual_memory_usage, allocated_cpu, actual_cpu_usage
+FROM resource_allocation
+WHERE actual_memory_usage < (allocated_memory * 0.5)
+   OR actual_cpu_usage < (allocated_cpu * 0.5);
+
+-- Calculate the total hourly cost per server
+SELECT server_id, SUM(cost_per_hour) AS total_cost_per_hour
+FROM resource_allocation
+GROUP BY server_id;
+
