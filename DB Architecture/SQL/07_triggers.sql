@@ -89,6 +89,19 @@ FOR EACH ROW EXECUTE FUNCTION update_cost_adjustment();
 
 
 
+-- 07_triggers.sql - Triggers for automation
+CREATE OR REPLACE FUNCTION update_downtime_duration() RETURNS TRIGGER AS $$
+BEGIN
+    NEW.downtime_duration_minutes := EXTRACT(EPOCH FROM (NEW.end_time - NEW.start_time)) / 60;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_update_downtime_duration
+BEFORE UPDATE ON downtime_logs
+FOR EACH ROW
+WHEN (NEW.end_time IS NOT NULL)
+EXECUTE FUNCTION update_downtime_duration();
 
 
 
