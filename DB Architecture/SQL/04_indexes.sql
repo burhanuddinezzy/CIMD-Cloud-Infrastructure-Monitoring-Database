@@ -29,3 +29,9 @@ CREATE INDEX idx_application_logs_log_level ON application_logs(log_level);
 CREATE INDEX idx_cost_data_server ON cost_data (server_id);
 CREATE INDEX idx_cost_data_timestamp ON cost_data (timestamp);
 
+
+
+-- 04_indexes.sql - Indexes for performance optimization
+CREATE INDEX idx_downtime_server ON downtime_logs(server_id);
+CREATE INDEX idx_downtime_start_time ON downtime_logs(start_time);
+CREATE INDEX idx_downtime_incident ON downtime_logs(incident_id);
