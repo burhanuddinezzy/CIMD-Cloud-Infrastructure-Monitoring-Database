@@ -119,3 +119,28 @@ BEGIN
     RETURN avg_time;
 END;
 $$ LANGUAGE plpgsql;
+
+
+-- Function to calculate average resource utilization per application
+CREATE FUNCTION get_avg_utilization(app UUID)
+RETURNS DECIMAL(5,2) AS $$
+DECLARE avg_util DECIMAL(5,2);
+BEGIN
+    SELECT AVG(utilization_percentage) INTO avg_util
+    FROM resource_allocation
+    WHERE app_id = app;
+    RETURN avg_util;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Function to deactivate resource allocations for a specific server
+CREATE PROCEDURE deactivate_server_allocations(server UUID)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    UPDATE resource_allocation 
+    SET allocation_status = 'deallocated' 
+    WHERE server_id = server;
+END;
+$$;
+
