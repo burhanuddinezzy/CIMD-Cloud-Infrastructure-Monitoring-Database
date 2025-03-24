@@ -106,4 +106,21 @@ EXECUTE FUNCTION update_downtime_duration();
 
 
 
+-- Trigger to log when an error is resolved
+CREATE OR REPLACE FUNCTION log_error_resolution()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.resolved = TRUE AND OLD.resolved = FALSE THEN
+        INSERT INTO error_resolution_logs (error_id, server_id, resolved_at, resolution_action)
+        VALUES (NEW.error_id, NEW.server_id, NOW(), NEW.recovery_action);
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_log_error_resolution
+AFTER UPDATE ON error_logs
+FOR EACH ROW
+WHEN (OLD.resolved = FALSE AND NEW.resolved = TRUE)
+EXECUTE FUNCTION log_error_resolution();
 
