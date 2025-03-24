@@ -68,3 +68,21 @@ SELECT
     COUNT(CASE WHEN NOT resolved THEN 1 END) AS unresolved_errors
 FROM error_logs
 GROUP BY error_severity;
+
+
+-- View showing all unresolved incidents
+CREATE VIEW view_unresolved_incidents AS
+SELECT 
+    incident_id, server_id, timestamp, response_team_id, incident_summary, status, priority_level, escalation_flag
+FROM incident_response_logs
+WHERE status NOT IN ('Resolved');
+
+-- View displaying the average resolution time per priority level
+CREATE VIEW view_avg_resolution_time AS
+SELECT 
+    priority_level, 
+    AVG(resolution_time_minutes) AS avg_resolution_time
+FROM incident_response_logs
+WHERE resolution_time_minutes IS NOT NULL
+GROUP BY priority_level;
+
