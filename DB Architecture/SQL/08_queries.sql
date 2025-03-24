@@ -107,3 +107,25 @@ SELECT downtime_cause, COUNT(*) AS occurrences FROM downtime_logs GROUP BY downt
 
 -- 5. Find downtime events affecting SLA compliance
 SELECT * FROM downtime_logs WHERE sla_tracking = TRUE;
+
+
+
+-- Get all critical unresolved errors
+SELECT * FROM error_logs WHERE error_severity = 'CRITICAL' AND resolved = FALSE;
+
+-- Get all errors that occurred in the last 24 hours
+SELECT * FROM error_logs WHERE timestamp >= NOW() - INTERVAL '1 day';
+
+-- Count total errors grouped by severity
+SELECT error_severity, COUNT(*) AS total_errors FROM error_logs GROUP BY error_severity;
+
+-- Find errors linked to incidents
+SELECT e.*, i.incident_description
+FROM error_logs e
+JOIN incident_management i ON e.incident_id = i.incident_id;
+
+-- Get the average resolution time of resolved errors
+SELECT AVG(EXTRACT(EPOCH FROM (resolved_at - timestamp)) / 60) AS avg_resolution_time_minutes
+FROM error_logs
+WHERE resolved = TRUE;
+
