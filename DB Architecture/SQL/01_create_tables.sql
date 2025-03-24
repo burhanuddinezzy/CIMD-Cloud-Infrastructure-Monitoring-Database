@@ -115,3 +115,21 @@ CREATE TABLE downtime_logs (
     is_planned BOOLEAN NOT NULL,
     recovery_action VARCHAR(255) NOT NULL
 );
+
+
+CREATE TABLE error_logs (
+    error_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    server_id UUID NOT NULL,
+    timestamp TIMESTAMP NOT NULL DEFAULT NOW(),
+    error_severity TEXT CHECK (error_severity IN ('INFO', 'WARNING', 'CRITICAL')) NOT NULL,
+    error_message TEXT NOT NULL,
+    resolved BOOLEAN NOT NULL DEFAULT FALSE,
+    resolved_at TIMESTAMP NULL,
+    incident_id UUID NULL,
+    error_source VARCHAR(100) NOT NULL,
+    error_code VARCHAR(50) NULL,
+    recovery_action VARCHAR(255) NULL,
+    FOREIGN KEY (server_id) REFERENCES server_metrics(server_id) ON DELETE CASCADE,
+    FOREIGN KEY (incident_id) REFERENCES incident_management(incident_id) ON DELETE SET NULL
+);
+
