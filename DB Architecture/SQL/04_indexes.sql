@@ -55,3 +55,11 @@ CREATE INDEX idx_open_incidents ON incident_response_logs (status) WHERE status 
 
 -- Index for performance optimization on priority level filtering
 CREATE INDEX idx_priority_level ON incident_response_logs (priority_level);
+
+
+
+-- Index on frequently searched fields
+CREATE INDEX idx_resource_allocation_server ON resource_allocation (server_id);
+CREATE INDEX idx_resource_allocation_app ON resource_allocation (app_id);
+CREATE INDEX idx_resource_allocation_status ON resource_allocation (allocation_status);
+CREATE INDEX idx_resource_allocation_utilization ON resource_allocation (utilization_percentage);
