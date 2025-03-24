@@ -124,3 +124,22 @@ FOR EACH ROW
 WHEN (OLD.resolved = FALSE AND NEW.resolved = TRUE)
 EXECUTE FUNCTION log_error_resolution();
 
+
+
+
+-- Trigger to set resolved_at timestamp when an incident is marked as resolved
+CREATE OR REPLACE FUNCTION set_resolved_timestamp()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.status = 'Resolved' AND OLD.status != 'Resolved' THEN
+        NEW.resolved_at = NOW();
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_set_resolved_timestamp
+BEFORE UPDATE ON incident_response_logs
+FOR EACH ROW
+WHEN (NEW.status = 'Resolved')
+EXECUTE FUNCTION set_resolved_timestamp();
