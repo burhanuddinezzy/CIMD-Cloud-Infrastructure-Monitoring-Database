@@ -153,3 +153,29 @@ CREATE TABLE incident_response_logs (
     FOREIGN KEY (response_team_id) REFERENCES team_management(team_id) ON DELETE SET NULL,
     FOREIGN KEY (audit_log_id) REFERENCES user_access_logs(audit_log_id) ON DELETE SET NULL
 );
+
+
+
+CREATE TABLE resource_allocation (
+    server_id UUID NOT NULL,
+    app_id UUID NOT NULL,
+    workload_type VARCHAR(50) NOT NULL,
+    allocated_memory INTEGER NOT NULL, -- in MB or GB
+    allocated_cpu DECIMAL(5,2) NOT NULL, -- in Cores or %
+    allocated_disk_space INTEGER NOT NULL, -- in GB
+    resource_tag VARCHAR(100),
+    timestamp TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    utilization_percentage DECIMAL(5,2),
+    autoscaling_enabled BOOLEAN DEFAULT FALSE,
+    max_allocated_memory INTEGER, -- peak memory usage
+    max_allocated_cpu DECIMAL(5,2), -- peak CPU usage
+    max_allocated_disk_space INTEGER, -- peak disk usage
+    actual_memory_usage INTEGER, -- real-time usage
+    actual_cpu_usage DECIMAL(5,2), -- real-time CPU usage
+    actual_disk_usage INTEGER, -- real-time disk usage
+    cost_per_hour DECIMAL(10,4) NOT NULL, -- cost per hour
+    allocation_status VARCHAR(20) CHECK (allocation_status IN ('active', 'pending', 'deallocated')),
+    PRIMARY KEY (server_id, app_id),
+    FOREIGN KEY (server_id) REFERENCES server_metrics(server_id) ON DELETE CASCADE,
+    FOREIGN KEY (app_id) REFERENCES applications(app_id) ON DELETE CASCADE
+);
