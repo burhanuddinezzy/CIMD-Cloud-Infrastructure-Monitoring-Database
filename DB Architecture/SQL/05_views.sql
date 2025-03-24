@@ -42,3 +42,10 @@ SELECT region, SUM(total_monthly_cost) AS total_cost
 FROM cost_data
 GROUP BY region;
 
+
+
+-- 05_views.sql - Useful views for querying
+CREATE VIEW downtime_summary AS
+SELECT server_id, COUNT(*) AS total_downtime_events, SUM(downtime_duration_minutes) AS total_downtime_minutes
+FROM downtime_logs
+GROUP BY server_id;
