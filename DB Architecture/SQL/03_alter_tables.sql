@@ -41,3 +41,12 @@ ALTER TABLE incident_response_logs ADD COLUMN resolved_at TIMESTAMP NULL;
 
 -- Modify escalation_flag to default to NULL instead of FALSE for better tracking
 ALTER TABLE incident_response_logs ALTER COLUMN escalation_flag DROP DEFAULT;
+
+
+
+
+-- Add a new column to track the last modified timestamp
+ALTER TABLE resource_allocation ADD COLUMN last_updated TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP;
+
+-- Modify cost_per_hour to allow higher precision
+ALTER TABLE resource_allocation ALTER COLUMN cost_per_hour TYPE DECIMAL(12,6);
