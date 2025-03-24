@@ -83,3 +83,20 @@ VALUES
     ('a1b2c3-d4e5f6-g7h8i9', '2024-02-01 10:30:00', 'team-1234', 'Network outage due to ISP failure', 90, 'Resolved', 'High', 'Network Failure', 'ISP service disruption', FALSE, 'audit-5678'),
     ('d4e5f6-g7h8i9-a1b2c3', '2024-02-02 14:15:00', 'team-5678', 'Unauthorized access attempt detected', NULL, 'Escalated', 'Critical', 'Security Breach', NULL, TRUE, 'audit-7890'),
     ('b1c2d3-e4f5g6-h7i8j9', '2024-02-03 08:00:00', 'team-3456', 'Server overload causing slow response times', 45, 'Resolved', 'Medium', 'Performance Issue', 'High CPU usage due to unoptimized queries', FALSE, NULL);
+
+
+
+INSERT INTO resource_allocation (
+    server_id, app_id, workload_type, allocated_memory, allocated_cpu, allocated_disk_space,
+    resource_tag, utilization_percentage, autoscaling_enabled, max_allocated_memory,
+    max_allocated_cpu, max_allocated_disk_space, actual_memory_usage, actual_cpu_usage,
+    actual_disk_usage, cost_per_hour, allocation_status
+) VALUES 
+(
+    '550e8400-e29b-41d4-a716-446655440000', 'aa0e8400-e29b-41d4-a716-446655440001', 'Web Server',
+    4096, 2.50, 100, 'Project Alpha', 75.3, TRUE, 8192, 3.50, 200, 3072, 1.75, 80, 0.0456, 'active'
+),
+(
+    '660e8400-e29b-41d4-a716-446655440002', 'bb1e8400-e29b-41d4-a716-446655440003', 'Database',
+    8192, 4.00, 500, 'Finance Dept', 60.2, FALSE, 12288, 6.00, 750, 5120, 3.25, 320, 0.0985, 'active'
+);
