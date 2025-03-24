@@ -21,3 +21,7 @@ ALTER TABLE application_logs ADD COLUMN response_time_ms INTEGER;
 
 -- 03_alter_tables.sql - Modifications (if any)
 ALTER TABLE cost_data ADD COLUMN additional_notes TEXT;
+
+
+-- 03_alter_tables.sql - Schema modifications (if needed)
+ALTER TABLE downtime_logs ADD COLUMN additional_notes TEXT;
