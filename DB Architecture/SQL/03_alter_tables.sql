@@ -25,3 +25,11 @@ ALTER TABLE cost_data ADD COLUMN additional_notes TEXT;
 
 -- 03_alter_tables.sql - Schema modifications (if needed)
 ALTER TABLE downtime_logs ADD COLUMN additional_notes TEXT;
+
+
+-- Add an index for faster filtering by timestamp
+ALTER TABLE error_logs ADD COLUMN created_at TIMESTAMP DEFAULT NOW();
+
+-- Add a new severity level if needed
+ALTER TABLE error_logs DROP CONSTRAINT error_logs_error_severity_check;
+ALTER TABLE error_logs ADD CONSTRAINT error_logs_error_severity_check CHECK (error_severity IN ('INFO', 'WARNING', 'CRITICAL', 'FATAL'));
