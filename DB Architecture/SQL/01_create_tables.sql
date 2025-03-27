@@ -179,3 +179,29 @@ CREATE TABLE resource_allocation (
     FOREIGN KEY (server_id) REFERENCES server_metrics(server_id) ON DELETE CASCADE,
     FOREIGN KEY (app_id) REFERENCES applications(app_id) ON DELETE CASCADE
 );
+
+
+
+CREATE TABLE team_management (
+    team_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    team_name VARCHAR(100) NOT NULL UNIQUE,
+    team_description TEXT,
+    team_lead_id UUID REFERENCES team_members(member_id) ON DELETE SET NULL,
+    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(20) CHECK (status IN ('Active', 'Inactive', 'Pending')),
+    location VARCHAR(100)
+);
+
+CREATE TABLE team_members (
+    member_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    team_id UUID REFERENCES team_management(team_id) ON DELETE CASCADE,
+    role VARCHAR(50) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    date_joined TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE team_server_assignment (
+    team_id UUID REFERENCES team_management(team_id) ON DELETE CASCADE,
+    server_id UUID REFERENCES servers(server_id) ON DELETE CASCADE,
+    PRIMARY KEY (team_id, server_id)
+);
