@@ -50,3 +50,8 @@ ALTER TABLE resource_allocation ADD COLUMN last_updated TIMESTAMP WITH TIME ZONE
 
 -- Modify cost_per_hour to allow higher precision
 ALTER TABLE resource_allocation ALTER COLUMN cost_per_hour TYPE DECIMAL(12,6);
+
+
+
+ALTER TABLE team_management ADD COLUMN budget DECIMAL(10,2);
+ALTER TABLE team_members ADD COLUMN phone_number VARCHAR(20);
