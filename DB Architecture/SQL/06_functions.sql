@@ -144,3 +144,12 @@ BEGIN
 END;
 $$;
 
+
+CREATE OR REPLACE FUNCTION get_team_member_count(team_uuid UUID) RETURNS INT AS $$
+DECLARE count_members INT;
+BEGIN
+    SELECT COUNT(*) INTO count_members FROM team_members WHERE team_id = team_uuid;
+    RETURN count_members;
+END;
+$$ LANGUAGE plpgsql;
+
