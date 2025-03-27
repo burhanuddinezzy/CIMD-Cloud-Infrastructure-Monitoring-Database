@@ -103,3 +103,13 @@ FROM resource_allocation
 GROUP BY server_id;
 
 
+CREATE VIEW active_teams AS
+SELECT team_id, team_name, status, location FROM team_management
+WHERE status = 'Active';
+
+CREATE VIEW team_members_view AS
+SELECT tm.team_name, m.member_id, m.role, m.email, m.date_joined
+FROM team_members m
+JOIN team_management tm ON m.team_id = tm.team_id;
+
+
