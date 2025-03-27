@@ -160,3 +160,19 @@ BEGIN
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
+
+
+
+CREATE OR REPLACE FUNCTION update_team_lead()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.team_lead_id IS NULL THEN
+        NEW.team_lead_id = (SELECT member_id FROM team_members WHERE team_id = NEW.team_id ORDER BY date_joined LIMIT 1);
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER auto_assign_team_lead
+BEFORE INSERT OR UPDATE ON team_management
+FOR EACH ROW EXECUTE FUNCTION update_team_lead();
