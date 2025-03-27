@@ -171,3 +171,18 @@ SELECT server_id, SUM(cost_per_hour) AS total_cost_per_hour
 FROM resource_allocation
 GROUP BY server_id;
 
+
+-- Get all active teams
+SELECT * FROM team_management WHERE status = 'Active';
+
+-- Get team members for a specific team
+SELECT m.member_id, m.role, m.email
+FROM team_members m
+JOIN team_management tm ON m.team_id = tm.team_id
+WHERE tm.team_name = 'DevOps';
+
+-- Get team assignments for a given server
+SELECT tm.team_name
+FROM team_server_assignment tsa
+JOIN team_management tm ON tsa.team_id = tm.team_id
+WHERE tsa.server_id = '123e4567-e89b-12d3-a456-426614174000';
