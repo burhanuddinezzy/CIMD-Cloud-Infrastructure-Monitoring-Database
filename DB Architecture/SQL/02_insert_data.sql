@@ -100,3 +100,19 @@ INSERT INTO resource_allocation (
     '660e8400-e29b-41d4-a716-446655440002', 'bb1e8400-e29b-41d4-a716-446655440003', 'Database',
     8192, 4.00, 500, 'Finance Dept', 60.2, FALSE, 12288, 6.00, 750, 5120, 3.25, 320, 0.0985, 'active'
 );
+
+
+
+INSERT INTO team_management (team_name, team_description, team_lead_id, status, location) VALUES
+('DevOps', 'Handles deployment, automation, and monitoring', NULL, 'Active', 'Remote'),
+('Security', 'Manages security policies and compliance', NULL, 'Active', 'New York Data Center'),
+('Engineering', 'Developers and software engineers', NULL, 'Active', 'San Francisco');
+
+INSERT INTO team_members (team_id, role, email) VALUES
+((SELECT team_id FROM team_management WHERE team_name = 'DevOps'), 'Engineer', 'devops_engineer@example.com'),
+((SELECT team_id FROM team_management WHERE team_name = 'Security'), 'Security Analyst', 'security_analyst@example.com'),
+((SELECT team_id FROM team_management WHERE team_name = 'Engineering'), 'Software Engineer', 'software_engineer@example.com');
+
+INSERT INTO team_server_assignment (team_id, server_id) VALUES
+((SELECT team_id FROM team_management WHERE team_name = 'DevOps'), '123e4567-e89b-12d3-a456-426614174000'),
+((SELECT team_id FROM team_management WHERE team_name = 'Security'), '223e4567-e89b-12d3-a456-426614174001');
