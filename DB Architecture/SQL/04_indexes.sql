@@ -63,3 +63,9 @@ CREATE INDEX idx_resource_allocation_server ON resource_allocation (server_id);
 CREATE INDEX idx_resource_allocation_app ON resource_allocation (app_id);
 CREATE INDEX idx_resource_allocation_status ON resource_allocation (allocation_status);
 CREATE INDEX idx_resource_allocation_utilization ON resource_allocation (utilization_percentage);
+
+
+
+CREATE INDEX idx_team_name ON team_management (team_name);
+CREATE INDEX idx_team_status ON team_management (status);
+CREATE INDEX idx_team_member_email ON team_members (email);
