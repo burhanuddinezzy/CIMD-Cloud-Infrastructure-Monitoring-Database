@@ -205,3 +205,13 @@ CREATE TABLE team_server_assignment (
     server_id UUID REFERENCES servers(server_id) ON DELETE CASCADE,
     PRIMARY KEY (team_id, server_id)
 );
+
+CREATE TABLE user_access_logs (
+    access_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+    server_id UUID NOT NULL REFERENCES servers(server_id) ON DELETE CASCADE,
+    access_type VARCHAR(10) CHECK (access_type IN ('READ', 'WRITE', 'DELETE', 'EXECUTE')),
+    timestamp TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    access_ip VARCHAR(45) NOT NULL,
+    user_agent VARCHAR(255) NOT NULL
+);
