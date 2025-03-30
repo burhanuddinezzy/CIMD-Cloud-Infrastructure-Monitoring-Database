@@ -116,3 +116,10 @@ INSERT INTO team_members (team_id, role, email) VALUES
 INSERT INTO team_server_assignment (team_id, server_id) VALUES
 ((SELECT team_id FROM team_management WHERE team_name = 'DevOps'), '123e4567-e89b-12d3-a456-426614174000'),
 ((SELECT team_id FROM team_management WHERE team_name = 'Security'), '223e4567-e89b-12d3-a456-426614174001');
+
+
+INSERT INTO user_access_logs (user_id, server_id, access_type, access_ip, user_agent) VALUES
+('550e8400-e29b-41d4-a716-446655440000', '660e8400-e29b-41d4-a716-446655440001', 'READ', '192.168.1.1', 'Mozilla/5.0'),
+('550e8400-e29b-41d4-a716-446655440002', '660e8400-e29b-41d4-a716-446655440003', 'WRITE', '203.0.113.42', 'Chrome/91.0'),
+('550e8400-e29b-41d4-a716-446655440004', '660e8400-e29b-41d4-a716-446655440005', 'DELETE', '10.0.0.5', 'Safari/14.0');
+
