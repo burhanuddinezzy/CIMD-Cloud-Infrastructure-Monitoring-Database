@@ -176,3 +176,20 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER auto_assign_team_lead
 BEFORE INSERT OR UPDATE ON team_management
 FOR EACH ROW EXECUTE FUNCTION update_team_lead();
+
+
+-- Function to prevent DELETE access type from external IP addresses
+CREATE OR REPLACE FUNCTION prevent_external_deletes()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.access_type = 'DELETE' AND NEW.access_ip NOT LIKE '192.168.%' THEN
+        RAISE EXCEPTION 'DELETE actions are only allowed from internal IP addresses';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER enforce_internal_deletes
+BEFORE INSERT ON user_access_logs
+FOR EACH ROW EXECUTE FUNCTION prevent_external_deletes();
+
