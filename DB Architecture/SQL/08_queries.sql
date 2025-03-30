@@ -186,3 +186,19 @@ SELECT tm.team_name
 FROM team_server_assignment tsa
 JOIN team_management tm ON tsa.team_id = tm.team_id
 WHERE tsa.server_id = '123e4567-e89b-12d3-a456-426614174000';
+
+
+-- Get all access logs for a specific user
+SELECT * FROM user_access_logs WHERE user_id = '550e8400-e29b-41d4-a716-446655440000';
+
+-- Get all access logs for a specific server
+SELECT * FROM user_access_logs WHERE server_id = '660e8400-e29b-41d4-a716-446655440001';
+
+-- Find all accesses from a specific IP address
+SELECT * FROM user_access_logs WHERE access_ip = '203.0.113.42';
+
+-- Get the most recent access for each user
+SELECT DISTINCT ON (user_id) user_id, access_id, access_type, timestamp, access_ip, user_agent
+FROM user_access_logs
+ORDER BY user_id, timestamp DESC;
+
