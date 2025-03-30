@@ -69,3 +69,10 @@ CREATE INDEX idx_resource_allocation_utilization ON resource_allocation (utiliza
 CREATE INDEX idx_team_name ON team_management (team_name);
 CREATE INDEX idx_team_status ON team_management (status);
 CREATE INDEX idx_team_member_email ON team_members (email);
+
+
+CREATE INDEX idx_user_access_logs_user_id ON user_access_logs (user_id);
+CREATE INDEX idx_user_access_logs_server_id ON user_access_logs (server_id);
+CREATE INDEX idx_user_access_logs_access_type ON user_access_logs (access_type);
+CREATE INDEX idx_user_access_logs_timestamp ON user_access_logs (timestamp);
+
