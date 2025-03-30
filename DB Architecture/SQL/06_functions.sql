@@ -153,3 +153,17 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+
+
+-- Function to get the last access time of a specific user
+CREATE OR REPLACE FUNCTION get_last_access_time(user_uuid UUID) RETURNS TIMESTAMP WITH TIME ZONE AS $$
+DECLARE last_access TIMESTAMP WITH TIME ZONE;
+BEGIN
+    SELECT timestamp INTO last_access FROM user_access_logs
+    WHERE user_id = user_uuid
+    ORDER BY timestamp DESC
+    LIMIT 1;
+    RETURN last_access;
+END;
+$$ LANGUAGE plpgsql;
+
