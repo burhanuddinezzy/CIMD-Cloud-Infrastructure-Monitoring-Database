@@ -113,3 +113,16 @@ FROM team_members m
 JOIN team_management tm ON m.team_id = tm.team_id;
 
 
+-- View for retrieving recent access logs
+CREATE VIEW recent_access_logs AS
+SELECT access_id, user_id, server_id, access_type, timestamp, access_ip, user_agent
+FROM user_access_logs
+ORDER BY timestamp DESC
+LIMIT 100;
+
+-- View for tracking all write/delete actions (security-sensitive events)
+CREATE VIEW security_sensitive_access AS
+SELECT access_id, user_id, server_id, access_type, timestamp, access_ip, user_agent
+FROM user_access_logs
+WHERE access_type IN ('WRITE', 'DELETE')
+ORDER BY timestamp DESC;
