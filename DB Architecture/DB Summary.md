@@ -19,11 +19,4 @@
 |  |  | | | ||| || cost_per_hour (DECIMAL(10,4)) | ||
 | |  | | ||| | || allocation_status (ENUM: active, pending, deallocated) | | |
 
-access_id (UUID, Primary Key) | 
-user_id (UUID, Foreign Key) | 
-server_id (UUID, Foreign Key) | 
-access_type (ENUM('READ', 'WRITE', 'DELETE', 'EXECUTE')) | 
-timestamp (TIMESTAMP WITH TIME ZONE) | 
-access_ip (VARCHAR(45)) | 
-user_agent (VARCHAR(255)) | 
 
