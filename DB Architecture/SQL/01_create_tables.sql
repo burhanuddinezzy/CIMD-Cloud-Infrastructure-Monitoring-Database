@@ -67,19 +67,23 @@ CREATE TABLE alert_configuration (
 
 
 
+-- Define the ENUM types first
+CREATE TYPE log_level_enum AS ENUM ('DEBUG', 'INFO', 'WARN', 'ERROR', 'CRITICAL');
+CREATE TYPE log_source_enum AS ENUM ('APP', 'DATABASE', 'SECURITY', 'SYSTEM');
+
 -- 01_create_tables.sql - Defines the application_logs table
 CREATE TABLE application_logs (
     log_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    server_id UUID NOT NULL REFERENCES servers(server_id) ON DELETE CASCADE,
+    server_id UUID NOT NULL REFERENCES server_metrics(server_id) ON DELETE CASCADE,
     app_name VARCHAR(255) NOT NULL,
-    log_level ENUM('DEBUG', 'INFO', 'WARN', 'ERROR', 'CRITICAL') NOT NULL,
+    log_level log_level_enum NOT NULL,  -- Use the defined ENUM type
     error_code VARCHAR(50),
     log_timestamp TIMESTAMP WITH TIME ZONE DEFAULT now(),
     trace_id UUID,
     span_id UUID,
     source_ip INET,
     user_id UUID REFERENCES users(user_id) ON DELETE SET NULL,
-    log_source ENUM('APP', 'DATABASE', 'SECURITY', 'SYSTEM') NOT NULL
+    log_source log_source_enum NOT NULL  -- Use the defined ENUM type
 );
 
 
@@ -205,6 +209,18 @@ CREATE TABLE team_server_assignment (
     server_id UUID REFERENCES servers(server_id) ON DELETE CASCADE,
     PRIMARY KEY (team_id, server_id)
 );
+
+
+CREATE TABLE users (
+    user_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password_hash TEXT NOT NULL,  -- Store hashed passwords, never plaintext
+    full_name VARCHAR(100),
+    date_joined TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_login TIMESTAMP
+);
+
 
 CREATE TABLE user_access_logs (
     access_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
