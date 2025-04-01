@@ -108,14 +108,14 @@ CREATE TABLE cost_data (
 -- 01_create_tables.sql - Defines the downtime_logs table
 CREATE TABLE downtime_logs (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    server_id UUID NOT NULL REFERENCES servers(server_id) ON DELETE CASCADE,
+    server_id UUID NOT NULL REFERENCES server_metrics(server_id) ON DELETE CASCADE,
     start_time TIMESTAMP NOT NULL,
     end_time TIMESTAMP NULL,
     downtime_duration_minutes INTEGER GENERATED ALWAYS AS 
-        (EXTRACT(EPOCH FROM (end_time - start_time)) / 60) STORED,
+        (EXTRACT(EPOCH FROM end_time - start_time) / 60) STORED,
     downtime_cause VARCHAR(255) NOT NULL,
     sla_tracking BOOLEAN NOT NULL,
-    incident_id UUID NULL REFERENCES incident_management(incident_id) ON DELETE SET NULL,
+    incident_id UUID NULL REFERENCES incident_response_logs(incident_id) ON DELETE SET NULL,
     is_planned BOOLEAN NOT NULL,
     recovery_action VARCHAR(255) NOT NULL
 );
