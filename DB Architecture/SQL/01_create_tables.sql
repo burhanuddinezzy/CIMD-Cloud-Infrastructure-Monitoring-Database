@@ -18,7 +18,7 @@ CREATE TABLE server_metrics (
 );
 
 CREATE TABLE aggregated_metrics (
-    server_id UUID REFERENCES servers(server_id) ON DELETE CASCADE,
+    server_id UUID REFERENCES server_metrics(server_id) ON DELETE CASCADE,
     region VARCHAR(20) NOT NULL,
     timestamp TIMESTAMP NOT NULL DEFAULT NOW(),
     hourly_avg_cpu_usage DECIMAL(5,2) NOT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE aggregated_metrics (
 -- 01_create_tables.sql - Create Alert History Table
 CREATE TABLE alert_history (
     alert_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    server_id UUID REFERENCES servers(server_id) ON DELETE CASCADE,
+    server_id UUID REFERENCES server_metrics(server_id) ON DELETE CASCADE,
     alert_type VARCHAR(50) NOT NULL,
     threshold_value DECIMAL(10,2) NOT NULL,
     alert_triggered_at TIMESTAMP NOT NULL DEFAULT NOW(),
@@ -102,7 +102,7 @@ CREATE TABLE cost_data (
     cost_adjustment_reason TEXT,
     cost_basis VARCHAR(50),
     PRIMARY KEY (server_id, timestamp),
-    FOREIGN KEY (server_id) REFERENCES servers(server_id) ON DELETE CASCADE
+    FOREIGN KEY (server_id) REFERENCES server_metrics(server_id) ON DELETE CASCADE
 );
 
 -- 01_create_tables.sql - Defines the downtime_logs table
@@ -113,6 +113,7 @@ CREATE TABLE downtime_logs (
     end_time TIMESTAMP NULL,
     downtime_duration_minutes INTEGER GENERATED ALWAYS AS 
         (EXTRACT(EPOCH FROM end_time - start_time) / 60) STORED,
+        
     downtime_cause VARCHAR(255) NOT NULL,
     sla_tracking BOOLEAN NOT NULL,
     incident_id UUID NULL REFERENCES incident_response_logs(incident_id) ON DELETE SET NULL,
@@ -134,7 +135,7 @@ CREATE TABLE error_logs (
     error_code VARCHAR(50) NULL,
     recovery_action VARCHAR(255) NULL,
     FOREIGN KEY (server_id) REFERENCES server_metrics(server_id) ON DELETE CASCADE,
-    FOREIGN KEY (incident_id) REFERENCES incident_management(incident_id) ON DELETE SET NULL
+    FOREIGN KEY (incident_id) REFERENCES incident_response_logs(incident_id) ON DELETE SET NULL
 );
 
 
@@ -146,6 +147,7 @@ CREATE TABLE incident_response_logs (
     timestamp TIMESTAMP NOT NULL DEFAULT NOW(),
     response_team_id UUID NOT NULL,
     incident_summary TEXT NOT NULL,
+    access_id UUID NOT null,
     resolution_time_minutes INTEGER CHECK (resolution_time_minutes >= 0) NULL,
     status VARCHAR(50) CHECK (status IN ('Open', 'In Progress', 'Resolved', 'Escalated')) NOT NULL DEFAULT 'Open',
     priority_level VARCHAR(20) CHECK (priority_level IN ('Low', 'Medium', 'High', 'Critical')) NOT NULL DEFAULT 'Medium',
@@ -157,7 +159,7 @@ CREATE TABLE incident_response_logs (
     FOREIGN KEY (access_id) UUID REFERENCES user_access_logs(access_id) ON DELETE SET NULL
 );
 
-<!-- Members is a new table, not included in documentation -->
+-- Members is a new table, not included in documentation
 CREATE TABLE members (
     member_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     full_name VARCHAR(255) NOT NULL,
@@ -166,7 +168,7 @@ CREATE TABLE members (
     department VARCHAR(100) NULL,
 );
 
-<!-- Applications is a new table, not included in documentation -->
+-- Applications is a new table, not included in documentation
 CREATE TABLE applications (
     app_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     app_name VARCHAR(255) NOT NULL,
@@ -222,7 +224,7 @@ CREATE TABLE team_members (
 
 CREATE TABLE team_server_assignment (
     team_id UUID REFERENCES team_management(team_id) ON DELETE CASCADE,
-    server_id UUID REFERENCES servers(server_id) ON DELETE CASCADE,
+    server_id UUID REFERENCES server_metrics(server_id) ON DELETE CASCADE,
     PRIMARY KEY (team_id, server_id)
 );
 
@@ -243,7 +245,7 @@ CREATE TABLE users (
 CREATE TABLE user_access_logs (
     access_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
-    server_id UUID NOT NULL REFERENCES servers(server_id) ON DELETE CASCADE,
+    server_id UUID NOT NULL REFERENCES server_metrics(server_id) ON DELETE CASCADE,
     access_type VARCHAR(10) CHECK (access_type IN ('READ', 'WRITE', 'DELETE', 'EXECUTE')),
     timestamp TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     access_ip VARCHAR(45) NOT NULL,
