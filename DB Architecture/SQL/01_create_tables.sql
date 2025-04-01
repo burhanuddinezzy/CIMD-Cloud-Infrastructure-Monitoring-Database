@@ -157,6 +157,16 @@ CREATE TABLE incident_response_logs (
     FOREIGN KEY (access_id) UUID REFERENCES user_access_logs(access_id) ON DELETE SET NULL
 );
 
+<!-- Members is a new table, not included in documentation -->
+CREATE TABLE members (
+    member_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    full_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    role VARCHAR(100) CHECK (role IN ('Cloud Engineer', 'DevOps', 'Security', 'DBA', 'Network Engineer', 'Support')) NOT NULL,
+    department VARCHAR(100) NULL,
+    date_joined TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
 <!-- Applications is a new table, not included in documentation -->
 CREATE TABLE applications (
     app_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
