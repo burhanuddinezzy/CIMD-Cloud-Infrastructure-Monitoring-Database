@@ -152,10 +152,9 @@ CREATE TABLE incident_response_logs (
     incident_type VARCHAR(100) NOT NULL,
     root_cause TEXT NULL,
     escalation_flag BOOLEAN NOT NULL DEFAULT FALSE,
-    audit_log_id UUID NULL,
     FOREIGN KEY (server_id) REFERENCES server_metrics(server_id) ON DELETE CASCADE,
     FOREIGN KEY (response_team_id) REFERENCES team_management(team_id) ON DELETE SET NULL,
-    FOREIGN KEY (audit_log_id) REFERENCES user_access_logs(audit_log_id) ON DELETE SET NULL
+    FOREIGN KEY (access_id) UUID REFERENCES user_access_logs(access_id) ON DELETE SET NULL
 );
 
 <!-- Applications is a new table, not included in documentation -->
