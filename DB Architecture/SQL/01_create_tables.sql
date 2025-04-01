@@ -158,7 +158,15 @@ CREATE TABLE incident_response_logs (
     FOREIGN KEY (audit_log_id) REFERENCES user_access_logs(audit_log_id) ON DELETE SET NULL
 );
 
-
+<!-- Applications is a new table, not included in documentation -->
+CREATE TABLE applications (
+    app_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    app_name VARCHAR(255) NOT NULL,
+    app_type VARCHAR(100) NOT NULL,  -- Example: Web App, Database, API, etc.
+    hosting_environment VARCHAR(50) CHECK (hosting_environment IN 
+        ('Containerized', 'Virtual Machine', 'Bare Metal', 'Serverless', 'Unknown')
+    ) DEFAULT 'Unknown'
+);
 
 CREATE TABLE resource_allocation (
     server_id UUID NOT NULL,
@@ -210,6 +218,8 @@ CREATE TABLE team_server_assignment (
     PRIMARY KEY (team_id, server_id)
 );
 
+
+<!-- Applications is a new table, not included in documentation -->
 
 CREATE TABLE users (
     user_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
