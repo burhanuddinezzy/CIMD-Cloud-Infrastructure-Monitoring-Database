@@ -164,7 +164,6 @@ CREATE TABLE members (
     email VARCHAR(255) UNIQUE NOT NULL,
     role VARCHAR(100) CHECK (role IN ('Cloud Engineer', 'DevOps', 'Security', 'DBA', 'Network Engineer', 'Support')) NOT NULL,
     department VARCHAR(100) NULL,
-    date_joined TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 <!-- Applications is a new table, not included in documentation -->
