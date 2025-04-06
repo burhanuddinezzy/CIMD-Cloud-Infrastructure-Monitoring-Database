@@ -36,6 +36,7 @@ This table stores **detailed logs of user interactions with servers and applicat
     - **Data Type Used & Why**: `VARCHAR(45)` supports both IPv4 and IPv6 addresses, ensuring flexibility in the types of IP addresses that can be recorded.
 - **`user_agent` (VARCHAR(255))**
     - **Purpose**: Records the client or browser used by the user to access the server or application.
+    - **What is it**: The user_agent column typically stores the full user agent string sent by a user's browser or application during a request. This string contains detailed information about the user's operating system, browser, browser version, and sometimes device type.
     - **Why I Thought of Adding It**: Important for identifying suspicious access patterns, such as logins from unfamiliar devices, browsers, or locations.
     - **How I Thought of Adding It**: Helps with security audits, forensics, and identifying potential misuse or unauthorized access from unusual clients.
     - **Data Type Used & Why**: `VARCHAR(255)` is used because user-agent strings are text-based and vary in length, making this type suitable for storing detailed client information.
