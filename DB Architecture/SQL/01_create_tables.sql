@@ -163,6 +163,9 @@ CREATE TABLE incident_response_logs (
 CREATE TABLE members (
     member_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     full_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    role VARCHAR(100) CHECK (role IN ('Cloud Engineer', 'DevOps', 'Security', 'DBA', 'Network Engineer', 'Support')) NOT NULL,
+    department VARCHAR(100) NULL,
 );
 
 -- Applications is a new table, not included in documentation
@@ -216,7 +219,7 @@ CREATE TABLE team_members (
     team_id UUID REFERENCES team_management(team_id) ON DELETE CASCADE,
     role VARCHAR(50) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
-    department VARCHAR(100)
+    date_joined TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE team_server_assignment (
@@ -248,6 +251,11 @@ CREATE TABLE user_access_logs (
     access_ip VARCHAR(45) NOT NULL,
     user_agent VARCHAR(255) NOT NULL
 );
+
+
+-- Adding POSTGIS geospatial data capability
+CREATE EXTENSION postgis;
+
 
 
 CREATE TABLE location (
