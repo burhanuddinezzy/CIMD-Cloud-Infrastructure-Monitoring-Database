@@ -1,63 +1,137 @@
-ALTER TABLE server_metrics ADD COLUMN io_wait FLOAT NULL;
-ALTER TABLE server_metrics DROP COLUMN error_count;
+ALTER TABLE team_members
+ADD COLUMN department VARCHAR(100),
+ADD CONSTRAINT role_check
+CHECK (role IN ('Cloud Engineer', 'DevOps', 'Security', 'DBA', 'Network Engineer', 'Support'));
+
+ALTER TABLE team_members DROP CONSTRAINT team_members_pkey;
+ALTER TABLE team_members
+ADD PRIMARY KEY (team_id, member_id);
+
+-- Adding a composite primary key (so a table that can searched through with both rpimary keys). This is b/c
+-- one member may potentially be in multiple teams (typically one). And one team will have multiple members.
+-- And since i want to use this table to be able to search for who all are in any said team or which teams is 
+-- any said memeber in, having a composite key will be helpful.
+ALTER TABLE team_members
+ADD CONSTRAINT team_members_member_id_pkeys
+PRIMARY KEY (member_id, team_id);
+
+-- dropping columns data_created and status, as this information isn't helpful to store/make use of.
+-- adding column department. This was originally in team_members table, but it makes a lot moer sense for it to be
+-- in the team management table, since team management focuses on team specific details, whereas team membes focuses on
+-- member specific details. For this reason, I will rename team members to members (after dropping the members table)
+-- as that table is holding all memeber information but then also mention what team they're in, so it's not "team member" info
+-- it's more "member" info
+
+ALTER TABLE team_management
+DROP COLUMN date_created,
+drop column status,
+add column department VARCHAR (100);
 
 
-ALTER TABLE aggregated_metrics ADD COLUMN peak_memory_usage DECIMAL(5,2);
+-- Explained above reasoning behind this
+alter table team_members rename to members;
+
+-- Before dropping the table members, we need to disconnect relations from team_managemnt and team_members to members.
+ALTER TABLE team_management
+DROP CONSTRAINT team_management_team_lead_id_fkey;
+
+ALTER TABLE team_members DROP CONSTRAINT team_members_member_id_fkey;
+ALTER TABLE team_members DROP CONSTRAINT team_members_team_id_fkey;
 
 
--- 03_alter_tables.sql - Modify Table Structure
-ALTER TABLE alert_history ADD COLUMN response_time INTERVAL;
+-- This table holds redundent information (member_id, full_name), which I can simply house in the team_members table
+-- Hence dropping it.
+drop table members;
+
+--making team_id foreign to team_management
+ALTER TABLE team_members
+ADD CONSTRAINT team_id_fkey_team_management
+FOREIGN KEY (team_id) REFERENCES team_management(team_id) ON DELETE CASCADE;
 
 
-
--- 03_alter_tables.sql - Modifications (if any)
-ALTER TABLE alert_configuration ADD COLUMN notification_channel VARCHAR(50);
-
-
-
--- 03_alter_tables.sql - Modifications (if any)
-ALTER TABLE application_logs ADD COLUMN response_time_ms INTEGER;
+ALTER TABLE team_management
+ADD CONSTRAINT member_id_fkey_team_members
+FOREIGN KEY (team_lead_id) REFERENCES team_members(member_id) ON DELETE CASCADE;
 
 
--- 03_alter_tables.sql - Modifications (if any)
-ALTER TABLE cost_data ADD COLUMN additional_notes TEXT;
+-- I realized the hard way, I cant make team_lead_id a foregin key that references member_id in team_members
+-- because member_id in team_members is a composite primary key, since it's not a unique column data since one
+-- member_id may show up for more than one team. Now, technically, to make it simple, I can remove the composite
+-- primary key constraint, and remove the need of team_id (which is the other key that makes up the compostie key)
+-- and solely make member_id the uniqkey primary key, and we will simple not care about the few exceptions 
+-- where a member may be in more than one team. I don't think it's necessary to have an entire separate table just
+-- for member_id and full name (which was the members table that i deleted).
+-- HOWEVER. Statistically, I found out that 5% – 20% of employees in a typical company may be part of multiple teams
+-- at the same time. And since im trying to design a normalized, flexible database schema to support larger orgs or 
+-- future-proof scalability, it’s a good idea to allow the possibility of members being in more than one team.
+-- Therefore, im bring back the members table :) 
+
+CREATE table members (
+	member_id UUID primary key default gen_random_uuid(),
+	full_name VARCHAR (50),
+	personal_email VARCHAR (100)
+);
+
+-- Now referencing member_id in members as a foreign key for team_members(member_id) and 
+-- team_management (team_lead_id). Now there wont be the problem of member_id value reudndency
+-- since it had the chance of showing up more than once in the team_members tablbe. In the members
+-- table it will only show up once and can now be referenced as a foreign key since it is the primary key!
+
+alter table team_members 
+add constraint member_id_fkey_members 
+foreign key (member_id) REFERENCES members(member_id) on delete cascade; 
+
+alter table team_management add constraint team_lead_id_fkeyteam_members
+foreign key (team_lead_id) references members(member_id) on delete cascade;
+
+-- forgot to drop the department column from team_members table. its now housed in team_management table
+-- where it makes more sense.
+
+alter table team_members
+drop column department;
+
+alter table team_members
+rename team_specific_email to team_member_specific_email;
+
+alter table team_management
+add column team_contact_email VARCHAR (100);
+
+-- Removed `access_id` as an incident won't always be linked to a single user. 
+-- Instead, we can create a separate `user_incidents_log` table to track user-specific incidents, 
+-- which can be connected to the main incident response log as needed. At a later date. No issue in
+-- creating it at a later date in terms of data loss/integrity. 
+
+alter table incident_response_logs
+drop column access_id
+
+alter table downtime_logs
+rename id to downtime_id;
+
+ALTER table alert_configuration
+add constraint contact_email_f_key_team_management
+foreign key (contact_email) references team_management(team_contact_email)
 
 
--- 03_alter_tables.sql - Schema modifications (if needed)
-ALTER TABLE downtime_logs ADD COLUMN additional_notes TEXT;
+ALTER TABLE team_management
+ADD CONSTRAINT team_contact_email UNIQUE (team_contact_email);
 
+ALTER TABLE application_logs
+drop column app_name;
 
--- Add an index for faster filtering by timestamp
-ALTER TABLE error_logs ADD COLUMN created_at TIMESTAMP DEFAULT NOW();
+ALTER TABLE application_logs
+drop column error_code;
 
--- Add a new severity level if needed
-ALTER TABLE error_logs DROP CONSTRAINT error_logs_error_severity_check;
-ALTER TABLE error_logs ADD CONSTRAINT error_logs_error_severity_check CHECK (error_severity IN ('INFO', 'WARNING', 'CRITICAL', 'FATAL'));
+ALTER TABLE application_logs
+add column app_id UUID unique not null,
+add constraint app_id_f_key_applications foreign key (app_id) references applications(app_id) on delete cascade;
 
+ALTER TABLE error_logs
+ADD COLUMN log_id UUID UNIQUE NOT NULL;
 
+alter table team_management
+drop column location;
 
--- Add a column for tracking incident resolution timestamps
-ALTER TABLE incident_response_logs ADD COLUMN resolved_at TIMESTAMP NULL;
-
--- Modify escalation_flag to default to NULL instead of FALSE for better tracking
-ALTER TABLE incident_response_logs ALTER COLUMN escalation_flag DROP DEFAULT;
-
-
-
-
--- Add a new column to track the last modified timestamp
-ALTER TABLE resource_allocation ADD COLUMN last_updated TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP;
-
--- Modify cost_per_hour to allow higher precision
-ALTER TABLE resource_allocation ALTER COLUMN cost_per_hour TYPE DECIMAL(12,6);
-
-
-
-ALTER TABLE team_management ADD COLUMN budget DECIMAL(10,2);
-ALTER TABLE team_members ADD COLUMN phone_number VARCHAR(20);
-
-
-
--- Add an optional field for geolocation tracking
-ALTER TABLE user_access_logs ADD COLUMN geo_location VARCHAR(100);
-
+ALTER TABLE error_logs
+ADD CONSTRAINT log_id_f_key_application_logs
+FOREIGN KEY (log_id) REFERENCES application_logs(log_id)
+ON DELETE CASCADE;
