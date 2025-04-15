@@ -1,0 +1,98 @@
+# Alert History
+
+The **Alert History** table is crucial for tracking system-generated alerts related to server health and performance. This table plays a significant role in **incident tracking**, **root cause analysis**, and **proactive system management**, providing insights into historical trends and enabling fast response to recurring issues. Below, we’ll add further context to the data points already mentioned, including any additional columns that might enhance the table.
+
+### **Data Points (Columns) – Purpose, Thought Process, and Data Type**
+
+- **`alert_id` (UUID, Primary Key)**
+    - **Purpose**: Unique identifier for each triggered alert.
+    - **How I Thought of Including It**: Alerts require a distinct reference so they can be easily tracked, identified, and resolved. A primary key ensures every alert can be uniquely referenced.
+    - **Why I Thought of Including It**: This is crucial for maintaining the integrity of the alert records. It allows alerts to be easily referenced in logs, reports, and other linked data, ensuring proper tracking and analysis.
+    - **Data Type Used & Why**: `UUID` is used because it provides a globally unique identifier. This is particularly useful in distributed systems where generating globally unique identifiers is necessary to avoid conflicts.
+- **`server_id` (UUID, Foreign Key)**
+    - **Purpose**: Links the alert to the specific server where it was triggered.
+    - **How I Thought of Including It**: I thought it was necessary to correlate each alert with the server where the issue originated, as this would allow efficient troubleshooting.
+    - **Why I Thought of Including It**: By associating each alert with a specific server, I can quickly track and diagnose issues tied to a particular server or server type, improving incident response and root cause analysis.
+    - **Data Type Used & Why**: `UUID` is used to maintain consistency and referential integrity with the `server_metrics` table. Using UUID ensures that even in distributed systems, the link between alert and server remains reliable.
+- **`alert_type` (VARCHAR(50))**
+    - **Purpose**: Describes the type of alert (e.g., CPU overload, disk failure).
+    - **How I Thought of Including It**: I wanted a way to easily classify and categorize the alerts, making it simpler to sort, analyze, and prioritize them based on the alert type.
+    - **Why I Thought of Including It**: Categorizing alerts by type helps in quickly assessing the nature of the issue and prioritizing resolution, particularly when dealing with multiple alerts at once.
+    - **Data Type Used & Why**: `VARCHAR(50)` is used as alert categories are predefined text values. The VARCHAR type provides enough space for a clear description while remaining compact.
+- **`threshold_value` (DECIMAL(10,2))**
+    - **Purpose**: Stores the breached threshold value that caused the alert.
+    - **How I Thought of Including It**: This value is important for understanding the context of why an alert was triggered—such as the specific CPU percentage that triggered an overload alert.
+    - **Why I Thought of Including It**: It provides critical context about the specific condition that breached the system’s defined thresholds, allowing for tuning and adjustment of alert triggers.
+    - **Data Type Used & Why**: `DECIMAL(10,2)` is chosen to ensure precision in storing numerical values, particularly when dealing with fractional thresholds (e.g., 95.75% CPU usage). It’s also appropriate for monetary or performance-related values.
+- **`alert_triggered_at` (TIMESTAMP)**
+    - **Purpose**: Records when the alert was generated.
+    - **How I Thought of Including It**: Time tracking is essential for understanding the timing of incidents and alert trends. This helps in identifying patterns such as peak load times or recurring issues.
+    - **Why I Thought of Including It**: This allows me to track when an alert was generated and analyze how long it takes to resolve issues, which is critical for operational reporting and improving system reliability.
+    - **Data Type Used & Why**: `TIMESTAMP` ensures high precision in capturing the exact moment an alert was triggered. It's necessary for event-driven analysis, and PostgreSQL's `TIMESTAMP` type is ideal for tracking date and time with accuracy.
+- **`resolved_at` (TIMESTAMP, Nullable)**
+    - **Purpose**: Stores the timestamp when the alert was resolved.
+    - **How I Thought of Including It**: Since tracking the response time for alert resolution is important, I needed a way to capture when the issue was fixed or mitigated.
+    - **Why I Thought of Including It**: This timestamp is critical for tracking how quickly issues are resolved and whether the response time meets service level agreements (SLAs). It also helps to monitor incident resolution trends.
+    - **Data Type Used & Why**: `TIMESTAMP NULL` allows me to track resolution times when applicable. The nullable property ensures flexibility, as not all alerts may be resolved immediately (or at all).
+- **`alert_status` (ENUM('OPEN', 'CLOSED'))**
+    - **Purpose**: Indicates whether the alert is still active (open) or has been resolved (closed).
+    - **How I Thought of Including It**: Alerts need to be categorized based on whether they are still active or have been resolved. This field makes it easy to track open incidents and analyze how quickly they are closed.
+        - **Why I Thought of Including It**: The alert status is necessary for effective incident management and ensuring that active issues are being addressed. It helps teams track open vs. closed alerts and manage their workload efficiently.
+    - **Data Type Used & Why**: `ENUM('OPEN', 'CLOSED')` is ideal for fields with a fixed set of values. The `ENUM` type is efficient for managing status values that have specific, predefined states, reducing the risk of incorrect data entries.
+- **`alert_severity` (ENUM('LOW', 'MEDIUM', 'HIGH', 'CRITICAL'))**
+    - **Purpose**: Captures the severity of the alert, helping prioritize which issues to resolve first based on their urgency.
+    - **How I Thought of Adding It**: I considered how alerts need to be triaged and prioritized. Severity is a key aspect of how teams respond to issues in real-time.
+    - **Why I Thought of Adding It**: In a large-scale infrastructure, not all alerts need the same level of attention. By categorizing alerts into severity levels, teams can focus resources on critical issues and avoid overburdening them with less important alerts.
+    - **Data Type Used & Why**: `ENUM('LOW', 'MEDIUM', 'HIGH', 'CRITICAL')` – This is an efficient way to categorize the severity levels of alerts, as ENUM provides a predefined set of values, which is appropriate for fixed categories like severity.
+- **`alert_description` (TEXT)**
+    - **Purpose**: Provides additional details about the alert, such as recommendations or specific context that can help with troubleshooting or root cause analysis.
+    - **How I Thought of Adding It**: I realized that while the alert type and threshold values are essential, additional details would be valuable to understand the alert's context and make troubleshooting easier.
+    - **Why I Thought of Adding It**: Including a description ensures that the team has all the information needed to resolve the alert, especially in the case of complex or ambiguous issues that may not be clear from the threshold alone.
+    - **Data Type Used & Why**: `TEXT` – Since descriptions can vary in length, using the `TEXT` type allows flexibility to store detailed information without a fixed length limit.
+- **`resolved_by` (VARCHAR(100))**
+    - **Purpose**: Identifies who resolved the alert, whether it's an individual, a team, or an automated system.
+    - **How I Thought of Adding It**: Accountability and tracking the response efforts are important for post-incident analysis and reporting.
+    - **Why I Thought of Adding It**: This field helps measure resolution time, track who is responsible for addressing alerts, and identify whether certain teams are frequently involved with resolving critical incidents.
+    - **Data Type Used & Why**: `VARCHAR(100)` – This allows flexibility in storing either a team name, employee name, or other identifiers, which could vary in length but needs to be concise enough to fit in a reasonable column size.
+- **`alert_source` (VARCHAR(100))**
+    - **Purpose**: Indicates where the alert originated (e.g., monitoring tool, custom script, internal service).
+    - **How I Thought of Adding It**: I thought it would be helpful to categorize alerts based on where they came from to better route them and understand how they were triggered.
+    - **Why I Thought of Adding It**: This additional context helps teams focus on the alert source for troubleshooting and also assists in filtering and categorizing alerts for efficient handling.
+    - **Data Type Used & Why**: `VARCHAR(100)` – This provides enough space to store the source information in a manageable length, allowing flexibility without making the column unnecessarily large.
+- **`impact` (VARCHAR(50))**
+    - **Purpose**: Describes the potential or actual business impact of the alert (e.g., "server down", "performance degradation", "data loss risk").
+    - **How I Thought of Adding It**: Understanding the business impact of an alert is crucial for prioritization and resource allocation. This insight could also improve decision-making by presenting the alert in terms that business stakeholders can easily understand.
+    - **Why I Thought of Adding It**: This field would help business stakeholders and incident response teams assess the urgency of the alert in business terms, providing clarity on how to respond in alignment with the organization’s goals.
+    - **Data Type Used & Why**: `VARCHAR(50)` – This is a concise size for describing the potential impact of the alert, providing enough room for a short description without excessive overhead.
+
+[**How It Interacts with Other Tables**](Alert%20History%2019bead362d93805ea8f6dfbc7a832a65/How%20It%20Interacts%20with%20Other%20Tables%2019cead362d93809ba14ce71849912c40.md)
+
+- **Example of Stored Data**
+    
+    
+    | alert_id | server_id | alert_type | threshold_value | alert_triggered_at | resolved_at | alert_status |
+    | --- | --- | --- | --- | --- | --- | --- |
+    | `a1b2c3` | `s1a2b3` | CPU Overload | 95.00 | `2024-01-15 10:30:00` | `2024-01-15 10:45:00` | CLOSED |
+    | `d4e5f6` | `s4c5d6` | Disk Usage High | 90.00 | `2024-01-15 11:00:00` | NULL | OPEN |
+
+[**What Queries Would Be Used?**](Alert%20History%2019bead362d93805ea8f6dfbc7a832a65/What%20Queries%20Would%20Be%20Used%2019cead362d93802cbdc1f6d4039ccf53.md)
+
+[**Alternative Approaches**](Alert%20History%2019bead362d93805ea8f6dfbc7a832a65/Alternative%20Approaches%2019cead362d9380faacb6e6f537527207.md)
+
+[**Real-World Use Cases**](Alert%20History%2019bead362d93805ea8f6dfbc7a832a65/Real-World%20Use%20Cases%2019cead362d93804ca06fe8da2eba85cb.md)
+
+[**Performance Considerations & Scalability**](Alert%20History%2019bead362d93805ea8f6dfbc7a832a65/Performance%20Considerations%20&%20Scalability%2019cead362d9380708899f664365f9e41.md)
+
+[**Query Optimization Techniques**](Alert%20History%2019bead362d93805ea8f6dfbc7a832a65/Query%20Optimization%20Techniques%2019cead362d938075b154ed7c0c21adb8.md)
+
+[**Handling Large-Scale Data**](Alert%20History%2019bead362d93805ea8f6dfbc7a832a65/Handling%20Large-Scale%20Data%2019cead362d9380d185c6f5d9b2a4f4b9.md)
+
+[**Data Retention & Cleanup**](Alert%20History%2019bead362d93805ea8f6dfbc7a832a65/Data%20Retention%20&%20Cleanup%2019cead362d938079a99dcfee522bb25c.md)
+
+[**Security & Compliance**](Alert%20History%2019bead362d93805ea8f6dfbc7a832a65/Security%20&%20Compliance%2019cead362d93801b800df82e6a571e3f.md)
+
+[**Alerting & Automation**](Alert%20History%2019bead362d93805ea8f6dfbc7a832a65/Alerting%20&%20Automation%2019cead362d93807ab069f82f62fbe425.md)
+
+[**How You Tested & Validated Data Integrity**](Alert%20History%2019bead362d93805ea8f6dfbc7a832a65/How%20You%20Tested%20&%20Validated%20Data%20Integrity%2019cead362d9380b4b6b3effa3b0b7025.md)
+
+[**Thought Process Behind Decisions**](Alert%20History%2019bead362d93805ea8f6dfbc7a832a65/Thought%20Process%20Behind%20Decisions%2019cead362d93809aa8e0f933c0ed3b11.md)
