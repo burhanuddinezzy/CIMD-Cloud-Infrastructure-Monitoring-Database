@@ -254,6 +254,13 @@ CREATE TABLE user_access_logs (
     user_agent VARCHAR(255) NOT NULL
 );
 
-
 -- Adding POSTGIS geospatial data capability
 CREATE EXTENSION postgis;
+
+CREATE TABLE location (
+    location_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    location_geom GEOGRAPHY(Point, 4326), -- WGS 84 compliant point data
+    country VARCHAR(100),
+    region VARCHAR(100),                           -- e.g., city, province, or state
+    location_name VARCHAR(255)             -- optional label (e.g., datacenter or zone)
+);

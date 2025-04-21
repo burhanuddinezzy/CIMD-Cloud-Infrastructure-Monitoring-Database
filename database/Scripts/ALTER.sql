@@ -145,6 +145,34 @@ add constraint f_key_team_allocation foreign key (team_allocation) references te
 alter table alert_configuration -- sticking contact_email to team_management team_contact_email
 add constraint f_key_contact_email_to_team_management foreign key (contact_email) references team_management(team_contact_email) on delete cascade;
 
+alter table server_metrics
+rename region to location_id;
 
+alter tabLe server_metrics
+alter column location_id type UUID USING location_id::uuid
+
+alter table server_metrics
+add constraint f_key_location_id_to_location foreign key (location_id) references location(location_id) on delete cascade;
+
+alter table users 
+add column location_id UUID unique not null;
+
+alter table users
+add constraint f_key_constraint_id_to_location foreign key  (location_id) references location(location_id) on delete cascade;
+
+alter table members
+add column location_id UUID unique not null;
+
+alter table members
+add constraint f_key_location_id_to_location foreign key (location_id) references location(location_id) on delete cascade;
+
+alter table team_management
+add column team_office_location_id UUID unique not null;
+
+alter table team_management 
+add constraint f_key_team_office_location_id_to_location foreign key (team_office_location_id) references location(location_id) on delete cascade;
+
+alter table cost_data
+drop column region;
 
 

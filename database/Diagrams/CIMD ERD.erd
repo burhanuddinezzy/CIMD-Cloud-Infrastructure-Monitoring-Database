@@ -2,125 +2,111 @@
 <diagram version="1" name="CIMD ERD.erd">
 	<entities>
 		<data-source id="postgres-jdbc-19645cdf1f4-239a1a7df4b1918d">
-			<entity id="1" name="aggregated_metrics" fq-name="public.aggregated_metrics" order="0" color-bg="255,128,128" color-fg="196,196,196" x="1580" y="1859">
+			<entity id="1" name="aggregated_metrics" fq-name="public.aggregated_metrics" order="0" color-bg="32,32,32" color-fg="196,196,196" font="Segoe UI:14:0" x="340" y="2920">
 				<path name="public"/>
 				<path name="postgres"/>
 			</entity>
-			<entity id="2" name="alert_configuration" fq-name="public.alert_configuration" order="1" color-bg="255,128,128" color-fg="196,196,196" x="1520" y="2252">
+			<entity id="2" name="alert_configuration" fq-name="public.alert_configuration" order="1" color-bg="32,32,32" color-fg="196,196,196" font="Segoe UI:14:0" x="340" y="2560">
 				<path name="public"/>
 				<path name="postgres"/>
 			</entity>
-			<entity id="3" name="alert_history" fq-name="public.alert_history" order="2" color-bg="255,128,128" color-fg="196,196,196" x="1652" y="1426">
+			<entity id="3" name="alert_history" fq-name="public.alert_history" order="2" color-bg="32,32,32" color-fg="196,196,196" font="Segoe UI:14:0" x="340" y="3280">
 				<path name="public"/>
 				<path name="postgres"/>
 			</entity>
-			<entity id="4" name="application_logs" fq-name="public.application_logs" order="3" color-bg="255,128,128" color-fg="196,196,196" x="1037" y="834">
+			<entity id="4" name="application_logs" fq-name="public.application_logs" order="3" color-bg="32,32,32" color-fg="196,196,196" font="Segoe UI:14:0" x="340" y="260">
 				<path name="public"/>
 				<path name="postgres"/>
 			</entity>
-			<entity id="5" name="applications" fq-name="public.applications" order="4" color-bg="255,128,128" color-fg="196,196,196" x="1248" y="835">
+			<entity id="5" name="applications" fq-name="public.applications" order="4" color-bg="32,32,32" color-fg="196,196,196" font="Segoe UI:14:0" x="620" y="540">
 				<path name="public"/>
 				<path name="postgres"/>
 			</entity>
-			<entity id="6" name="cost_data" fq-name="public.cost_data" order="5" color-bg="255,128,128" color-fg="196,196,196" x="1305" y="1032">
+			<entity id="6" name="cost_data" fq-name="public.cost_data" order="5" color-bg="32,32,32" color-fg="196,196,196" font="Segoe UI:14:0" x="340" y="2020">
 				<path name="public"/>
 				<path name="postgres"/>
 			</entity>
-			<entity id="7" name="downtime_logs" fq-name="public.downtime_logs" order="6" color-bg="255,128,128" color-fg="196,196,196" x="697" y="1290">
+			<entity id="7" name="downtime_logs" fq-name="public.downtime_logs" order="6" color-bg="32,32,32" color-fg="196,196,196" font="Segoe UI:14:0" x="40" y="2720">
 				<path name="public"/>
 				<path name="postgres"/>
 			</entity>
-			<entity id="8" name="error_logs" fq-name="public.error_logs" order="7" color-bg="255,128,128" color-fg="196,196,196" x="1011" y="1730">
+			<entity id="8" name="error_logs" fq-name="public.error_logs" order="7" color-bg="32,32,32" color-fg="196,196,196" font="Segoe UI:14:0" x="40" y="1800">
 				<path name="public"/>
 				<path name="postgres"/>
 			</entity>
-			<entity id="9" name="incident_response_logs" fq-name="public.incident_response_logs" order="8" color-bg="255,128,128" color-fg="196,196,196" x="695" y="1742">
+			<entity id="9" name="incident_response_logs" fq-name="public.incident_response_logs" order="8" color-bg="32,32,32" color-fg="196,196,196" font="Segoe UI:14:0" x="340" y="1660">
 				<path name="public"/>
 				<path name="postgres"/>
 			</entity>
-			<entity id="10" name="members" fq-name="public.members" order="9" color-bg="255,128,192" color-fg="196,196,196" x="1030" y="2427">
+			<entity id="10" name="location" fq-name="public.&quot;location&quot;" order="9" color-bg="32,32,32" color-fg="196,196,196" border-width="3" font="Segoe UI:14:0" x="600" y="200">
 				<path name="public"/>
 				<path name="postgres"/>
 			</entity>
-			<entity id="11" name="resource_allocation" fq-name="public.resource_allocation" order="10" color-bg="255,128,128" color-fg="196,196,196" x="1583" y="831">
+			<entity id="11" name="members" fq-name="public.members" order="10" color-bg="32,32,32" color-fg="196,196,196" font="Segoe UI:14:0" x="880" y="1440">
 				<path name="public"/>
 				<path name="postgres"/>
 			</entity>
-			<entity id="12" name="server_metrics" fq-name="public.server_metrics" order="11" color-bg="255,128,128" color-fg="196,196,196" x="1281" y="1459">
+			<entity id="12" name="resource_allocation" fq-name="public.resource_allocation" order="11" color-bg="32,32,32" color-fg="196,196,196" font="Segoe UI:14:0" x="340" y="600">
 				<path name="public"/>
 				<path name="postgres"/>
 			</entity>
-			<entity id="13" name="team_management" fq-name="public.team_management" order="12" color-bg="255,128,192" color-fg="196,196,196" x="1288" y="2311">
+			<entity id="13" name="server_metrics" fq-name="public.server_metrics" order="12" color-bg="32,32,32" color-fg="196,196,196" font="Segoe UI:14:0" x="620" y="2460">
 				<path name="public"/>
 				<path name="postgres"/>
 			</entity>
-			<entity id="14" name="team_members" fq-name="public.team_members" order="13" color-bg="255,128,192" color-fg="196,196,196" x="815" y="2181">
+			<entity id="14" name="spatial_ref_sys" fq-name="public.spatial_ref_sys" order="13" color-bg="32,32,32" color-fg="196,196,196" font="Segoe UI:14:0" x="880" y="120">
 				<path name="public"/>
 				<path name="postgres"/>
 			</entity>
-			<entity id="15" name="team_server_assignment" fq-name="public.team_server_assignment" order="14" color-bg="255,128,192" color-fg="196,196,196" x="1252" y="2050">
+			<entity id="15" name="team_management" fq-name="public.team_management" order="14" color-bg="32,32,32" color-fg="196,196,196" font="Segoe UI:14:0" x="620" y="1720">
 				<path name="public"/>
 				<path name="postgres"/>
 			</entity>
-			<entity id="16" name="user_access_logs" fq-name="public.user_access_logs" order="15" color-bg="128,255,128" color-fg="196,196,196" x="1011" y="1280">
+			<entity id="16" name="team_members" fq-name="public.team_members" order="15" color-bg="32,32,32" color-fg="196,196,196" font="Segoe UI:14:0" x="340" y="1420">
 				<path name="public"/>
 				<path name="postgres"/>
 			</entity>
-			<entity id="17" name="users" fq-name="public.users" order="16" color-bg="128,255,128" color-fg="196,196,196" x="802" y="936">
+			<entity id="17" name="team_server_assignment" fq-name="public.team_server_assignment" order="16" color-bg="32,32,32" color-fg="196,196,196" font="Segoe UI:14:0" x="340" y="2400">
+				<path name="public"/>
+				<path name="postgres"/>
+			</entity>
+			<entity id="18" name="user_access_logs" fq-name="public.user_access_logs" order="17" color-bg="32,32,32" color-fg="196,196,196" font="Segoe UI:14:0" x="340" y="1140">
+				<path name="public"/>
+				<path name="postgres"/>
+			</entity>
+			<entity id="19" name="users" fq-name="public.users" order="18" color-bg="32,32,32" color-fg="196,196,196" font="Segoe UI:14:0" x="620" y="740">
 				<path name="public"/>
 				<path name="postgres"/>
 			</entity>
 		</data-source>
 	</entities>
 	<relations>
-		<relation name="log_id_f_key_application_logs" fq-name="public.error_logs.log_id_f_key_application_logs" type="fk" pk-ref="4" fk-ref="8">
-			<bend type="abs" x="1192" y="1606"/>
-			<bend type="abs" x="1187" y="1235"/>
-		</relation>
+		<relation name="log_id_f_key_application_logs" fq-name="public.error_logs.log_id_f_key_application_logs" type="fk" pk-ref="4" fk-ref="8"/>
 		<relation name="app_id_f_key_applications" fq-name="public.application_logs.app_id_f_key_applications" type="fk" pk-ref="5" fk-ref="4"/>
-		<relation name="resource_allocation_app_id_fkey" fq-name="public.resource_allocation.resource_allocation_app_id_fkey" type="fk" pk-ref="5" fk-ref="11">
-			<bend type="abs" x="1513" y="916"/>
-			<bend type="abs" x="1513" y="916"/>
-		</relation>
+		<relation name="resource_allocation_app_id_fkey" fq-name="public.resource_allocation.resource_allocation_app_id_fkey" type="fk" pk-ref="5" fk-ref="12"/>
 		<relation name="downtime_logs_incident_id_fkey" fq-name="public.downtime_logs.downtime_logs_incident_id_fkey" type="fk" pk-ref="9" fk-ref="7"/>
 		<relation name="error_logs_incident_id_fkey" fq-name="public.error_logs.error_logs_incident_id_fkey" type="fk" pk-ref="9" fk-ref="8"/>
-		<relation name="team_lead_id_fkeyteam_members" fq-name="public.team_management.team_lead_id_fkeyteam_members" type="fk" pk-ref="10" fk-ref="13"/>
-		<relation name="member_id_fkey_members" fq-name="public.team_members.member_id_fkey_members" type="fk" pk-ref="10" fk-ref="14">
-			<bend type="abs" x="908" y="2428"/>
-		</relation>
-		<relation name="aggregated_metrics_server_id_fkey" fq-name="public.aggregated_metrics.aggregated_metrics_server_id_fkey" type="fk" pk-ref="12" fk-ref="1"/>
-		<relation name="alert_configuration_server_id_fkey" fq-name="public.alert_configuration.alert_configuration_server_id_fkey" type="fk" pk-ref="12" fk-ref="2"/>
-		<relation name="alert_history_server_id_fkey" fq-name="public.alert_history.alert_history_server_id_fkey" type="fk" pk-ref="12" fk-ref="3"/>
-		<relation name="application_logs_server_id_fkey" fq-name="public.application_logs.application_logs_server_id_fkey" type="fk" pk-ref="12" fk-ref="4"/>
-		<relation name="cost_data_server_id_fkey" fq-name="public.cost_data.cost_data_server_id_fkey" type="fk" pk-ref="12" fk-ref="6"/>
-		<relation name="downtime_logs_server_id_fkey" fq-name="public.downtime_logs.downtime_logs_server_id_fkey" type="fk" pk-ref="12" fk-ref="7">
-			<bend type="abs" x="1096" y="1610"/>
-		</relation>
-		<relation name="error_logs_server_id_fkey" fq-name="public.error_logs.error_logs_server_id_fkey" type="fk" pk-ref="12" fk-ref="8">
-			<bend type="abs" x="1177" y="1747"/>
-		</relation>
-		<relation name="incident_response_logs_server_id_fkey" fq-name="public.incident_response_logs.incident_response_logs_server_id_fkey" type="fk" pk-ref="12" fk-ref="9">
-			<bend type="abs" x="1018" y="1660"/>
-		</relation>
-		<relation name="resource_allocation_server_id_fkey" fq-name="public.resource_allocation.resource_allocation_server_id_fkey" type="fk" pk-ref="12" fk-ref="11">
-			<bend type="abs" x="1586" y="1470"/>
-		</relation>
-		<relation name="team_server_assignment_server_id_fkey" fq-name="public.team_server_assignment.team_server_assignment_server_id_fkey" type="fk" pk-ref="12" fk-ref="15"/>
-		<relation name="user_access_logs_server_id_fkey" fq-name="public.user_access_logs.user_access_logs_server_id_fkey" type="fk" pk-ref="12" fk-ref="16">
-			<bend type="abs" x="1191" y="1561"/>
-		</relation>
-		<relation name="f_key_contact_email_to_team_management" fq-name="public.alert_configuration.f_key_contact_email_to_team_management" type="fk" pk-ref="13" fk-ref="2"/>
-		<relation name="f_key_team_allocation" fq-name="public.cost_data.f_key_team_allocation" type="fk" pk-ref="13" fk-ref="6"/>
-		<relation name="incident_response_logs_response_team_id_fkey" fq-name="public.incident_response_logs.incident_response_logs_response_team_id_fkey" type="fk" pk-ref="13" fk-ref="9">
-			<bend type="abs" x="1010" y="2171"/>
-		</relation>
-		<relation name="f_key_team_id_to_team_management" fq-name="public.team_members.f_key_team_id_to_team_management" type="fk" pk-ref="13" fk-ref="14"/>
-		<relation name="team_id_fkey_team_management" fq-name="public.team_members.team_id_fkey_team_management" type="fk" pk-ref="13" fk-ref="14"/>
-		<relation name="team_server_assignment_team_id_fkey" fq-name="public.team_server_assignment.team_server_assignment_team_id_fkey" type="fk" pk-ref="13" fk-ref="15"/>
-		<relation name="member_id_fkey_team_members" fq-name="public.team_management.member_id_fkey_team_members" type="fk" pk-ref="14" fk-ref="13"/>
-		<relation name="application_logs_user_id_fkey" fq-name="public.application_logs.application_logs_user_id_fkey" type="fk" pk-ref="17" fk-ref="4"/>
-		<relation name="user_access_logs_user_id_fkey" fq-name="public.user_access_logs.user_access_logs_user_id_fkey" type="fk" pk-ref="17" fk-ref="16">
-			<bend type="abs" x="968" y="1226"/>
-		</relation>
+		<relation name="team_lead_id_fkeyteam_members" fq-name="public.team_management.team_lead_id_fkeyteam_members" type="fk" pk-ref="11" fk-ref="15"/>
+		<relation name="member_id_fkey_members" fq-name="public.team_members.member_id_fkey_members" type="fk" pk-ref="11" fk-ref="16"/>
+		<relation name="aggregated_metrics_server_id_fkey" fq-name="public.aggregated_metrics.aggregated_metrics_server_id_fkey" type="fk" pk-ref="13" fk-ref="1"/>
+		<relation name="alert_configuration_server_id_fkey" fq-name="public.alert_configuration.alert_configuration_server_id_fkey" type="fk" pk-ref="13" fk-ref="2"/>
+		<relation name="alert_history_server_id_fkey" fq-name="public.alert_history.alert_history_server_id_fkey" type="fk" pk-ref="13" fk-ref="3"/>
+		<relation name="application_logs_server_id_fkey" fq-name="public.application_logs.application_logs_server_id_fkey" type="fk" pk-ref="13" fk-ref="4"/>
+		<relation name="cost_data_server_id_fkey" fq-name="public.cost_data.cost_data_server_id_fkey" type="fk" pk-ref="13" fk-ref="6"/>
+		<relation name="downtime_logs_server_id_fkey" fq-name="public.downtime_logs.downtime_logs_server_id_fkey" type="fk" pk-ref="13" fk-ref="7"/>
+		<relation name="error_logs_server_id_fkey" fq-name="public.error_logs.error_logs_server_id_fkey" type="fk" pk-ref="13" fk-ref="8"/>
+		<relation name="incident_response_logs_server_id_fkey" fq-name="public.incident_response_logs.incident_response_logs_server_id_fkey" type="fk" pk-ref="13" fk-ref="9"/>
+		<relation name="resource_allocation_server_id_fkey" fq-name="public.resource_allocation.resource_allocation_server_id_fkey" type="fk" pk-ref="13" fk-ref="12"/>
+		<relation name="team_server_assignment_server_id_fkey" fq-name="public.team_server_assignment.team_server_assignment_server_id_fkey" type="fk" pk-ref="13" fk-ref="17"/>
+		<relation name="user_access_logs_server_id_fkey" fq-name="public.user_access_logs.user_access_logs_server_id_fkey" type="fk" pk-ref="13" fk-ref="18"/>
+		<relation name="f_key_contact_email_to_team_management" fq-name="public.alert_configuration.f_key_contact_email_to_team_management" type="fk" pk-ref="15" fk-ref="2"/>
+		<relation name="f_key_team_allocation" fq-name="public.cost_data.f_key_team_allocation" type="fk" pk-ref="15" fk-ref="6"/>
+		<relation name="incident_response_logs_response_team_id_fkey" fq-name="public.incident_response_logs.incident_response_logs_response_team_id_fkey" type="fk" pk-ref="15" fk-ref="9"/>
+		<relation name="f_key_team_id_to_team_management" fq-name="public.team_members.f_key_team_id_to_team_management" type="fk" pk-ref="15" fk-ref="16"/>
+		<relation name="team_id_fkey_team_management" fq-name="public.team_members.team_id_fkey_team_management" type="fk" pk-ref="15" fk-ref="16"/>
+		<relation name="team_server_assignment_team_id_fkey" fq-name="public.team_server_assignment.team_server_assignment_team_id_fkey" type="fk" pk-ref="15" fk-ref="17"/>
+		<relation name="member_id_fkey_team_members" fq-name="public.team_management.member_id_fkey_team_members" type="fk" pk-ref="16" fk-ref="15"/>
+		<relation name="application_logs_user_id_fkey" fq-name="public.application_logs.application_logs_user_id_fkey" type="fk" pk-ref="19" fk-ref="4"/>
+		<relation name="user_access_logs_user_id_fkey" fq-name="public.user_access_logs.user_access_logs_user_id_fkey" type="fk" pk-ref="19" fk-ref="18"/>
 	</relations>
 </diagram>
