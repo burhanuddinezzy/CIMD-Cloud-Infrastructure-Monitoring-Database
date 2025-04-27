@@ -1,5 +1,8 @@
-* text=auto # Detect text files automatically
-* text eol=lf # Set line endings to LF for all text files
-*.png binary # Force PNG files to be treated as binary
+* text=auto 
+# Detect text files automatically
+* text eol=lf 
+# Set line endings to LF for all text files
+*.png binary 
+# Force PNG files to be treated as binary
 
 
