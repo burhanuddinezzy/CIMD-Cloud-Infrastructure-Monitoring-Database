@@ -1,0 +1,4 @@
+* text=auto # Detect text files automatically
+*.png binary # Force PNG files to be treated as binary
+
+
