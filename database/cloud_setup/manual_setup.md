@@ -96,20 +96,20 @@ Enabled Shielded Instance for firmware hardening and security best practices (no
 - /24 CIDR block provides sufficient IP range for testing, demonstration, and future scaling within a single subnet.
 - Manual network creation demonstrates full understanding of cloud network setup fundamentals.-->
 
-## Mistake: Private IP Auto-Assign Not Enabled During Instance Creation
+        ## Mistake: Private IP Auto-Assign Not Enabled During Instance Creation
 
-**Issue:**
-While setting up the instance, I noticed that the option to automatically assign a private IPv4 address was disabled and could not be enabled. This caused a significant issue, as I wasn't able to set up the instance with the correct network settings at this stage.
+        **Issue:**
+        While setting up the instance, I noticed that the option to automatically assign a private IPv4 address was disabled and could not be enabled. This caused a significant issue, as I wasn't able to set up the instance with the correct network settings at this stage.
 
-**Cause:**
-The issue arose from using the quick setup wizard to create the Virtual Cloud Network (VCN) and subnet directly within the instance creation process. This simplified method doesn't provide all the necessary options to configure network settings correctly, especially the automatic private IP assignment.
+        **Cause:**
+        The issue arose from using the quick setup wizard to create the Virtual Cloud Network (VCN) and subnet directly within the instance creation process. This simplified method doesn't provide all the necessary options to configure network settings correctly, especially the automatic private IP assignment.
 
-**VCN and subnet settings**: The quick setup option doesn't properly set up things like Internet Gateways and Routing Tables, which are required for proper networking and automatic IP assignment.
+        **VCN and subnet settings**: The quick setup option doesn't properly set up things like Internet Gateways and Routing Tables, which are required for proper networking and automatic IP assignment.
 
-**Solution:**
-To resolve this, I need to follow a manual approach to creating the VCN and subnet separately before creating the instance. By manually setting up the VCN with Internet Connectivity, I can ensure that the instance has the right networking configurations and that the private IP is automatically assigned during instance creation.
+        **Solution:**
+        To resolve this, I need to follow a manual approach to creating the VCN and subnet separately before creating the instance. By manually setting up the VCN with Internet Connectivity, I can ensure that the instance has the right networking configurations and that the private IP is automatically assigned during instance creation.
 
-**Steps to Correct the Issue:**
+        **Steps to Correct the Issue:**
 
 ### Create a VCN Manually:
 
@@ -126,13 +126,52 @@ To resolve this, I need to follow a manual approach to creating the VCN and subn
 ![vcn details](./image-2.png)
 ![vcn details - cidr blocks](./image-3.png)
 
-Create the Compute Instance:
+- In the newly created VCN - create a subnet
+    - Name: cimd-public-subnet
+    - IPv4 CIDR Block: 10.0.0.0/28  (small subnet inside your VCN range 10.0.0.0/24).
+    - Resource Logging Decision:
+        I chose not to enable resource logging for the subnet because the focus of this project is on collecting server and database performance metrics, not network traffic analytics. Resource logging primarily captures VCN traffic flow logs for security auditing and troubleshooting, which is not directly relevant to monitoring CPU, memory, disk usage, or PostgreSQL performance. Since network flow data is not required for the current objectives, disabling this feature keeps the setup simpler and reduces unnecessary logging overhead.
+
+![subnet config screenshot 1](image-5.png)
+![subnet config screenshot 2](image-6.png)
+![subnet config screenshot 2](image-7.png)
+![alt text](image-8.png)
+![alt text](image-9.png)
+
+**Create the Compute Instance**:
 
 - After creating the VCN, go back to the Compute section and select Create Instance.
 - For the Virtual Cloud Network selection, choose the cimd-vcn VCN you created earlier.
 - Ensure the public subnet you created earlier is selected.
 - The private IP address will now be automatically assigned, and the instance will be correctly connected to the VCN.
 
+
 By following these steps, I can proceed with the proper network configuration for the instance and ensure it functions as expected.
 
+## Primary VNIC IP addresses
+ - Private IPv4 address - Automatically assign private IPv4 address
+ - Automatically assign public IPv4 address - Enable
+    I enabled automatic assignment of a public IPv4 address for the instance to allow secure remote access via SSH. This is necessary to install, configure, and manage the PostgreSQL database server directly from my local machine. Without a public IP, the instance would only be reachable within the VCN, making initial setup and maintenance impractical for this standalone project. Public access will be secured by limiting inbound traffic through carefully configured security rules.
+
+## Boot Volume
+✅ Decision: I chose not to specify a custom boot volume size during instance creation.
+
+Reason:
+The default boot volume size provided by Oracle Cloud (typically around 50 GB for free-tier instances) is more than sufficient for a lightweight PostgreSQL server setup. Since this project is focused on running a small cloud infrastructure monitoring database on a free-tier VM, the default volume size meets all current storage needs without extra configuration.
+If additional storage is needed in the future (for example, large-scale metrics ingestion), I can easily resize the boot volume later without downtime.
+
+Decision: I did not enable "Encrypt this volume with a key that I manage." I chose to let Oracle manage the encryption keys.
+
+Reason:
+For this project, Oracle’s default encryption already provides strong security for the boot volume.
+Managing my own encryption keys would add unnecessary complexity (such as setting up a vault and handling key rotation) without offering significant benefit for a personal cloud infrastructure monitoring database.
+Default encryption keeps the setup simpler, while still fully protecting the data at rest.
+
+## Create Instance
+![Screenshot of instance created](image-10.png)
+
+
+__________________________________________
+
+# Step 2: 
 📸 Take a screenshot of your configuration summary.
