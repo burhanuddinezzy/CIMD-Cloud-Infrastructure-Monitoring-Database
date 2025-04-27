@@ -1,6 +1,8 @@
 # Cloud Infrastructure Monitoring Database (CIMD)
 
-# This is a change tet, remove this linelater.
+**Manual Setup Notice**
+**All infrastructure and database setup in this project was done manually, without relying on automation tools or templates. This was a deliberate choice to demonstrate my problem-solving, SQL, and system integration skills.**
+**Screenshots and setup notes are included in manual_setup.md.**
 
 ## Overview
 
@@ -42,3 +44,18 @@ Modern cloud environments generate vast amounts of data, making it difficult to 
 ## Contributing
 
 This is an evolving project. As the design and implementation progress, contributions and feedback are welcome to refine the database schema, improve monitoring features, and optimize performance.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
