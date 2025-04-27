@@ -9,6 +9,8 @@ A step-by-step guide to building the Cloud Infrastructure Monitoring Database (C
 - Understand what actually goes on behind the scenes.
 - Build credibility for roles that demand cloud infrastructure and database experience.
 
+![alt text](image-5.png)
+
 **📸 Proof of Manual Work:**
 
 - Screenshots for each step (e.g., creating resources, writing queries, running commands).
