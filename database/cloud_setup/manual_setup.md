@@ -54,7 +54,7 @@ Name: postgresql-vm
 
         20.04 is older and nearing the end of its mainstream support in a couple years.
 
-![alt text](image-4.png)
+![alt text](./image-4.png)
 
 ## Shape: Select the Always Free one (VM.Standard.A1.Flex, 1 OCPU, 1 GB RAM)
 
@@ -66,11 +66,11 @@ Name: postgresql-vm
 
         Under "Memory", set it to: 1 GB RAM
 
-![alt text](image.png)
+![alt text](./image.png)
 
 Enabled Shielded Instance for firmware hardening and security best practices (no additional cost).
 
-![alt text](image-1.png)
+![alt text](./image-1.png)
 
 ## Networking
 
@@ -123,7 +123,8 @@ To resolve this, I need to follow a manual approach to creating the VCN and subn
   - I chose not to add any tags to the VCN at this stage since this is a personal project, and there are no specific tagging policies required for this setup. The primary focus was on the infrastructure and database setup itself. Tags can be added later if necessary for better organization, but for now, they are not essential.
   - I chose to skip custom security attributes for the instance, relying on the default settings for now. This decision was made to keep the setup simple while focusing on the primary goal of setting up the database instance. Further security adjustments, such as configuring firewalls or NSGs, can be added later based on evolving project needs.
 
-![alt text](image-2.png)
+![alt text](./image-2.png)
+![alt text](./image-3.png)
 
 Create the Compute Instance:
 
