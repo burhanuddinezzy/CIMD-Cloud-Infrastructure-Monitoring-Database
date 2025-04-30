@@ -28,6 +28,9 @@ An active Oracle Cloud Free Tier account
 Basic Linux command-line knowledge
 
 SSH key pair (for VM access)
+- Before creating the instance, I generated an SSH key pair locally:
+
+  bash command: ssh-keygen -t rsa -b 4096 -f ~/.ssh/cimd_postgresql_key
 
 Installed: ssh, scp, and optionally pgAdmin or DBeaver on your local machine
 
