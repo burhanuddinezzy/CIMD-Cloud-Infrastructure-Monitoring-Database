@@ -79,7 +79,8 @@ Copy
 Edit
 ssh -i "/c/Users/burha/.ssh/cimd_postgresql_key" ubuntu@<public_ip>
 
-___________________________________________
+---
+
 ❗ PostgreSQL Connection Issue: TcpTestSucceeded: False (Port 5432 Blocked)
 ✅ Problem Summary
 While testing external connectivity to the Oracle Cloud PostgreSQL server using:
@@ -93,8 +94,8 @@ You may encounter this issue:
 powershell
 Copy
 Edit
-PingSucceeded          : True
-TcpTestSucceeded       : False
+PingSucceeded : True
+TcpTestSucceeded : False
 Even though:
 
 PostgreSQL is properly installed and configured on the cloud VM
@@ -177,7 +178,8 @@ Edit
 Test-NetConnection -ComputerName <PUBLIC_IP> -Port 5432
 If TcpTestSucceeded returns True, external PostgreSQL access is now working.
 
-_____________________________________
+---
+
 🔒 Secure Remote Access to PostgreSQL (When Direct Port Access Fails)
 Direct access to the PostgreSQL port (5432) over the internet was not successful due to one or more of the following reasons:
 
@@ -197,7 +199,9 @@ powershell
 Copy
 Edit
 Test-NetConnection -ComputerName 40.233.74.182 -Port 5432
+
 # Result: TcpTestSucceeded : False
+
 Used SSH tunneling to forward local port 15432 to remote 5432:
 
 powershell
@@ -214,16 +218,17 @@ powershell
 Copy
 Edit
 Test-NetConnection -ComputerName 127.0.0.1 -Port 15432
+
 # Result: TcpTestSucceeded : True
+
 Connected using a PostgreSQL client with the following settings:
 
-Setting	Value
-Host	127.0.0.1
-Port	15432
-Username	(your PostgreSQL user)
-Password	(your PostgreSQL password)
-Database	(your database name)
+Setting Value
+Host 127.0.0.1
+Port 15432
+Username (your PostgreSQL user)
+Password (your PostgreSQL password) (**You may have to update the password incase pw authentication fails when trying to connect**)
+Database (your database name)
 
 ✅ Outcome
 PostgreSQL is now securely accessible from the local machine through SSH tunneling without needing to expose port 5432 over the public internet.
-
