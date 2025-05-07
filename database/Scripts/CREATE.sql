@@ -231,7 +231,7 @@ CREATE TABLE team_server_assignment (
 );
 
 
-<!-- Applications is a new table, not included in documentation -->
+-- Applications is a new table, not included in documentation
 
 CREATE TABLE users (
     user_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
