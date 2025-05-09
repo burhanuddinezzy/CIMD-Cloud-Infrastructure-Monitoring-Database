@@ -4,6 +4,8 @@ This table stores **performance and health metrics** for each server in a distri
 
 ## **Data Points (Columns) – Purpose, Thought Process, and Data Type**
 
+server_id, region, timestamp, cpu_usage, memory_usage, disk_read_ops_per_sec, disk_write_ops_per_sec, network_in_bytes, network_out_bytes, uptime_in_mins, latency_in_ms, db_queries_per_sec, disk_usage_percent, error_count, disk_read_throughput, disk_write_throughput.
+
 - **`server_id` (UUID)**
     - **Purpose**: Unique identifier for each server being monitored.
     - **How I Thought of Including It**: Needed a globally unique way to reference servers without relying on incremental IDs.
@@ -97,15 +99,7 @@ This table stores **performance and health metrics** for each server in a distri
     **Why Include It?**: Helps correlate server performance with system errors.
     
     **Data Type Used & Why**: `INTEGER` since errors are discrete counts.
-    
-- **`disk_usage_percent` (FLOAT)**
-    
-    **Purpose**: Tracks disk usage as a percentage of total storage.
-    
-    **Why Include It?**: Helps detect low disk space issues before they cause failures.
-    
-    **Data Type & Why**: `FLOAT` because disk usage is expressed as a percentage.
-    
+        
 - **`disk_read_throughput` (BIGINT)**
     
     **Purpose**: Tracks the throughput of disk read operations in bytes per second.
