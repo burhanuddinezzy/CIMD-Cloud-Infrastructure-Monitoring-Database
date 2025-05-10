@@ -1,3 +1,20 @@
+SELECT
+    t.table_schema,
+    t.table_name,
+    c.column_name
+FROM
+    information_schema.tables t
+JOIN
+    information_schema.columns c ON t.table_schema = c.table_schema AND t.table_name = c.table_name
+WHERE
+    t.table_type = 'BASE TABLE'
+    AND t.table_schema NOT IN ('pg_catalog', 'information_schema') -- Exclude system schemas (optional)
+ORDER BY
+    t.table_schema,
+    t.table_name,
+    c.ordinal_position;
+
+
 ALTER TABLE team_members
 ADD COLUMN department VARCHAR(100),
 ADD CONSTRAINT role_check
