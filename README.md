@@ -23,25 +23,6 @@ The **Cloud Infrastructure Monitoring Database (CIMD)** is a comprehensive data 
 
 By centralizing and structuring this diverse data, the CIMD aims to provide a holistic view of cloud infrastructure health, facilitate proactive alerting, accelerate incident resolution, optimize resource utilization, and enable data-driven decision-making for improved reliability and performance.
 
-## Potential Use Cases: Comprehensive Cloud Infrastructure Monitoring with Enhanced Geospatial Insights
-While a key differentiator of this CIMD lies in its granular, coordinate-level geospatial data, its core functionality extends to provide comprehensive monitoring of cloud infrastructure performance and health, similar to established tools like Datadog and AWS CloudWatch. The unique geospatial advantage enhances these traditional monitoring capabilities, enabling a richer understanding and more targeted actions. Here are potential use cases across various sectors:
-
-**Core Infrastructure Monitoring (Across all Industries):**
-- **Real-time Performance Monitoring:** Track standard server metrics (CPU usage, memory utilization, disk I/O, network throughput) across your entire cloud infrastructure, gaining immediate visibility into potential bottlenecks or performance degradation, regardless of server location.
-- **Alerting and Notifications:** Configure intelligent alerts based on thresholds for various metrics, ensuring timely notifications of critical issues to the appropriate teams, with the added context of the affected server's precise geographic location for faster identification.
-- **Historical Trend Analysis:** Analyze historical performance data across your infrastructure, identifying trends and patterns to aid in capacity planning, resource optimization, and proactive issue prevention, with the ability to segment data by geographic location.
-- **Log Aggregation and Analysis:** Centralize and analyze logs from all your cloud infrastructure components, facilitating faster troubleshooting and providing insights into system behavior, with the ability to filter and analyze logs based on specific geographic coordinates.
-- **Health Checks and Availability Monitoring:** Continuously monitor the availability and health of your servers and applications, receiving alerts for downtime or service disruptions, with precise location data to understand the scope of geographically isolated incidents.
-
-**Leveraging the Unique Geospatial Advantage (Specific Use Cases):**
-- **Latency Optimization with Geographic Awareness:** Identify and address latency issues by correlating performance data with the physical distance between users and servers, enabling strategic infrastructure placement or content delivery network (CDN) optimization based on precise geographic insights.
-- **Geofenced Compliance and Regulatory Monitoring:** Track infrastructure performance and access patterns within specific geographic boundaries to ensure adherence to local regulations and data sovereignty requirements, with detailed location-based audit trails.
-- **Enhanced Asset Management:** Maintain a precise inventory of your physical server locations, facilitating asset tracking, capacity planning for specific geographic regions, and efficient management of geographically distributed infrastructure.
-- **Optimized Resource Allocation Based on Location:** Analyze resource utilization patterns across different geographic locations to identify areas with high demand or underutilized infrastructure, enabling more efficient allocation and cost optimization.
-- **Disaster Recovery with Location Context:** During outages or disaster events, quickly identify the geographic scope of impact on your infrastructure, enabling targeted recovery efforts and prioritization of resources based on the precise location of affected systems.
-
-By integrating comprehensive cloud infrastructure monitoring capabilities with granular, coordinate-level geospatial data, this CIMD provides a powerful and differentiated solution for organizations seeking deeper insights, more targeted actions, and a unique understanding of their geographically distributed infrastructure. While offering the core functionalities of traditional CIMDs, the added spatial dimension unlocks a new layer of operational intelligence and optimization possibilities.
-
 ## Technology Stack (To Date)
 - **Database**: PostgreSQL RDBMS (hosted on Oracle Cloud's free-tier VM Instance)
 * **Database Management Tool:** DBeaver
@@ -68,6 +49,27 @@ This Cloud Infrastructure Monitoring Database (CIMD) is designed to provide comp
 - **Targeted Advantage:** The provision of granular geospatial data makes this CIMD particularly advantageous for specific industries, such as logistics, telecommunications, and smart cities, that require precise location intelligence for their infrastructure, offering a distinct benefit over general-purpose tools like Datadog and AWS CloudWatch in these contexts.
 - **Industry-Standard Tooling:** Utilizes popular and reliable tools like PostgreSQL for the database and Telegraf for data ingestion, demonstrating familiarity with industry best practices and technologies.
 
+
+## Potential Use Cases: Comprehensive Cloud Infrastructure Monitoring with Enhanced Geospatial Insights
+While a key differentiator of this CIMD lies in its granular, coordinate-level geospatial data, its core functionality extends to provide comprehensive monitoring of cloud infrastructure performance and health, similar to established tools like Datadog and AWS CloudWatch. The unique geospatial advantage enhances these traditional monitoring capabilities, enabling a richer understanding and more targeted actions. Here are potential use cases across various sectors:
+
+**Core Infrastructure Monitoring (Across all Industries):**
+- **Real-time Performance Monitoring:** Track standard server metrics (CPU usage, memory utilization, disk I/O, network throughput) across your entire cloud infrastructure, gaining immediate visibility into potential bottlenecks or performance degradation, regardless of server location.
+- **Alerting and Notifications:** Configure intelligent alerts based on thresholds for various metrics, ensuring timely notifications of critical issues to the appropriate teams, with the added context of the affected server's precise geographic location for faster identification.
+- **Historical Trend Analysis:** Analyze historical performance data across your infrastructure, identifying trends and patterns to aid in capacity planning, resource optimization, and proactive issue prevention, with the ability to segment data by geographic location.
+- **Log Aggregation and Analysis:** Centralize and analyze logs from all your cloud infrastructure components, facilitating faster troubleshooting and providing insights into system behavior, with the ability to filter and analyze logs based on specific geographic coordinates.
+- **Health Checks and Availability Monitoring:** Continuously monitor the availability and health of your servers and applications, receiving alerts for downtime or service disruptions, with precise location data to understand the scope of geographically isolated incidents.
+
+**Leveraging the Unique Geospatial Advantage (Specific Use Cases):**
+- **Latency Optimization with Geographic Awareness:** Identify and address latency issues by correlating performance data with the physical distance between users and servers, enabling strategic infrastructure placement or content delivery network (CDN) optimization based on precise geographic insights.
+- **Geofenced Compliance and Regulatory Monitoring:** Track infrastructure performance and access patterns within specific geographic boundaries to ensure adherence to local regulations and data sovereignty requirements, with detailed location-based audit trails.
+- **Enhanced Asset Management:** Maintain a precise inventory of your physical server locations, facilitating asset tracking, capacity planning for specific geographic regions, and efficient management of geographically distributed infrastructure.
+- **Optimized Resource Allocation Based on Location:** Analyze resource utilization patterns across different geographic locations to identify areas with high demand or underutilized infrastructure, enabling more efficient allocation and cost optimization.
+- **Disaster Recovery with Location Context:** During outages or disaster events, quickly identify the geographic scope of impact on your infrastructure, enabling targeted recovery efforts and prioritization of resources based on the precise location of affected systems.
+
+By integrating comprehensive cloud infrastructure monitoring capabilities with granular, coordinate-level geospatial data, this CIMD provides a powerful and differentiated solution for organizations seeking deeper insights, more targeted actions, and a unique understanding of their geographically distributed infrastructure. While offering the core functionalities of traditional CIMDs, the added spatial dimension unlocks a new layer of operational intelligence and optimization possibilities.
+
+
 ## Database Schema
 For a detailed overview of the database schema, including table descriptions and column definitions, please refer to [Database Architecture](database/db_architecture.md)
 
@@ -79,13 +81,6 @@ Fully documented here: [Database_Documentation](database)
 
 ## Data Ingestion (Telegraf):
 Brief description of scripts/ methods for pupulating db with data (TO BE ADDED; Data Ingestion will be done with Telegraf)
-
-## Potential Use Cases:
-Expand on the "Unique Geospatial Advantage" section by providing more specific and compelling use cases that your CIMD enables. Think about how different industries could leverage this detailed data. Examples:
-Telecommunications: Real-time network performance monitoring with precise geographic location of network nodes for faster troubleshooting and optimization.
-Logistics: Tracking the performance and health of servers located in different warehouses or along transportation routes, correlated with delivery times and potential bottlenecks.
-Smart Cities: Monitoring the infrastructure of smart city devices (e.g., traffic sensors, environmental monitors) with precise location data for efficient management and maintenance.
-Disaster Recovery: Identifying the geographic location of impacted infrastructure during outages for targeted recovery efforts.
 
 ## Future Enhancements:
 TO BE ADDED IN THE FUTURE (Project is still in progress)
