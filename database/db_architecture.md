@@ -4,7 +4,7 @@ This section provides an overview of the Cloud Infrastructure Monitoring Databas
 
 * **server_metrics**: Stores real-time performance metrics for individual servers.
     * `server_id`: Identifier of the server.
-    * `region`: Geographic region of the server.
+    * `location_id`: Foreign key referencing the `location` table.
     * `timestamp`: Timestamp of the metric reading.
     * `cpu_usage`: Current CPU utilization percentage.
     * `memory_usage`: Current memory utilization percentage.
@@ -14,12 +14,12 @@ This section provides an overview of the Cloud Infrastructure Monitoring Databas
     * `network_out_bytes`: Number of bytes sent on the network.
     * `uptime_in_mins`: Uptime of the server in minutes.
     * `latency_in_ms`: Network latency in milliseconds.
-    * `db_queries_per_sec`: Database queries executed per second (if applicable).
+    <!--* `db_queries_per_sec`: Database queries executed per second (if applicable).-->
     * `disk_usage_percent`: Current disk usage percentage.
     * `error_count`: Number of errors encountered since the last reading.
     * `disk_read_throughput`: Rate of data read from disk.
     * `disk_write_throughput`: Rate of data written to disk.
-    * `location_id`: Foreign key referencing the `location` table.
+
 
 * **aggregated_metrics**: Stores hourly aggregated performance metrics for servers, providing a historical overview of resource utilization.
     * `server_id`: Identifier for the server.
