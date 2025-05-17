@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Cloud Monitoring Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Color Palette:
+        #0A1128 - Primary Dark (Deep Royal Blue)
+        #CD853F - Accent (Gold/Rich Ochre)
+        #3A405A - Secondary Dark (Dark Charcoal)
+        #E0E0E0 - Light Background (Soft Grey)
+        #FDFDFF - Subtle Light (Warm White)
+        */
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            background-color: #E0E0E0; /* Soft Grey */
+            color: #3A405A; /* Dark Charcoal */
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        header {
+            background-color: #0A1128; /* Deep Royal Blue */
+            color: #FDFDFF; /* Warm White */
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        header .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #CD853F; /* Accent Gold */
+        }
+        header p {
+            font-size: 0.9em;
+            color: #E0E0E0;
+            margin-top: 0;
+        }
+
+        nav {
+            background-color: #3A405A; /* Dark Charcoal */
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav a {
+            color: #FDFDFF; /* Warm White */
+            margin: 0 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease, transform 0.2s ease;
+            padding: 5px 0;
+        }
+        nav a:hover {
+            color: #CD853F; /* Accent Gold */
+            transform: translateY(-2px);
+        }
+
+        .section-container {
+            background-color: #FDFDFF; /* Warm White */
+            padding: 60px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin: 30px auto;
+            max-width: 1100px;
+            text-align: center;
+            box-sizing: border-box; /* Include padding in width calculation */
+        }
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8em;
+            color: #0A1128; /* Deep Royal Blue */
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .contact-info {
+            text-align: left;
+            max-width: 700px;
+            margin: 0 auto 40px auto;
+            font-size: 1.1em;
+            color: #3A405A;
+        }
+        .contact-info p {
+            margin-bottom: 15px;
+        }
+        .contact-info strong {
+            color: #0A1128;
+        }
+
+        .form-container {
+            background-color: #E0E0E0; /* Soft Grey */
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        .form-container h3 {
+            font-family: 'Playfair Display', serif;
+            color: #CD853F;
+            font-size: 2em;
+            margin-top: 0;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .form-container label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #3A405A;
+        }
+        .form-container input[type="text"],
+        .form-container input[type="email"],
+        .form-container textarea {
+            width: calc(100% - 22px); /* Account for padding and border */
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* Include padding in width */
+            background-color: #FDFDFF; /* Warm White */
+            color: #0A1128;
+        }
+        .form-container input[type="submit"] {
+            background-color: #CD853F;
+            color: #0A1128;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            font-size: 1.1em;
+        }
+        .form-container input[type="submit"]:hover {
+            background-color: #e6a052;
+        }
+
+        .cta-bottom {
+            background-color: #CD853F; /* Accent Gold */
+            color: #0A1128; /* Deep Royal Blue */
+            padding: 60px 20px;
+            text-align: center;
+            margin-top: 40px;
+            border-top-left-radius: 70% 30px;
+            border-top-right-radius: 70% 30px;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+        }
+        .cta-bottom h2 {
+            color: #0A1128; /* Deep Royal Blue */
+            margin-bottom: 25px;
+        }
+        .btn {
+            background-color: #0A1128; /* Deep Royal Blue */
+            color: #FDFDFF; /* Warm White */
+            padding: 15px 35px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: inline-block;
+        }
+        .btn:hover {
+            background-color: #3A405A; /* Dark Charcoal */
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        footer {
+            background-color: #3A405A; /* Dark Charcoal */
+            color: #E0E0E0; /* Soft Grey */
+            text-align: center;
+            padding: 30px 20px;
+            font-size: 0.9em;
+            margin-top: 0;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.2);
+        }
+        footer a {
+            color: #CD853F;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        footer a:hover {
+            color: #e6a052;
+        }
+        footer .location {
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h2 {
+                font-size: 2em;
+            }
+            .section-container {
+                margin: 20px 10px;
+                padding: 30px 15px;
+            }
+            nav a {
+                margin: 0 10px;
+            }
+            .form-container {
+                padding: 30px 20px;
+                margin: 0 auto;
+            }
+            .form-container input[type="text"],
+            .form-container input[type="email"],
+            .form-container textarea {
+                width: calc(100% - 20px);
+            }
+        }
+        @media (max-width: 480px) {
+            h2 {
+                font-size: 1.8em;
+            }
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9em;
+            }
+            nav a {
+                display: block;
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">CIMD Pro</div>
+        <p>Advanced Cloud Monitoring & Observability</p>
+    </header>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/services.html">Our Services</a>
+        <a href="/about.html">About Us</a>
+        <a href="/contact.html">Contact</a>
+        <a href="/api/data">Test API (404)</a>
+        <a href="/error.html">Simulate Error (500)</a>
+    </nav>
+
+    <div class="section-container">
+        <h2>Connect With CIMD Pro</h2>
+        <div class="contact-info">
+            <p>We're here to help you get the most out of your cloud monitoring. Whether you have questions about this demo, or just want to learn more about comprehensive observability, feel free to reach out. We value your feedback and interest in the **Cloud Infrastructure Monitoring Database (CIMD) project**.</p>
+            <p>Our project team is based in:</p>
+            <p><strong>Waterloo, Ontario, Canada</strong></p>
+            <p><strong>Email:</strong> info@cimd-pro-demo.com</p>
+            <p><strong>Phone:</strong> +1 (555) 123-4567</p>
+            <p><strong>Office Hours (Virtual):</strong> Monday - Friday, 9:00 AM - 5:00 PM EST</p>
+        </div>
+
+        <div class="form-container">
+            <h3>Send Us a Message</h3>
+            <form action="/submit-contact" method="POST">
+                <label for="contact-name">Your Name:</label>
+                <input type="text" id="contact-name" name="name" placeholder="Enter your name" required>
+
+                <label for="contact-email">Your Email:</label>
+                <input type="email" id="contact-email" name="email" placeholder="Enter your email" required>
+
+                <label for="contact-subject">Subject:</label>
+                <input type="text" id="contact-subject" name="subject" placeholder="What's your message about?" required>
+
+                <label for="contact-message">Your Message:</label>
+                <textarea id="contact-message" name="message" rows="6" placeholder="Type your detailed message here"></textarea>
+
+                <input type="submit" value="Submit Inquiry">
+            </form>
+            <small style="text-align: center; display: block; margin-top: 10px; color: #3A405A;">Note: This form does not actually send data, it just generates a POST request to '/submit-contact'.</small>
+        </div>
+    </div>
+
+    <div class="cta-bottom">
+        <h2>Ready to Deepen Your Cloud Insights?</h2>
+        <p>Explore our services or learn more about the project's capabilities.</p>
+        <a href="/services.html" class="btn">View Services</a>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 CIMD Pro. All rights reserved. <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        <p class="location">Demonstration Project in Waterloo, Ontario, Canada.</p>
+    </footer>
+</body>
+</html>

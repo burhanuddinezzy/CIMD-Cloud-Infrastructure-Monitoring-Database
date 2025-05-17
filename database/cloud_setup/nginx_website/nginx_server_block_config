@@ -1,0 +1,55 @@
+server {
+    listen 80;
+    listen [::]:80; # Listen on IPv6 as well, if supported
+
+    server_name your_server_ip; # IMPORTANT: Replace with your actual public IP address!
+
+    root /var/www/simple_site/html; # Specifies the root directory of your website files
+    index index.html index.htm;    # Specifies the default files Nginx should look for
+
+    # Main location block to serve files
+    location / {
+        try_files $uri $uri/ =404; # Tries to serve the requested file, then a directory, else returns 404
+    }
+
+    # Custom Error Pages Configuration
+    error_page 404 /404.html; # When Nginx encounters a 404, it serves your custom 404.html
+    location = /404.html {
+        internal; # This makes sure 404.html can only be served via error_page, not directly
+    }
+
+    error_page 500 502 503 504 /500.html; # Handles various 5xx errors by serving your custom 500.html
+    location = /500.html {
+        internal; # This makes sure 500.html can only be served via error_page, not directly
+    }
+
+    # Specific Location Block to Simulate 500 Internal Server Error
+    location = /error.html {
+        return 500; # Explicitly tells Nginx to return a 500 status for this path
+    }
+
+    # Specific Location Block to Simulate POST Request for Homepage Contact Form
+    location = /submit-form {
+        return 200 '{"status": "success", "message": "Homepage form submission simulated."}';
+        add_header Content-Type application/json; # Ensures the browser understands it's JSON
+    }
+
+    # Specific Location Block to Simulate POST Request for Dedicated Contact Page Form
+    location = /submit-contact {
+        return 200 '{"status": "success", "message": "Contact page form submission simulated."}';
+        add_header Content-Type application/json; # Ensures the browser understands it's JSON
+    }
+
+    # Location Block for the /api/data path
+    # This path is linked to for the explicit purpose of generating a 404 log entry
+    # Nginx will try to find a file at /var/www/simple_site/html/api/data,
+    # won't find it, and thus will return the 404 error_page.
+    location = /api/data {
+        # No specific action here other than allowing Nginx's default 404 handling to apply
+        # to log the access to this non-existent "API" endpoint.
+    }
+
+    # Optional: Log format (if you want to ensure specific log format)
+    # access_log /var/log/nginx/simple_site_access.log combined;
+    # error_log /var/log/nginx/simple_site_error.log warn;
+}

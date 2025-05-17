@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>500 - Internal Server Error</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Color Palette:
+        #0A1128 - Primary Dark (Deep Royal Blue)
+        #CD853F - Accent (Gold/Rich Ochre)
+        #3A405A - Secondary Dark (Dark Charcoal)
+        #E0E0E0 - Light Background (Soft Grey)
+        #FDFDFF - Subtle Light (Warm White)
+        */
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            background-color: #E0E0E0; /* Soft Grey */
+            color: #3A405A; /* Dark Charcoal */
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensure full viewport height */
+        }
+
+        header {
+            background-color: #0A1128; /* Deep Royal Blue */
+            color: #FDFDFF; /* Warm White */
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        header .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #CD853F; /* Accent Gold */
+        }
+        header p {
+            font-size: 0.9em;
+            color: #E0E0E0;
+            margin-top: 0;
+        }
+
+        nav {
+            background-color: #3A405A; /* Dark Charcoal */
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav a {
+            color: #FDFDFF; /* Warm White */
+            margin: 0 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease, transform 0.2s ease;
+            padding: 5px 0;
+        }
+        nav a:hover {
+            color: #CD853F; /* Accent Gold */
+            transform: translateY(-2px);
+        }
+
+        .main-content {
+            flex-grow: 1; /* Allows content to push footer to bottom */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .error-container {
+            background-color: #FDFDFF; /* Warm White */
+            padding: 60px 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: auto; /* Center the container */
+        }
+        .error-container h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 5em;
+            color: #CC3300; /* Red for errors */
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+        }
+        .error-container h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5em;
+            color: #0A1128; /* Deep Royal Blue */
+            margin-bottom: 20px;
+        }
+        .error-container p {
+            font-size: 1.2em;
+            color: #3A405A;
+            margin-bottom: 30px;
+        }
+        .btn {
+            background-color: #0A1128; /* Deep Royal Blue */
+            color: #FDFDFF; /* Warm White */
+            padding: 15px 35px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: inline-block;
+        }
+        .btn:hover {
+            background-color: #3A405A; /* Dark Charcoal */
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        footer {
+            background-color: #3A405A; /* Dark Charcoal */
+            color: #E0E0E0; /* Soft Grey */
+            text-align: center;
+            padding: 30px 20px;
+            font-size: 0.9em;
+            margin-top: auto; /* Pushes footer to the bottom */
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.2);
+        }
+        footer a {
+            color: #CD853F;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        footer a:hover {
+            color: #e6a052;
+        }
+        footer .location {
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .error-container h1 {
+                font-size: 3.5em;
+            }
+            .error-container h2 {
+                font-size: 1.8em;
+            }
+            .error-container p {
+                font-size: 1em;
+            }
+            .error-container {
+                padding: 40px 20px;
+            }
+            nav a {
+                margin: 0 10px;
+            }
+        }
+        @media (max-width: 480px) {
+            header .logo {
+                font-size: 2em;
+            }
+            nav a {
+                display: block;
+                margin: 5px 0;
+            }
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">CIMD Pro</div>
+        <p>Advanced Cloud Monitoring & Observability</p>
+    </header>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/services.html">Our Services</a>
+        <a href="/about.html">About Us</a>
+        <a href="/contact.html">Contact</a>
+        <a href="/api/data">Test API (404)</a>
+        <a href="/error.html">Simulate Error (500)</a>
+    </nav>
+
+    <div class="main-content">
+        <div class="error-container">
+            <h1>500</h1>
+            <h2>Internal Server Error</h2>
+            <p>We're very sorry, but something went wrong on our end. Our team has been notified and is working to fix the issue as quickly as possible.</p>
+            <p>Please try refreshing the page or visiting the homepage.</p>
+            <a href="/" class="btn">Go to Homepage</a>
+            <a href="/contact.html" class="btn" style="margin-left: 20px;">Contact Support</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 CIMD Pro. All rights reserved. <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        <p class="location">Demonstration Project in Waterloo, Ontario, Canada.</p>
+    </footer>
+</body>
+</html>

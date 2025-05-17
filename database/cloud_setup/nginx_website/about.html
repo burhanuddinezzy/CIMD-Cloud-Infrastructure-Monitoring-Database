@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Cloud Monitoring Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Color Palette:
+        #0A1128 - Primary Dark (Deep Royal Blue)
+        #CD853F - Accent (Gold/Rich Ochre)
+        #3A405A - Secondary Dark (Dark Charcoal)
+        #E0E0E0 - Light Background (Soft Grey)
+        #FDFDFF - Subtle Light (Warm White)
+        */
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            background-color: #E0E0E0; /* Soft Grey */
+            color: #3A405A; /* Dark Charcoal */
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        header {
+            background-color: #0A1128; /* Deep Royal Blue */
+            color: #FDFDFF; /* Warm White */
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        header .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #CD853F; /* Accent Gold */
+        }
+        header p {
+            font-size: 0.9em;
+            color: #E0E0E0;
+            margin-top: 0;
+        }
+
+        nav {
+            background-color: #3A405A; /* Dark Charcoal */
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav a {
+            color: #FDFDFF; /* Warm White */
+            margin: 0 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease, transform 0.2s ease;
+            padding: 5px 0;
+        }
+        nav a:hover {
+            color: #CD853F; /* Accent Gold */
+            transform: translateY(-2px);
+        }
+
+        .section-container {
+            background-color: #FDFDFF; /* Warm White */
+            padding: 60px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin: 30px auto;
+            max-width: 1100px;
+            text-align: center;
+            box-sizing: border-box; /* Include padding in width calculation */
+        }
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8em;
+            color: #0A1128; /* Deep Royal Blue */
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .about-content {
+            text-align: left;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .about-content h3 {
+            font-family: 'Playfair Display', serif;
+            color: #CD853F;
+            font-size: 2em;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .about-content p {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            color: #3A405A;
+        }
+        ul {
+            list-style-type: disc;
+            padding-left: 20px;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        ul li {
+            margin-bottom: 8px;
+            color: #3A405A;
+        }
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+            justify-content: center;
+        }
+        .team-member {
+            background-color: #E0E0E0;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .team-member h4 {
+            font-family: 'Playfair Display', serif;
+            color: #0A1128;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        .team-member p {
+            font-size: 0.95em;
+            color: #3A405A;
+        }
+
+
+        .cta-bottom {
+            background-color: #CD853F; /* Accent Gold */
+            color: #0A1128; /* Deep Royal Blue */
+            padding: 60px 20px;
+            text-align: center;
+            margin-top: 40px;
+            border-top-left-radius: 70% 30px;
+            border-top-right-radius: 70% 30px;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+        }
+        .cta-bottom h2 {
+            color: #0A1128; /* Deep Royal Blue */
+            margin-bottom: 25px;
+        }
+        .btn {
+            background-color: #0A1128; /* Deep Royal Blue */
+            color: #FDFDFF; /* Warm White */
+            padding: 15px 35px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: inline-block;
+        }
+        .btn:hover {
+            background-color: #3A405A; /* Dark Charcoal */
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        footer {
+            background-color: #3A405A; /* Dark Charcoal */
+            color: #E0E0E0; /* Soft Grey */
+            text-align: center;
+            padding: 30px 20px;
+            font-size: 0.9em;
+            margin-top: 0;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.2);
+        }
+        footer a {
+            color: #CD853F;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        footer a:hover {
+            color: #e6a052;
+        }
+        footer .location {
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h2 {
+                font-size: 2em;
+            }
+            .section-container {
+                margin: 20px 10px;
+                padding: 30px 15px;
+            }
+            nav a {
+                margin: 0 10px;
+            }
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 480px) {
+            h2 {
+                font-size: 1.8em;
+            }
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9em;
+            }
+            nav a {
+                display: block;
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">CIMD Pro</div>
+        <p>Advanced Cloud Monitoring & Observability</p>
+    </header>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/services.html">Our Services</a>
+        <a href="/about.html">About Us</a>
+        <a href="/contact.html">Contact</a>
+        <a href="/api/data">Test API (404)</a>
+        <a href="/error.html">Simulate Error (500)</a>
+    </nav>
+
+    <div class="section-container">
+        <h2>About CIMD Pro: Our Story & Vision</h2>
+        <div class="about-content">
+            <p>Welcome to CIMD Pro, a demonstration project built with a singular focus: to illustrate the power and necessity of comprehensive cloud infrastructure monitoring. In today's dynamic cloud environments, understanding system health goes far beyond simple server metrics. It requires deep visibility into application behavior, network interactions, and database performance.</p>
+
+            <h3>Our Mission</h3>
+            <p>Our mission is to showcase a **holistic approach to observability**. We believe that true operational excellence is achieved when you can correlate infrastructure performance with application-level insights. This project embodies that philosophy, integrating various data streams into a centralized, robust database.</p>
+
+            <h3>The Genesis of CIMD Pro</h3>
+            <p>This project originated from a desire to demystify cloud monitoring and provide a tangible example of a full-stack observability solution. Faced with the complexities of modern distributed systems, we aimed to create a clear, educational demonstration of how vital metrics and logs can be collected, stored, and ultimately visualized to make sense of complex system behavior. It's built as a proof-of-concept for educational purposes in Waterloo, Ontario, Canada.</p>
+
+            <h3>Our Core Philosophy</h3>
+            <ul>
+                <li>**Visibility is Key:** You can't manage what you can't see. Our system aims to make every aspect of your cloud infrastructure transparent.</li>
+                <li>**Actionable Insights:** Raw data is not enough. We focus on transforming data into insights that empower quick, informed decision-making.</li>
+                <li>**Proactive not Reactive:** Identify and resolve potential issues *before* they impact your users or services.</li>
+                <li>**Simplicity from Complexity:** While the underlying systems can be complex, the monitoring solution should simplify understanding.</li>
+            </ul>
+
+            <h3>The Technology Stack</h3>
+            <p>This demonstration leverages industry-standard tools to build a resilient and insightful monitoring solution:</p>
+            <ul>
+                <li><strong>Cloud Virtual Machine (VM):</strong> Hosting our simulated application and data collection agents, providing a realistic environment.</li>
+                <li><strong>Nginx Web Server:</strong> Serving as the application layer, meticulously generating valuable access and error logs that feed into our system.</li>
+                <li><strong>Telegraf:</strong> The powerful, plugin-driven agent responsible for robustly collecting server metrics (CPU, RAM, Disk, Network) and efficiently ingesting Nginx application logs.</li>
+                <li><strong>PostgreSQL Database:</strong> The robust backbone of our Cloud Infrastructure Monitoring Database (CIMD), carefully designed for scalable storage and efficient retrieval of both time-series and event data.</li>
+                <li><strong>Tableau (Conceptual):</strong> Representing the visualization layer, where all collected data transforms into actionable dashboards, clear graphs, and compelling reports for easy analysis.</li>
+            </ul>
+
+            <h3>Meet the Team (Conceptual)</h3>
+            <div class="team-grid">
+                <div class="team-member">
+                    <h4>Dr. Alex Chen</h4>
+                    <p><strong>Role:</strong> Lead Architect & Data Engineer</p>
+                    <p><strong>Expertise:</strong> Cloud infrastructure, database design, data pipeline optimization.</p>
+                </div>
+                <div class="team-member">
+                    <h4>Maria Rodriguez</h4>
+                    <p><strong>Role:</strong> Observability Specialist</p>
+                    <p><strong>Expertise:</strong> Application monitoring, log analysis, alert systems.</p>
+                </div>
+                <div class="team-member">
+                    <h4>David Lee</h4>
+                    <p><strong>Role:</strong> Frontend Developer & UX Designer</p>
+                    <p><strong>Expertise:</strong> User interface design, data visualization, web development.</p>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 40px; font-style: italic;">Note: The "team" above is conceptual for the demonstration purposes of this project.</p>
+
+            <p style="text-align: center; margin-top: 30px;">We are passionate about showcasing how a well-architected monitoring system can proactively identify issues, optimize performance, and drive data-informed decisions in any cloud infrastructure.</p>
+        </div>
+    </div>
+
+    <div class="cta-bottom">
+        <h2>Ready to Deepen Your Cloud Insights?</h2>
+        <p>Explore our services or get in touch to learn more about the project's capabilities.</p>
+        <a href="/services.html" class="btn">View Our Services</a>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 CIMD Pro. All rights reserved. <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        <p class="location">Demonstration Project in Waterloo, Ontario, Canada.</p>
+    </footer>
+</body>
+</html>

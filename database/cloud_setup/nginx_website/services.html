@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services - Cloud Monitoring Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Color Palette:
+        #0A1128 - Primary Dark (Deep Royal Blue)
+        #CD853F - Accent (Gold/Rich Ochre)
+        #3A405A - Secondary Dark (Dark Charcoal)
+        #E0E0E0 - Light Background (Soft Grey)
+        #FDFDFF - Subtle Light (Warm White)
+        */
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            background-color: #E0E0E0; /* Soft Grey */
+            color: #3A405A; /* Dark Charcoal */
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        header {
+            background-color: #0A1128; /* Deep Royal Blue */
+            color: #FDFDFF; /* Warm White */
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        header .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #CD853F; /* Accent Gold */
+        }
+        header p {
+            font-size: 0.9em;
+            color: #E0E0E0;
+            margin-top: 0;
+        }
+
+        nav {
+            background-color: #3A405A; /* Dark Charcoal */
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav a {
+            color: #FDFDFF; /* Warm White */
+            margin: 0 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease, transform 0.2s ease;
+            padding: 5px 0;
+        }
+        nav a:hover {
+            color: #CD853F; /* Accent Gold */
+            transform: translateY(-2px);
+        }
+
+        .section-container {
+            background-color: #FDFDFF; /* Warm White */
+            padding: 60px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin: 30px auto;
+            max-width: 1100px;
+            text-align: center;
+            box-sizing: border-box; /* Include padding in width calculation */
+        }
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8em;
+            color: #0A1128; /* Deep Royal Blue */
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .service-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+            text-align: left;
+        }
+        .service-item-detail {
+            background-color: #E0E0E0; /* Soft Grey */
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .service-item-detail:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        .service-item-detail h3 {
+            font-family: 'Playfair Display', serif;
+            color: #CD853F; /* Accent Gold */
+            font-size: 1.8em;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        .service-item-detail p {
+            color: #3A405A; /* Dark Charcoal */
+            font-size: 1em;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 20px;
+            color: #3A405A;
+        }
+        ul li::before {
+            content: '✓';
+            color: #CD853F;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .cta-bottom {
+            background-color: #CD853F; /* Accent Gold */
+            color: #0A1128; /* Deep Royal Blue */
+            padding: 60px 20px;
+            text-align: center;
+            margin-top: 40px;
+            border-top-left-radius: 70% 30px;
+            border-top-right-radius: 70% 30px;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+        }
+        .cta-bottom h2 {
+            color: #0A1128; /* Deep Royal Blue */
+            margin-bottom: 25px;
+        }
+        .btn {
+            background-color: #0A1128; /* Deep Royal Blue */
+            color: #FDFDFF; /* Warm White */
+            padding: 15px 35px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: inline-block;
+        }
+        .btn:hover {
+            background-color: #3A405A; /* Dark Charcoal */
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        footer {
+            background-color: #3A405A; /* Dark Charcoal */
+            color: #E0E0E0; /* Soft Grey */
+            text-align: center;
+            padding: 30px 20px;
+            font-size: 0.9em;
+            margin-top: 0;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.2);
+        }
+        footer a {
+            color: #CD853F;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        footer a:hover {
+            color: #e6a052;
+        }
+        footer .location {
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h2 {
+                font-size: 2em;
+            }
+            .section-container {
+                margin: 20px 10px;
+                padding: 30px 15px;
+            }
+            nav a {
+                margin: 0 10px;
+            }
+            .service-list {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 480px) {
+            h2 {
+                font-size: 1.8em;
+            }
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9em;
+            }
+            nav a {
+                display: block;
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">CIMD Pro</div>
+        <p>Advanced Cloud Monitoring & Observability</p>
+    </header>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/services.html">Our Services</a>
+        <a href="/about.html">About Us</a>
+        <a href="/contact.html">Contact</a>
+        <a href="/api/data">Test API (404)</a>
+        <a href="/error.html">Simulate Error (500)</a>
+    </nav>
+
+    <div class="section-container">
+        <h2>Our Comprehensive Monitoring Services</h2>
+        <p>At CIMD Pro, we offer a range of specialized monitoring services designed to give you unparalleled visibility and control over your cloud infrastructure and applications. Our solutions are built to transform raw data into actionable intelligence, ensuring optimal performance and proactive issue resolution.</p>
+
+        <div class="service-list">
+            <div class="service-item-detail">
+                <h3>Infrastructure Health Monitoring</h3>
+                <p>Gain deep insights into the foundational health of your cloud virtual machines. Proactive monitoring of core resources is crucial to prevent outages and optimize resource allocation.</p>
+                <ul>
+                    <li>Real-time CPU & Memory Utilization</li>
+                    <li>Disk I/O & Storage Capacity Trends</li>
+                    <li>Network Throughput & Bandwidth Usage</li>
+                    <li>System Uptime & Availability Tracking</li>
+                    <li>Resource Bottleneck Identification</li>
+                </ul>
+            </div>
+            <div class="service-item-detail">
+                <h3>Application Performance Monitoring (APM)</h3>
+                <p>Understand how your applications are performing from a user and operational perspective. We integrate detailed application logs to provide comprehensive insights into web server behavior and user interactions.</p>
+                <ul>
+                    <li>Nginx Access & Error Log Ingestion</li>
+                    <li>HTTP Request Method & Path Tracking (GET, POST, etc.)</li>
+                    <li>Response Status Code Analysis (2xx, 3xx, 4xx, 5xx breakdowns)</li>
+                    <li>Simulated User Interaction Logging for Demo Purposes</li>
+                    <li>Identification of Slow Requests & Error Patterns</li>
+                </ul>
+            </div>
+            <div class="service-item-detail">
+                <h3>Database Observability & Performance</h3>
+                <p>Keep a close eye on your PostgreSQL database to ensure data integrity, optimal query performance, and overall database health, which is critical for application responsiveness.</p>
+                <ul>
+                    <li>Detailed Query Performance Metrics</li>
+                    <li>Active & Idle Connection Monitoring</li>
+                    <li>Database Disk Usage & IOPS Analysis</li>
+                    <li>Replication Status and Lag (if applicable)</li>
+                    <li>Deadlock & Lock Contention Detection</li>
+                </ul>
+            </div>
+            <div class="service-item-detail">
+                <h3>Custom Reporting & Alerting</h3>
+                <p>Transform your monitoring data into clear, customizable dashboards and receive timely alerts for critical events. Our approach ensures you're always informed and can react swiftly.</p>
+                <ul>
+                    <li>Fully Customizable Dashboards (e.g., Tableau integration)</li>
+                    <li>Threshold-Based & Anomaly Detection Alerting</li>
+                    <li>Historical Data Analysis & Trend Identification</li>
+                    <li>Performance Baseline Comparisons & Anomaly Detection</li>
+                    <li>Automated Notification Channels</li>
+                </ul>
+            </div>
+            <div class="service-item-detail">
+                <h3>Log Aggregation & Analysis</h3>
+                <p>Centralize and analyze logs from various sources across your infrastructure. This unified view helps in faster troubleshooting and identifying system-wide issues.</p>
+                <ul>
+                    <li>Centralized Log Collection from Nginx & System Sources</li>
+                    <li>Structured Log Parsing & Enrichment</li>
+                    <li>Keyword Search & Filtering Capabilities</li>
+                    <li>Trend Analysis of Logged Events & Errors</li>
+                    <li>Long-term Log Archiving & Retention</li>
+                </ul>
+            </div>
+            <div class="service-item-detail">
+                <h3>Network Latency & Connectivity</h3>
+                <p>Monitor the network performance and connectivity within your cloud environment and to external services to ensure smooth data flow and minimal delays.</p>
+                <ul>
+                    <li>Internal Network Latency Measurement</li>
+                    <li>External Service Reachability Checks</li>
+                    <li>Packet Loss & Jitter Monitoring</li>
+                    <li>DNS Resolution Performance</li>
+                    <li>Firewall & Security Group Interaction Analysis</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="cta-bottom">
+        <h2>Ready to Deepen Your Cloud Insights?</h2>
+        <p>Discover how CIMD Pro can provide the clarity you need to optimize your cloud operations. Let's discuss your specific monitoring needs.</p>
+        <a href="/contact.html" class="btn">Talk to an Expert</a>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 CIMD Pro. All rights reserved. <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        <p class="location">Demonstration Project in Waterloo, Ontario, Canada.</p>
+    </footer>
+</body>
+</html>
