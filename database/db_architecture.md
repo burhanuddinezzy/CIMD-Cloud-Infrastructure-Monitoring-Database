@@ -1,7 +1,16 @@
+<!--Reminder to myself, in the db architecture list of tables you have, separate the tables that will have actual data ingestion vs those that will need mock data ingestion, also create a diagram to show how data will flow from server to telegraf to tables and between tables, for your sanity.-->
 # Database Architecture Summary (Current most up to date 09.05.2025 - DD.MM.YYYY)
 
 This section provides an overview of the Cloud Infrastructure Monitoring Database (CIMD) schema, outlining the purpose of each table and its key columns.
 
+# Tables that will have data ingestion for this project vs Tables that will have mock data
+Tables that will receive mock data are such tables that can't get real data because this is a project.
+
+<!---------------------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------------------->
+## Tables that will have data ingestion
+<!---------------------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------------------->
 * **server_metrics**: Stores real-time performance metrics for individual servers.
     * `server_id`: Identifier of the server.
     * `location_id`: Foreign key referencing the `location` table.
@@ -21,44 +30,6 @@ This section provides an overview of the Cloud Infrastructure Monitoring Databas
     * `disk_write_throughput`: Rate of data written to disk.
 
 
-* **aggregated_metrics**: Stores hourly aggregated performance metrics for servers, providing a historical overview of resource utilization.
-    * `server_id`: Identifier for the server.
-    * `region`: Geographic region of the server.
-    * `timestamp`: Timestamp of the aggregated metrics.
-    * `hourly_avg_cpu_usage`: Hourly average CPU utilization.
-    * `hourly_avg_memory_usage`: Hourly average memory utilization.
-    * `peak_network_usage`: Peak network traffic during the hour.
-    * `peak_disk_usage`: Peak disk I/O during the hour.
-    * `uptime_percentage`: Percentage of uptime for the server during the hour.
-    * `total_requests`: Total number of requests handled by the server during the hour.
-    * `error_rate`: Rate of errors encountered by the server during the hour.
-    * `average_response_time`: Average response time for requests during the hour.
-
-* **alert_configuration**: Defines the rules and thresholds for generating alerts based on various metrics.
-    * `alert_config_id`: Unique identifier for the alert configuration.
-    * `server_id`: Identifier of the server this alert configuration applies to.
-    * `metric_name`: Name of the metric to monitor (e.g., `cpu_usage`, `memory_usage`).
-    * `threshold_value`: The value that triggers the alert.
-    * `alert_frequency`: How often the alert should be triggered if the condition persists.
-    * `contact_email`: Email address to send alert notifications to.
-    * `alert_enabled`: Boolean indicating if the alert is currently active.
-    * `alert_type`: Type of alert (e.g., `threshold`, `anomaly`).
-    * `severity_level`: Severity of the alert (e.g., `critical`, `warning`, `info`).
-
-* **alert_history**: Stores a record of all triggered alerts, including their status and resolution details.
-    * `alert_id`: Unique identifier for the alert instance.
-    * `server_id`: Identifier of the server that triggered the alert.
-    * `alert_type`: Type of alert triggered.
-    * `threshold_value`: The threshold that was breached (if applicable).
-    * `alert_triggered_at`: Timestamp when the alert was triggered.
-    * `resolved_at`: Timestamp when the alert was resolved (can be NULL).
-    * `alert_status`: Current status of the alert (e.g., `open`, `resolved`, `acknowledged`).
-    * `alert_severity`: Severity of the triggered alert.
-    * `alert_description`: Detailed description of the alert.
-    * `resolved_by`: User or system that resolved the alert (can be NULL).
-    * `alert_source`: Component or system that generated the alert.
-    * `impact`: Potential impact of the alert.
-
 * **application_logs**: Stores detailed logs from various applications running on the monitored servers.
     * `log_id`: Unique identifier for the log entry.
     * `server_id`: Identifier of the server the log originated from.
@@ -73,39 +44,8 @@ This section provides an overview of the Cloud Infrastructure Monitoring Databas
     * `log_source`: Specific source within the application that generated the log.
     * `app_id`: Identifier of the application.
 
-* **applications**: A catalog of the applications being monitored.
-    * `app_id`: Unique identifier for the application.
-    * `app_name`: Name of the application.
-    * `app_type`: Type of application (e.g., `web`, `database`, `middleware`).
-    * `hosting_environment`: Environment where the application is hosted (e.g., `production`, `staging`, `development`).
-
-* **cost_data**: Stores information about the cost of the cloud resources being monitored.
-    * `server_id`: Identifier of the server the cost data is associated with.
-    * `region`: Geographic region of the resource.
-    * `timestamp`: Timestamp of the cost data.
-    * `cost_per_hour`: Hourly cost of the resource.
-    * `total_monthly_cost`: Calculated total monthly cost for the resource.
-    * `team_allocation`: Team responsible for the cost.
-    * `cost_per_day`: Calculated daily cost of the resource.
-    * `cost_type`: Type of cost (e.g., `compute`, `storage`, `network`).
-    * `cost_adjustment`: Any manual adjustments to the cost.
-    * `cost_adjustment_reason`: Reason for the cost adjustment.
-    * `cost_basis`: Basis for the cost calculation.
-
-* **downtime_logs**: Records instances of server downtime.
-    * `id`: Unique identifier for the downtime record.
-    * `server_id`: Identifier of the affected server.
-    * `start_time`: Timestamp when the downtime began.
-    * `end_time`: Timestamp when the downtime ended (can be NULL if ongoing).
-    * `downtime_duration_minutes`: Duration of the downtime in minutes.
-    * `downtime_cause`: Reason for the downtime.
-    * `sla_tracking`: Information related to Service Level Agreement (SLA) adherence.
-    * `incident_id`: Identifier of the associated incident (if any).
-    * `is_planned`: Boolean indicating if the downtime was planned.
-    * `recovery_action`: Actions taken to recover from the downtime.
-    * `downtime_id`: An alternative identifier for the downtime event.
-
-* **error_logs**: Stores specific error events captured from the system or applications.
+* **error_logs**: Stores specific error events captured from the system or applications. For all errors (for example a user got an error on their client, things as small as that)
+<!--This will recieve data through a custom script that will get raw data from elasticsearch nginx error logs that will be sent from telegraf. So telegraf sends nginx error logs to elastic search, and then you have a cusotm script to ETL the specific error data you want to insert into your error logs table here on the postgres db-->
     * `error_id`: Unique identifier for the error log entry.
     * `server_id`: Identifier of the server where the error occurred.
     * `timestamp`: Timestamp of the error.
@@ -118,20 +58,41 @@ This section provides an overview of the Cloud Infrastructure Monitoring Databas
     * `error_code`: Specific error code.
     * `recovery_action`: Recommended or taken recovery actions.
     * `log_id`: Foreign key referencing the `application_logs` table (if applicable).
+<!---------------------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------------------->
+## Tables that will have mock data ingestion
+<!---------------------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------------------->
+* **alert_configuration**: Defines the rules and thresholds for generating alerts based on various metrics.
+    * `alert_config_id`: Unique identifier for the alert configuration.
+    * `server_id`: Identifier of the server this alert configuration applies to.
+    * `metric_name`: Name of the metric to monitor (e.g., `cpu_usage`, `memory_usage`).
+    * `threshold_value`: The value that triggers the alert.
+    * `alert_frequency`: How often the alert should be triggered if the condition persists.
+    * `contact_email`: Email address to send alert notifications to.
+    * `alert_enabled`: Boolean indicating if the alert is currently active.
+    * `alert_type`: Type of alert (e.g., `threshold`, `anomaly`).
+    * `severity_level`: Severity of the alert (e.g., `critical`, `warning`, `info`).
 
-* **incident_response_logs**: Tracks the activities and details related to incident response.
-    * `incident_id`: Unique identifier for the incident.
-    * `server_id`: Identifier of the primary server affected by the incident.
-    * `timestamp`: Timestamp of the log entry related to the incident response.
-    * `response_team_id`: Identifier of the team responsible for responding to the incident.
-    * `incident_summary`: Brief summary of the incident.
-    * `access_id`: Identifier related to access during the incident response.
-    * `resolution_time_minutes`: Time taken to resolve the incident in minutes.
-    * `status`: Current status of the incident (e.g., `open`, `investigating`, `resolved`).
-    * `priority_level`: Priority of the incident.
-    * `incident_type`: Type of incident (e.g., `performance degradation`, `security breach`).
-    * `root_cause`: Identified root cause of the incident.
-    * `escalation_flag`: Boolean indicating if the incident was escalated.
+* **applications**: A catalog of the applications being monitored.
+    * `app_id`: Unique identifier for the application.
+    * `app_name`: Name of the application.
+    * `app_type`: Type of application (e.g., `web`, `database`, `middleware`).
+    <!--TO ADD app_status to know whether an app like, for example, nginx web server, is activer or not, which is helpful in trackign downtime-->
+    * `hosting_environment`: Environment where the application is hosted (e.g., `production`, `staging`, `development`).
+
+* **cost_data**: Stores information about the cost of the cloud resources being monitored. This will for a fact have mock data ingestion since we are only using free resources.
+    * `server_id`: Identifier of the server the cost data is associated with.
+    * `region`: Geographic region of the resource.
+    * `timestamp`: Timestamp of the cost data.
+    * `cost_per_hour`: Hourly cost of the resource.
+    * `total_monthly_cost`: Calculated total monthly cost for the resource.
+    * `team_allocation`: Team responsible for the cost.
+    * `cost_per_day`: Calculated daily cost of the resource.
+    * `cost_type`: Type of cost (e.g., `compute`, `storage`, `network`).
+    * `cost_adjustment`: Any manual adjustments to the cost.
+    * `cost_adjustment_reason`: Reason for the cost adjustment.
+    * `cost_basis`: Basis for the cost calculation.
 
 * **location**: Stores geographical location information.
     * `location_id`: Unique identifier for the location.
@@ -148,33 +109,6 @@ This section provides an overview of the Cloud Infrastructure Monitoring Databas
     * `department`: Department the team member belongs to.
     * `personal_email`: Personal email address of the team member.
     * `location_id`: Foreign key referencing the `location` table.
-
-* **resource_allocation**: Details the allocation of resources (CPU, memory, disk) to servers and applications.
-    * `server_id`: Identifier of the server.
-    * `app_id`: Identifier of the application (can be NULL if allocated at the server level).
-    * `workload_type`: Type of workload running on the allocated resources.
-    * `allocated_memory`: Amount of memory allocated (e.g., in GB).
-    * `allocated_cpu`: Number of CPU cores allocated.
-    * `allocated_disk_space`: Amount of disk space allocated (e.g., in GB).
-    * `resource_tag`: Optional tag for the resource allocation.
-    * `timestamp`: Timestamp of the allocation record.
-    * `utilization_percentage`: Current utilization percentage of the allocated resources.
-    * `autoscaling_enabled`: Boolean indicating if autoscaling is enabled for these resources.
-    * `max_allocated_memory`: Maximum allocated memory if autoscaling is enabled.
-    * `max_allocated_cpu`: Maximum allocated CPU cores if autoscaling is enabled.
-    * `max_allocated_disk_space`: Maximum allocated disk space if autoscaling is enabled.
-    * `actual_memory_usage`: Current actual memory usage.
-    * `actual_cpu_usage`: Current actual CPU usage.
-    * `actual_disk_usage`: Current actual disk usage.
-    * `cost_per_hour`: Hourly cost associated with the allocated resources.
-    * `allocation_status`: Current status of the resource allocation.
-
-* **spatial_ref_sys**: Standard table for storing spatial reference system definitions (often included by PostGIS extension).
-    * `srid`: Spatial Reference System Identifier.
-    * `auth_name`: Authority name for the SRS.
-    * `auth_srid`: Authority-specific SRID.
-    * `srtext`: Well-known text representation of the SRS.
-    * `proj4text`: PROJ.4 representation of the SRS.
 
 * **team_management**: Stores information about the teams responsible for managing the infrastructure.
     * `team_id`: Unique identifier for the team.
@@ -218,7 +152,92 @@ This section provides an overview of the Cloud Infrastructure Monitoring Databas
     * `last_login`: Timestamp of the user's last login.
     * `location_id`: Foreign key referencing the `location` table for the user's location.
 
+* **incident_response_logs**: Tracks the activities and details related to incident response. For high level major issues logging.
+    * `incident_id`: Unique identifier for the incident.
+    * `server_id`: Identifier of the primary server affected by the incident.
+    * `timestamp`: Timestamp of the log entry related to the incident response.
+    * `response_team_id`: Identifier of the team responsible for responding to the incident.
+    * `incident_summary`: Brief summary of the incident.
+    * `access_id`: Identifier related to access during the incident response.
+    <!--What is access_id? If not needed, remove-->
+    * `resolution_time_minutes`: Time taken to resolve the incident in minutes.
+    * `status`: Current status of the incident (e.g., `open`, `investigating`, `resolved`).
+    * `priority_level`: Priority of the incident.
+    * `incident_type`: Type of incident (e.g., `performance degradation`, `security breach`).
+    * `root_cause`: Identified root cause of the incident.
+    * `escalation_flag`: Boolean indicating if the incident was escalated.
 
+* **resource_allocation**: Details the allocation of resources (CPU, memory, disk) to servers and applications.
+    * `server_id`: Identifier of the server.
+    * `app_id`: Identifier of the application (can be NULL if allocated at the server level).
+    * `workload_type`: Type of workload running on the allocated resources.
+    * `allocated_memory`: Amount of memory allocated (e.g., in GB).
+    * `allocated_cpu`: Number of CPU cores allocated.
+    * `allocated_disk_space`: Amount of disk space allocated (e.g., in GB).
+    * `resource_tag`: Optional tag for the resource allocation.
+    * `timestamp`: Timestamp of the allocation record.
+    * `utilization_percentage`: Current utilization percentage of the allocated resources.
+    * `autoscaling_enabled`: Boolean indicating if autoscaling is enabled for these resources.
+    * `max_allocated_memory`: Maximum allocated memory if autoscaling is enabled.
+    * `max_allocated_cpu`: Maximum allocated CPU cores if autoscaling is enabled.
+    * `max_allocated_disk_space`: Maximum allocated disk space if autoscaling is enabled.
+    * `actual_memory_usage`: Current actual memory usage.
+    * `actual_cpu_usage`: Current actual CPU usage.
+    * `actual_disk_usage`: Current actual disk usage.
+    * `cost_per_hour`: Hourly cost associated with the allocated resources.
+    * `allocation_status`: Current status of the resource allocation.
+
+
+<!---------------------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------------------->
+## Tables that will get most of their data from other tables
+<!---------------------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------------------->
+* **aggregated_metrics**: Stores hourly aggregated performance metrics for servers, providing a historical overview of resource utilization.
+    * `server_id`: Identifier for the server.
+    * `region`: Geographic region of the server.
+    * `timestamp`: Timestamp of the aggregated metrics.
+    * `hourly_avg_cpu_usage`: Hourly average CPU utilization.
+    * `hourly_avg_memory_usage`: Hourly average memory utilization.
+    * `peak_network_usage`: Peak network traffic during the hour.
+    * `peak_disk_usage`: Peak disk I/O during the hour.
+    * `uptime_percentage`: Percentage of uptime for the server during the hour.
+    * `total_requests`: Total number of requests handled by the server during the hour.
+    * `error_rate`: Rate of errors encountered by the server during the hour.
+    * `average_response_time`: Average response time for requests during the hour.
+
+* **alert_history**: Stores a record of all triggered alerts, including their status and resolution details.
+    * `alert_id`: Unique identifier for the alert instance.
+    * `server_id`: Identifier of the server that triggered the alert.
+    * `alert_type`: Type of alert triggered.
+    * `threshold_value`: The threshold that was breached (if applicable).
+    * `alert_triggered_at`: Timestamp when the alert was triggered.
+    * `resolved_at`: Timestamp when the alert was resolved (can be NULL).
+    * `alert_status`: Current status of the alert (e.g., `open`, `resolved`, `acknowledged`).
+    * `alert_severity`: Severity of the triggered alert.
+    * `alert_description`: Detailed description of the alert.
+    * `resolved_by`: User or system that resolved the alert (can be NULL).
+    * `alert_source`: Component or system that generated the alert.
+    * `impact`: Potential impact of the alert.
+
+* **downtime_logs**: Records instances of server downtime.
+<!--Will get data from server_metrics (cpu = 0; cpu_idle = 100, etc.) and applications table (app_status of nginx web server is a active or not)-->
+    * `id`: Unique identifier for the downtime record.
+    * `server_id`: Identifier of the affected server.
+    * `start_time`: Timestamp when the downtime began.
+    * `end_time`: Timestamp when the downtime ended (can be NULL if ongoing).
+    * `downtime_duration_minutes`: Duration of the downtime in minutes.
+    * `downtime_cause`: Reason for the downtime.
+    * `sla_tracking`: Information related to Service Level Agreement (SLA) adherence.
+    * `incident_id`: Identifier of the associated incident (if any).
+    * `is_planned`: Boolean indicating if the downtime was planned.
+    * `recovery_action`: Actions taken to recover from the downtime.
+    * `downtime_id`: An alternative identifier for the downtime event.
+<!---------------------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------------------->
+<!--To determine which of the three above it falls under-->
+<!---------------------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------------------->
 
 
 

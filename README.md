@@ -82,6 +82,9 @@ Fully documented here: [Database_Documentation](database)
 ## Data Ingestion (Telegraf):
 Brief description of scripts/ methods for pupulating db with data (TO BE ADDED; Data Ingestion will be done with Telegraf)
 
+## Complete Project Plan (Last updated May 18,2025)
+
+
 ## Future Enhancements:
 TO BE ADDED IN THE FUTURE (Project is still in progress)
 

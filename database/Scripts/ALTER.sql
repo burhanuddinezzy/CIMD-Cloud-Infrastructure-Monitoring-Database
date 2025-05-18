@@ -1,3 +1,5 @@
+alter table server_metrics drop column db_queries_per_sec;
+
 SELECT
     t.table_schema,
     t.table_name,
