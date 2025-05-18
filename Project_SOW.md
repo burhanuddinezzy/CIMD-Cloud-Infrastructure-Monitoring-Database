@@ -44,11 +44,11 @@ Serves as the central relational database for highly structured data, metrics, a
 #### Tables with Live Data Ingestion (via Telegraf or Custom Scripts):
 
 - `server_metrics`: Stores real-time performance metrics for individual servers (e.g., cpu_usage, memory_usage, network_in_bytes).
-- `application_logs`: Stores detailed, structured logs from various applications. While designed for potential ingestion from a custom application, for this project, these logs are sourced from processed Nginx access logs via Custom Python Scripts (demonstrating extraction and transformation of web server logs into a more structured application context).
 - `error_logs`: Stores classified and actionable error events. This table is populated by Custom Python Scripts that process and categorize raw Nginx error logs originating from Elasticsearch.
 
 #### Tables Populated with Mock Data (for Project Scope Demonstration):
 
+- `application_logs`: Stores detailed, structured logs from various applications. While designed for potential ingestion from a custom application (which I'm not going to build as it will increase SOW a good bit; And the SOW has already increase quite a bit. This project needs to come to an end at some point.), for this project, these logs mock log data.
 - `alert_configuration`: Defines rules and thresholds for generating alerts.
 - `applications`: A catalog of monitored applications.
 - `cost_data`: Tracks cloud resource costs.
@@ -65,7 +65,7 @@ Serves as the central relational database for highly structured data, metrics, a
 #### Tables Populated from Other Tables (Derived/Aggregated Data):
 
 - `aggregated_metrics`: Stores hourly aggregated performance metrics, derived from `server_metrics`.
-- `alert_history`: Stores a record of all triggered alerts, derived from `alert_configuration` and real-time metric/log analysis.
+- `alert_history`: Stores a record of all triggered alerts, derived from `alert_configuration` and real-time metric/log analysis. (This may be pushed to mock data side if it doesnt receive enough data. alert_configuration will be set such alerts are triggered at normal usage from server_metrics since I don't expect any real alert level usage from server_metrics since there isn't much that will happen to cause that)
 - `downtime_logs`: Records instances of server downtime, populated by Custom Python Scripts analyzing metrics from `server_metrics` and relevant application status from logs (from Elasticsearch).
 
 ---
@@ -130,24 +130,21 @@ graph TD
         Telegraf -->|Raw Nginx Logs| Elasticsearch[Elasticsearch]
         
         Elasticsearch -->|Nginx Error Logs| CustomScript[Custom Python Script]
-        Elasticsearch -->|Nginx Access Logs| CustomScript
+        Application logs are collected by Elasticsearch and used directly in Grafana, no custom script
 
         CustomScript -->|Processed Errors| PostgreSQL
-        CustomScript -->|Processed Access Logs| PostgreSQL
 
         PostgreSQL -->|vmserver_metrics| Dashboard_Grafana[Grafana]
         PostgreSQL -->|error_logs| Dashboard_Grafana
         PostgreSQL -->|downtime_logs| Dashboard_Grafana
         PostgreSQL -->|All Structured Data| Dashboard_BI[Tableau / Power BI]
+        Elasticsearch -->|Nginx Access Logs| Dashboard_Grafana
     end
 
     subgraph Dashboards
         Dashboard_Grafana
         Dashboard_BI
     end
-
-    style Dashboard_Grafana fill:#add8e6,stroke:#333,stroke-width:2px
-    style Dashboard_BI fill:#90ee90,stroke:#333,stroke-width:2px
 
     subgraph PostgreSQL Tables
         T1(vmserver_metrics)

@@ -30,20 +30,6 @@ Tables that will receive mock data are such tables that can't get real data beca
     * `disk_write_throughput`: Rate of data written to disk.
 
 
-* **application_logs**: Stores detailed logs from various applications running on the monitored servers.
-    * `log_id`: Unique identifier for the log entry.
-    * `server_id`: Identifier of the server the log originated from.
-    * `app_name`: Name of the application that generated the log.
-    * `log_level`: Severity level of the log (e.g., `INFO`, `WARNING`, `ERROR`).
-    * `error_code`: Specific error code associated with the log (if applicable).
-    * `log_timestamp`: Timestamp of the log entry.
-    * `trace_id`: Identifier for a specific request or transaction across multiple logs.
-    * `span_id`: Identifier for a specific operation within a trace.
-    * `source_ip`: IP address of the source of the log (if applicable).
-    * `user_id`: Identifier of the user associated with the log (if applicable).
-    * `log_source`: Specific source within the application that generated the log.
-    * `app_id`: Identifier of the application.
-
 * **error_logs**: Stores specific error events captured from the system or applications. For all errors (for example a user got an error on their client, things as small as that)
 <!--This will recieve data through a custom script that will get raw data from elasticsearch nginx error logs that will be sent from telegraf. So telegraf sends nginx error logs to elastic search, and then you have a cusotm script to ETL the specific error data you want to insert into your error logs table here on the postgres db-->
     * `error_id`: Unique identifier for the error log entry.
@@ -63,6 +49,20 @@ Tables that will receive mock data are such tables that can't get real data beca
 ## Tables that will have mock data ingestion
 <!---------------------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------------------->
+* **application_logs**: Stores detailed logs from various applications running on the monitored servers.
+    * `log_id`: Unique identifier for the log entry.
+    * `server_id`: Identifier of the server the log originated from.
+    * `app_name`: Name of the application that generated the log.
+    * `log_level`: Severity level of the log (e.g., `INFO`, `WARNING`, `ERROR`).
+    * `error_code`: Specific error code associated with the log (if applicable).
+    * `log_timestamp`: Timestamp of the log entry.
+    * `trace_id`: Identifier for a specific request or transaction across multiple logs.
+    * `span_id`: Identifier for a specific operation within a trace.
+    * `source_ip`: IP address of the source of the log (if applicable).
+    * `user_id`: Identifier of the user associated with the log (if applicable).
+    * `log_source`: Specific source within the application that generated the log.
+    * `app_id`: Identifier of the application.
+
 * **alert_configuration**: Defines the rules and thresholds for generating alerts based on various metrics.
     * `alert_config_id`: Unique identifier for the alert configuration.
     * `server_id`: Identifier of the server this alert configuration applies to.
