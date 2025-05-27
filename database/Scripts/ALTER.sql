@@ -1,5 +1,10 @@
 alter table server_metrics drop column db_queries_per_sec;
 
+INSERT INTO public.location (location_id, location_name) 
+VALUES ('550e8400-e29b-41d4-a716-446655440001', 'Default Location')
+ON CONFLICT (location_id) DO NOTHING;
+
+
 SELECT
     t.table_schema,
     t.table_name,
@@ -194,4 +199,94 @@ add constraint f_key_team_office_location_id_to_location foreign key (team_offic
 alter table cost_data
 drop column region;
 
+
+-- I need to do the below, because i just realized that the server_metrics table will always have more than one row per server_id...
+
+-- 1. Add timestamp columns to referencing tables if not present
+ALTER TABLE user_access_logs ADD COLUMN IF NOT EXISTS timestamp TIMESTAMP;
+ALTER TABLE aggregated_metrics ADD COLUMN IF NOT EXISTS timestamp TIMESTAMP;
+ALTER TABLE alert_history ADD COLUMN IF NOT EXISTS timestamp TIMESTAMP;
+ALTER TABLE application_logs ADD COLUMN IF NOT EXISTS timestamp TIMESTAMP;
+ALTER TABLE resource_allocation ADD COLUMN IF NOT EXISTS timestamp TIMESTAMP;
+ALTER TABLE alert_configuration ADD COLUMN IF NOT EXISTS timestamp TIMESTAMP;
+ALTER TABLE cost_data ADD COLUMN IF NOT EXISTS timestamp TIMESTAMP;
+ALTER TABLE downtime_logs ADD COLUMN IF NOT EXISTS timestamp TIMESTAMP;
+ALTER TABLE error_logs ADD COLUMN IF NOT EXISTS timestamp TIMESTAMP;
+ALTER TABLE incident_response_logs ADD COLUMN IF NOT EXISTS timestamp TIMESTAMP;
+ALTER TABLE team_server_assignment ADD COLUMN IF NOT EXISTS timestamp TIMESTAMP;
+
+-- 2. Drop old foreign key constraints
+ALTER TABLE user_access_logs DROP CONSTRAINT IF EXISTS user_access_logs_server_id_fkey;
+ALTER TABLE aggregated_metrics DROP CONSTRAINT IF EXISTS aggregated_metrics_server_id_fkey;
+ALTER TABLE alert_history DROP CONSTRAINT IF EXISTS alert_history_server_id_fkey;
+ALTER TABLE application_logs DROP CONSTRAINT IF EXISTS application_logs_server_id_fkey;
+ALTER TABLE resource_allocation DROP CONSTRAINT IF EXISTS resource_allocation_server_id_fkey;
+ALTER TABLE alert_configuration DROP CONSTRAINT IF EXISTS alert_configuration_server_id_fkey;
+ALTER TABLE cost_data DROP CONSTRAINT IF EXISTS cost_data_server_id_fkey;
+ALTER TABLE downtime_logs DROP CONSTRAINT IF EXISTS downtime_logs_server_id_fkey;
+ALTER TABLE error_logs DROP CONSTRAINT IF EXISTS error_logs_server_id_fkey;
+ALTER TABLE incident_response_logs DROP CONSTRAINT IF EXISTS incident_response_logs_server_id_fkey;
+ALTER TABLE team_server_assignment DROP CONSTRAINT IF EXISTS team_server_assignment_server_id_fkey;
+
+-- 3. Drop the old primary key
+ALTER TABLE server_metrics DROP CONSTRAINT server_metrics_pkey;
+
+-- 4. Add the new composite primary key
+ALTER TABLE server_metrics ADD PRIMARY KEY (server_id, timestamp);
+
+-- 5. Recreate foreign keys to reference the new composite PK
+ALTER TABLE user_access_logs
+  ADD CONSTRAINT user_access_logs_server_id_timestamp_fkey
+  FOREIGN KEY (server_id, timestamp)
+  REFERENCES server_metrics(server_id, timestamp);
+
+ALTER TABLE aggregated_metrics
+  ADD CONSTRAINT aggregated_metrics_server_id_timestamp_fkey
+  FOREIGN KEY (server_id, timestamp)
+  REFERENCES server_metrics(server_id, timestamp);
+
+ALTER TABLE alert_history
+  ADD CONSTRAINT alert_history_server_id_timestamp_fkey
+  FOREIGN KEY (server_id, timestamp)
+  REFERENCES server_metrics(server_id, timestamp);
+
+ALTER TABLE application_logs
+  ADD CONSTRAINT application_logs_server_id_timestamp_fkey
+  FOREIGN KEY (server_id, timestamp)
+  REFERENCES server_metrics(server_id, timestamp);
+
+ALTER TABLE resource_allocation
+  ADD CONSTRAINT resource_allocation_server_id_timestamp_fkey
+  FOREIGN KEY (server_id, timestamp)
+  REFERENCES server_metrics(server_id, timestamp);
+
+ALTER TABLE alert_configuration
+  ADD CONSTRAINT alert_configuration_server_id_timestamp_fkey
+  FOREIGN KEY (server_id, timestamp)
+  REFERENCES server_metrics(server_id, timestamp);
+
+ALTER TABLE cost_data
+  ADD CONSTRAINT cost_data_server_id_timestamp_fkey
+  FOREIGN KEY (server_id, timestamp)
+  REFERENCES server_metrics(server_id, timestamp);
+
+ALTER TABLE downtime_logs
+  ADD CONSTRAINT downtime_logs_server_id_timestamp_fkey
+  FOREIGN KEY (server_id, timestamp)
+  REFERENCES server_metrics(server_id, timestamp);
+
+ALTER TABLE error_logs
+  ADD CONSTRAINT error_logs_server_id_timestamp_fkey
+  FOREIGN KEY (server_id, timestamp)
+  REFERENCES server_metrics(server_id, timestamp);
+
+ALTER TABLE incident_response_logs
+  ADD CONSTRAINT incident_response_logs_server_id_timestamp_fkey
+  FOREIGN KEY (server_id, timestamp)
+  REFERENCES server_metrics(server_id, timestamp);
+
+ALTER TABLE team_server_assignment
+  ADD CONSTRAINT team_server_assignment_server_id_timestamp_fkey
+  FOREIGN KEY (server_id, timestamp)
+  REFERENCES server_metrics(server_id, timestamp);
 
