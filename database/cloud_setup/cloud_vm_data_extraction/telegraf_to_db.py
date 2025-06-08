@@ -1,3 +1,9 @@
+# script.py
+# sudo nano /etc/systemd/system/script.service
+# sudo journalctl -u script.service --since "10 minutes ago"
+# sudo journalctl -u script.service -n 50
+
+
 import time
 import json
 import psycopg2
@@ -151,7 +157,6 @@ def parse_metric_line(line):
                 row["disk_write_ops_per_sec"] = max(row.get("disk_write_ops_per_sec") or 0, write_ops)
                 row["disk_read_throughput"] = max(row.get("disk_read_throughput") or 0, read_throughput)
                 row["disk_write_throughput"] = max(row.get("disk_write_throughput") or 0, write_throughput)
-                print(f"DEBUG: {device} read_ops={read_ops} write_ops={write_ops} read_throughput={read_throughput} write_throughput={write_throughput}")
         elif name == "net" and tags.get("interface") == "ens3":
             net_in = fields.get("network_in_bytes")
             net_out = fields.get("network_out_bytes")
