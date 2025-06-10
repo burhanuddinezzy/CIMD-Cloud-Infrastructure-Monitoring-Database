@@ -1,5 +1,7 @@
+select * from public.server;
 select * from server_metrics;
-SELECT * FROM public.location;
+select*from team_management;
+SELECT * FROM public.location; 
 SELECT * FROM public.team_management;
 SELECT * FROM public.team_members;
 SELECT * FROM public.members;
@@ -17,7 +19,45 @@ SELECT * FROM public.downtime_logs;
 SELECT * FROM public.error_logs;
 SELECT * FROM public.incident_response_logs;
 SELECT * FROM public.team_server_assignment;
+
+
+SELECT team_id FROM public.team_management;
 ---
+DELETE FROM public.server;
+DELETE FROM server_metrics;
+
+DELETE FROM team_management;
+
+--DELETE FROM public.location;
+
+DELETE FROM public.team_management;
+DELETE FROM public.team_members;
+DELETE FROM public.members;
+DELETE FROM public.users;
+--DELETE FROM public.applications;
+DELETE FROM public.server_metrics;
+DELETE FROM public.aggregated_metrics;
+DELETE FROM public.alert_history;
+DELETE FROM public.application_logs;
+DELETE FROM public.resource_allocation;
+DELETE FROM public.user_access_logs;
+DELETE FROM public.alert_configuration;
+DELETE FROM public.cost_data;
+DELETE FROM public.downtime_logs;
+DELETE FROM public.error_logs;
+DELETE FROM public.incident_response_logs;
+DELETE FROM public.team_server_assignment;
+
+--To remove duplicate rows in public.location based on the location_geom column (keeping only one row per unique location_geom), you can use a query like this:
+DELETE FROM public.location
+WHERE ctid NOT IN (
+SELECT min(ctid)
+FROM public.location
+GROUP BY location_geom
+);
+
+
+
 -- 1. Server Resource Utilization Over Time (for Grafana time series)
 SELECT
     sm."timestamp",
@@ -420,6 +460,11 @@ GROUP BY l.location_name
 ORDER BY incident_count DESC
 LIMIT 10;
 
+SELECT *
+FROM server_metrics
+WHERE timestamp >= (SELECT MAX(timestamp)::date FROM server_metrics);
+
+
 -- 4. Compliance: List all servers outside the United States (by country field) and their recent error counts
 SELECT
     sm.server_id,
@@ -469,5 +514,5 @@ BEGIN
     END IF;
 END$$;
 
-alter table team_management 
-drop constraint member_id_fkey_team_members;
+INSERT INTO public.server (server_id, location_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440000', '550e8400-e29b-41d4-a716-446655440001');

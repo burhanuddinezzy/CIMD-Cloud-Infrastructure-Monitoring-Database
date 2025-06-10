@@ -290,3 +290,50 @@ ALTER TABLE team_server_assignment
   FOREIGN KEY (server_id, timestamp)
   REFERENCES server_metrics(server_id, timestamp);
 
+alter table team_management
+drop constraint team_management_team_office_location_id_key;
+
+alter table team_members 
+drop constraint role_check;
+
+alter table members  
+drop constraint members_location_id_key;
+
+
+-- 1. Drop the existing constraint (replace the constraint name if different)
+ALTER TABLE public.alert_configuration
+DROP CONSTRAINT alert_configuration_server_id_timestamp_fkey;
+
+-- 2. Add the new constraint on just server_id
+ALTER TABLE public.alert_configuration
+ADD CONSTRAINT alert_configuration_server_id_fkey
+FOREIGN KEY (server_id) REFERENCES public.server_metrics(server_id);
+
+alter table team_management 
+drop constraint member_id_fkey_team_members;
+
+
+CREATE TABLE public.server (
+    server_id UUID PRIMARY KEY,
+    location_id UUID NOT NULL,
+    FOREIGN KEY (location_id) REFERENCES public.location(location_id)
+);
+
+-- Drop the old constraint (if it exists)
+ALTER TABLE public.alert_configuration
+DROP CONSTRAINT IF EXISTS alert_configuration_server_id_timestamp_fkey;
+
+-- Add the new constraint referencing only server_id from the server table
+ALTER TABLE public.alert_configuration
+ADD CONSTRAINT alert_configuration_server_id_fkey
+FOREIGN KEY (server_id) REFERENCES public.server(server_id);
+
+
+-- Drop the old constraint if it exists
+ALTER TABLE public.team_server_assignment
+DROP CONSTRAINT IF EXISTS team_server_assignment_server_id_timestamp_fkey;
+
+-- Add the new constraint referencing only server_id from the server table
+ALTER TABLE public.team_server_assignment
+ADD CONSTRAINT team_server_assignment_server_id_fkey
+FOREIGN KEY (server_id) REFERENCES public.server(server_id);
