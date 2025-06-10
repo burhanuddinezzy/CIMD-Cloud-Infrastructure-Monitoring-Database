@@ -337,3 +337,43 @@ DROP CONSTRAINT IF EXISTS team_server_assignment_server_id_timestamp_fkey;
 ALTER TABLE public.team_server_assignment
 ADD CONSTRAINT team_server_assignment_server_id_fkey
 FOREIGN KEY (server_id) REFERENCES public.server(server_id);
+
+alter table public.resource_allocation 
+drop constraint resource_allocation_server_id_timestamp_fkey;
+ALTER TABLE public.resource_allocation
+ADD CONSTRAINT resource_allocation_server_id_fkey
+FOREIGN KEY (server_id) REFERENCES public.server(server_id);
+
+alter table public.cost_data
+drop constraint cost_data_server_id_timestamp_fkey;
+ALTER TABLE public.cost_data
+ADD CONSTRAINT cost_data_server_id_fkey
+FOREIGN KEY (server_id) REFERENCES public.server(server_id);
+
+-- Drop the old primary key constraint
+ALTER TABLE public.cost_data DROP CONSTRAINT cost_data_pkey;
+
+-- Add a new composite primary key
+ALTER TABLE public.cost_data ADD CONSTRAINT cost_data_pkey PRIMARY KEY (server_id, "timestamp", team_allocation);
+
+ALTER TABLE public.users DROP constraint users_username_key;
+
+ALTER TABLE public.users DROP constraint users_location_id_key;
+
+ALTER TABLE public.resource_allocation DROP CONSTRAINT resource_allocation_pkey;
+ALTER TABLE public.resource_allocation  ADD CONSTRAINT resource_allocation_pkey  PRIMARY KEY (server_id,  app_id,  "timestamp");
+
+ALTER TABLE public.incident_response_logs DROP CONSTRAINT incident_response_logs_server_id_timestamp_fkey;
+ALTER TABLE public.incident_response_logs
+ADD CONSTRAINT incident_response_logs_server_id_fkey
+FOREIGN KEY (server_id) REFERENCES public.server(server_id);
+
+ALTER TABLE public.application_logs DROP CONSTRAINT application_logs_app_id_key;
+
+-- Step 1: Drop the old constraint
+ALTER TABLE public.downtime_logs DROP CONSTRAINT downtime_logs_server_id_timestamp_fkey;
+
+-- Step 2: Add a new constraint referencing only server_id
+ALTER TABLE public.downtime_logs
+ADD CONSTRAINT downtime_logs_server_id_fkey
+FOREIGN KEY (server_id) REFERENCES public."server"(server_id);
