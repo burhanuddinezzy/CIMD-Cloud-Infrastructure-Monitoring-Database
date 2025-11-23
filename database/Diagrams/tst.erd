@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagram version="1" name="tst">
+	<entities>
+		<data-source id="postgres-jdbc-19645cdf1f4-239a1a7df4b1918d">
+			<entity id="1" name="aggregated_metrics" fq-name="public.aggregated_metrics">
+				<path name="public"/>
+				<path name="postgres"/>
+			</entity>
+			<entity id="2" name="alert_configuration" fq-name="public.alert_configuration">
+				<path name="public"/>
+				<path name="postgres"/>
+			</entity>
+			<entity id="3" name="alert_history" fq-name="public.alert_history">
+				<path name="public"/>
+				<path name="postgres"/>
+			</entity>
+			<entity id="4" name="application_logs" fq-name="public.application_logs">
+				<path name="public"/>
+				<path name="postgres"/>
+			</entity>
+			<entity id="5" name="applications" fq-name="public.applications">
+				<path name="public"/>
+				<path name="postgres"/>
+			</entity>
+			<entity id="6" name="cost_data" fq-name="public.cost_data">
+				<path name="public"/>
+				<path name="postgres"/>
+			</entity>
+			<entity id="7" name="downtime_logs" fq-name="public.downtime_logs">
+				<path name="public"/>
+				<path name="postgres"/>
+			</entity>
+			<entity id="8" name="error_logs" fq-name="public.error_logs">
+				<path name="public"/>
+				<path name="postgres"/>
+			</entity>
+			<entity id="9" name="incident_response_logs" fq-name="public.incident_response_logs">
+				<path name="public"/>
+				<path name="postgres"/>
+			</entity>
+			<entity id="10" name="location" fq-name="public.&quot;location&quot;">
+				<path name="public"/>
+				<path name="postgres"/>
+			</entity>
+			<entity id="11" name="members" fq-name="public.members">
+				<path name="public"/>
+				<path name="postgres"/>
+			</entity>
+			<entity id="12" name="resource_allocation" fq-name="public.resource_allocation">
+				<path name="public"/>
+				<path name="postgres"/>
+			</entity>
+			<entity id="13" name="server" fq-name="public.&quot;server&quot;">
+				<path name="public"/>
+				<path name="postgres"/>
+			</entity>
+			<entity id="14" name="server_metrics" fq-name="public.server_metrics">
+				<path name="public"/>
+				<path name="postgres"/>
+			</entity>
+			<entity id="15" name="spatial_ref_sys" fq-name="public.spatial_ref_sys">
+				<path name="public"/>
+				<path name="postgres"/>
+			</entity>
+			<entity id="16" name="team_management" fq-name="public.team_management">
+				<path name="public"/>
+				<path name="postgres"/>
+			</entity>
+			<entity id="17" name="team_members" fq-name="public.team_members">
+				<path name="public"/>
+				<path name="postgres"/>
+			</entity>
+			<entity id="18" name="team_server_assignment" fq-name="public.team_server_assignment">
+				<path name="public"/>
+				<path name="postgres"/>
+			</entity>
+			<entity id="19" name="user_access_logs" fq-name="public.user_access_logs">
+				<path name="public"/>
+				<path name="postgres"/>
+			</entity>
+			<entity id="20" name="users" fq-name="public.users">
+				<path name="public"/>
+				<path name="postgres"/>
+			</entity>
+		</data-source>
+	</entities>
+	<relations>
+		<relation name="log_id_f_key_application_logs" fq-name="public.error_logs.log_id_f_key_application_logs" type="fk" pk-ref="4" fk-ref="8"/>
+		<relation name="app_id_f_key_applications" fq-name="public.application_logs.app_id_f_key_applications" type="fk" pk-ref="5" fk-ref="4"/>
+		<relation name="resource_allocation_app_id_fkey" fq-name="public.resource_allocation.resource_allocation_app_id_fkey" type="fk" pk-ref="5" fk-ref="12"/>
+		<relation name="downtime_logs_incident_id_fkey" fq-name="public.downtime_logs.downtime_logs_incident_id_fkey" type="fk" pk-ref="9" fk-ref="7"/>
+		<relation name="error_logs_incident_id_fkey" fq-name="public.error_logs.error_logs_incident_id_fkey" type="fk" pk-ref="9" fk-ref="8"/>
+		<relation name="f_key_location_id_to_location" fq-name="public.members.f_key_location_id_to_location" type="fk" pk-ref="10" fk-ref="11"/>
+		<relation name="server_location_id_fkey" fq-name="public.&quot;server&quot;.server_location_id_fkey" type="fk" pk-ref="10" fk-ref="13"/>
+		<relation name="f_key_location_id_to_location" fq-name="public.server_metrics.f_key_location_id_to_location" type="fk" pk-ref="10" fk-ref="14"/>
+		<relation name="f_key_team_office_location_id_to_location" fq-name="public.team_management.f_key_team_office_location_id_to_location" type="fk" pk-ref="10" fk-ref="16"/>
+		<relation name="f_key_constraint_id_to_location" fq-name="public.users.f_key_constraint_id_to_location" type="fk" pk-ref="10" fk-ref="20"/>
+		<relation name="team_lead_id_fkeyteam_members" fq-name="public.team_management.team_lead_id_fkeyteam_members" type="fk" pk-ref="11" fk-ref="16"/>
+		<relation name="member_id_fkey_members" fq-name="public.team_members.member_id_fkey_members" type="fk" pk-ref="11" fk-ref="17"/>
+		<relation name="alert_configuration_server_id_fkey" fq-name="public.alert_configuration.alert_configuration_server_id_fkey" type="fk" pk-ref="13" fk-ref="2"/>
+		<relation name="application_logs_server_id_fkey" fq-name="public.application_logs.application_logs_server_id_fkey" type="fk" pk-ref="13" fk-ref="4"/>
+		<relation name="cost_data_server_id_fkey" fq-name="public.cost_data.cost_data_server_id_fkey" type="fk" pk-ref="13" fk-ref="6"/>
+		<relation name="downtime_logs_server_id_fkey" fq-name="public.downtime_logs.downtime_logs_server_id_fkey" type="fk" pk-ref="13" fk-ref="7"/>
+		<relation name="error_logs_server_id_fkey" fq-name="public.error_logs.error_logs_server_id_fkey" type="fk" pk-ref="13" fk-ref="8"/>
+		<relation name="incident_response_logs_server_id_fkey" fq-name="public.incident_response_logs.incident_response_logs_server_id_fkey" type="fk" pk-ref="13" fk-ref="9"/>
+		<relation name="resource_allocation_server_id_fkey" fq-name="public.resource_allocation.resource_allocation_server_id_fkey" type="fk" pk-ref="13" fk-ref="12"/>
+		<relation name="team_server_assignment_server_id_fkey" fq-name="public.team_server_assignment.team_server_assignment_server_id_fkey" type="fk" pk-ref="13" fk-ref="18"/>
+		<relation name="aggregated_metrics_server_id_timestamp_fkey" fq-name="public.aggregated_metrics.aggregated_metrics_server_id_timestamp_fkey" type="fk" pk-ref="14" fk-ref="1"/>
+		<relation name="alert_history_server_id_timestamp_fkey" fq-name="public.alert_history.alert_history_server_id_timestamp_fkey" type="fk" pk-ref="14" fk-ref="3"/>
+		<relation name="user_access_logs_server_id_timestamp_fkey" fq-name="public.user_access_logs.user_access_logs_server_id_timestamp_fkey" type="fk" pk-ref="14" fk-ref="19"/>
+		<relation name="f_key_contact_email_to_team_management" fq-name="public.alert_configuration.f_key_contact_email_to_team_management" type="fk" pk-ref="16" fk-ref="2"/>
+		<relation name="f_key_team_allocation" fq-name="public.cost_data.f_key_team_allocation" type="fk" pk-ref="16" fk-ref="6"/>
+		<relation name="incident_response_logs_response_team_id_fkey" fq-name="public.incident_response_logs.incident_response_logs_response_team_id_fkey" type="fk" pk-ref="16" fk-ref="9"/>
+		<relation name="f_key_team_id_to_team_management" fq-name="public.team_members.f_key_team_id_to_team_management" type="fk" pk-ref="16" fk-ref="17"/>
+		<relation name="team_id_fkey_team_management" fq-name="public.team_members.team_id_fkey_team_management" type="fk" pk-ref="16" fk-ref="17"/>
+		<relation name="team_server_assignment_team_id_fkey" fq-name="public.team_server_assignment.team_server_assignment_team_id_fkey" type="fk" pk-ref="16" fk-ref="18"/>
+		<relation name="application_logs_user_id_fkey" fq-name="public.application_logs.application_logs_user_id_fkey" type="fk" pk-ref="20" fk-ref="4"/>
+		<relation name="user_access_logs_user_id_fkey" fq-name="public.user_access_logs.user_access_logs_user_id_fkey" type="fk" pk-ref="20" fk-ref="19"/>
+	</relations>
+</diagram>

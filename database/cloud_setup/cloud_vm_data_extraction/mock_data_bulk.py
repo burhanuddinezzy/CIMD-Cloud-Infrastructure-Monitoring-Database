@@ -1,34 +1,17 @@
 """
-Must add more data to the db over the months not seconds, so mock insert timestamps of each day so you can insert 90 timestamps of 90 days.
-This script will be placed on the cloud VM and run nonstop, generating mock data for all tables in the database.
-It maintains referential integrity, uses real locations, and generates realistic, rich data using Faker.
-Note. Run this on the VM! Not local!
-
-File name on VM is m.py
-
-nano m.py
-rm m.py
-
-
-sudo nano /etc/systemd/system/mockdata.service
-
-sudo systemctl restart mockdata.service
-
-sudo journalctl -u mockdata.service -f
-
+Bulk insert script for 3 months of daily mock data.
+Each day inserts the same number of rows as a single run in the original script.
+Run this ONCE to populate your DB for Power BI testing.
+bulk.py
 """
-ROWS_PER_RUN = 10
-SLEEP_SECONDS = 60
-import time
+
 import random
-import uuid 
+import uuid
 from datetime import datetime, timedelta, timezone
 import psycopg2
 from faker import Faker
 import os
 from uszipcode import SearchEngine
-import requests
-import re
 
 # --- CONFIGURABLE PARAMETERS ---
 SERVER_IDS = [
@@ -57,16 +40,14 @@ SERVER_TO_LOCATION = {
     "d9a0b1c2-3b45-4078-d890-bcdef0123456": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
 }
 
-# --- DB CONNECTION ---
 DB_CONFIG = {
     "host": "localhost",
     "port": 5432,
     "database": "postgres",
     "user": "postgres",
-    "password": os.getenv("TELE_POSTGRES_PASS"),  # No ${}
+    "password": os.getenv("TELE_POSTGRES_PASS"),
 }
 
-# --- ENUMS (for creation if not exists) ---
 LOG_LEVEL_ENUM = [
     "DEBUG", "INFO", "WARN", "ERROR", "CRITICAL"
 ]
@@ -74,46 +55,24 @@ LOG_SOURCE_ENUM = [
     "APP", "DATABASE", "SECURITY", "SYSTEM"
 ]
 
-# --- SETUP ---
 fake = Faker()
-#Faker.seed(42)
-#random.seed(42)
-
-search = SearchEngine()  # Remove simple_zipcode=True
+search = SearchEngine()
 all_cities = search.by_population(lower=10000, returns=10000)
-
-# --- UTILITY FUNCTIONS ---
 
 def get_conn():
     return psycopg2.connect(**DB_CONFIG)
 
-def random_geography_point(lat, lng):
-    return f"SRID=4326;POINT({lng} {lat})"
+def random_enum(enum_list):
+    return random.choice(enum_list)
 
-def random_password_hash():
-    return fake.sha256()
+def random_uuid():
+    return str(uuid.uuid4())
 
 def random_ip():
     return fake.ipv4_public()
 
-def random_interval():
-    return f"{random.randint(1, 24)} hours"
-
 def random_bool():
     return random.choice([True, False])
-
-def random_enum(enum_list):
-    return random.choice(enum_list)
-
-def random_timestamp(start=None, end=None):
-    if not start:
-        start = datetime.now() - timedelta(days=30)
-    if not end:
-        end = datetime.now()
-    return fake.date_time_between(start_date=start, end_date=end)
-
-def random_uuid():
-    return str(uuid.uuid4())
 
 def insert_server_metrics(cur, server_id, location_id, timestamp):
     cpu_usage = round(random.uniform(5, 80), 2)
@@ -273,53 +232,42 @@ def get_random_app_id(cur):
     row = cur.fetchone()
     return row[0] if row else None
 
-# --- MAIN LOOP ---
-
 def main():
     GMT_PLUS_4 = timezone(timedelta(hours=4))
-    while True:
-        try:
-            print("Before DB connect", flush=True)
-            with get_conn() as conn, conn.cursor() as cur:
-                print("DB connected", flush=True)
-                # Ensure locations exist
-                cur.execute("SELECT user_id FROM public.users LIMIT 1")
-                user_id = cur.fetchone()
-                for i, server_id in enumerate(SERVER_IDS):
-                    location_id = SERVER_TO_LOCATION[server_id]
-
-                    # 5. Applications
-                    app_id = get_random_app_id(cur)
-                    timestamp = datetime.now(GMT_PLUS_4)
-                    # 6. Server Metrics
-                    insert_server_metrics(cur, server_id, location_id, timestamp)
-                    # 7. Aggregated Metrics
-                    insert_aggregated_metrics(cur, server_id, timestamp)
-                    # 9. Application Logs
-                    log_id = insert_application_logs(cur, server_id, app_id, user_id, timestamp)
-                    # 11. User Access Logs
-                    insert_user_access_logs(cur, user_id, server_id, timestamp)
-                    # 16. Error Logs
-                    cur.execute("SELECT incident_id FROM public.incident_response_logs ORDER BY random() LIMIT 1")
-                    incident_row = cur.fetchone()
-                    incident_id = incident_row[0] if incident_row else None
-                    insert_error_logs(cur, server_id, timestamp, log_id, incident_id)
-                
-                timestamp = datetime.now(GMT_PLUS_4)
-                # 8. Alert History
-                cur.execute("SELECT server_id FROM public.server ORDER BY random() LIMIT 1")
-                server_id = cur.fetchone()[0]
-
-                team_id = get_random_team_id(cur)
-                incident_id = insert_incident_response_logs(cur, server_id, timestamp, team_id)
-                # 15. Downtime Logs
-                insert_downtime_logs(cur, server_id, timestamp, incident_id)
-
-                conn.commit()
-                print(f"Inserted rows at {datetime.now()}", flush=True)
-        except Exception as e:
-            print("ERROR:", e, flush=True)
-        time.sleep(SLEEP_SECONDS)
+    DAYS = 90  # 3 months
+    with get_conn() as conn, conn.cursor() as cur:
+        print("DB connected", flush=True)
+        for day in range(DAYS):
+            timestamp = (datetime.now(GMT_PLUS_4) - timedelta(days=(DAYS - day - 1))).replace(hour=12, minute=0, second=0, microsecond=0)
+            # Ensure locations exist
+            cur.execute("SELECT user_id FROM public.users LIMIT 1")
+            user_id = cur.fetchone()
+            for i, server_id in enumerate(SERVER_IDS):
+                location_id = SERVER_TO_LOCATION[server_id]
+                app_id = get_random_app_id(cur)
+                # Server Metrics
+                insert_server_metrics(cur, server_id, location_id, timestamp)
+                # Aggregated Metrics
+                insert_aggregated_metrics(cur, server_id, timestamp)
+                # Application Logs
+                log_id = insert_application_logs(cur, server_id, app_id, user_id, timestamp)
+                # User Access Logs
+                insert_user_access_logs(cur, user_id, server_id, timestamp)
+                # Error Logs
+                cur.execute("SELECT incident_id FROM public.incident_response_logs ORDER BY random() LIMIT 1")
+                incident_row = cur.fetchone()
+                incident_id = incident_row[0] if incident_row else None
+                insert_error_logs(cur, server_id, timestamp, log_id, incident_id)
+            # Alert History
+            cur.execute("SELECT server_id FROM public.server ORDER BY random() LIMIT 1")
+            server_id = cur.fetchone()[0]
+            team_id = get_random_team_id(cur)
+            incident_id = insert_incident_response_logs(cur, server_id, timestamp, team_id)
+            # Downtime Logs
+            insert_downtime_logs(cur, server_id, timestamp, incident_id)
+            print(f"Inserted rows for {timestamp.date()}", flush=True)
+        conn.commit()
+        print("Bulk insert complete!", flush=True)
 
 if __name__ == "__main__":
     main()

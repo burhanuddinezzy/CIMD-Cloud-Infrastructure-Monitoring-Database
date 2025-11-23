@@ -377,3 +377,17 @@ ALTER TABLE public.downtime_logs DROP CONSTRAINT downtime_logs_server_id_timesta
 ALTER TABLE public.downtime_logs
 ADD CONSTRAINT downtime_logs_server_id_fkey
 FOREIGN KEY (server_id) REFERENCES public."server"(server_id);
+
+ALTER TABLE public.application_logs
+DROP CONSTRAINT IF EXISTS application_logs_server_id_timestamp_fkey;
+
+ALTER TABLE public.application_logs
+ADD CONSTRAINT application_logs_server_id_fkey
+FOREIGN KEY (server_id) REFERENCES public.server(server_id);
+
+ALTER TABLE public.error_logs
+DROP CONSTRAINT IF EXISTS error_logs_server_id_timestamp_fkey;
+
+ALTER TABLE public.error_logs
+ADD CONSTRAINT error_logs_server_id_fkey
+FOREIGN KEY (server_id) REFERENCES public.server(server_id);

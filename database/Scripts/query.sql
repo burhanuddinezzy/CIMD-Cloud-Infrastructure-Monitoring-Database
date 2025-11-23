@@ -23,18 +23,20 @@ SELECT * FROM public.team_server_assignment;
 
 SELECT team_id FROM public.team_management;
 ---
+
+
+DELETE FROM public.server_metrics
+WHERE server_id <> '550e8400-e29b-41d4-a716-446655440000';
 DELETE FROM public.server;
 DELETE FROM server_metrics;
 
-DELETE FROM team_management;
-
 --DELETE FROM public.location;
 
-DELETE FROM public.team_management;
-DELETE FROM public.team_members;
-DELETE FROM public.members;
-DELETE FROM public.users;
---DELETE FROM public.applications;
+DELETE FROM public.team_management; select * from team_management;
+DELETE FROM public.team_members; select * from team_members;
+DELETE FROM public.members; select * from members;
+DELETE FROM public.users; select * from users;
+-- DELETE FROM public.applications;
 DELETE FROM public.server_metrics;
 DELETE FROM public.aggregated_metrics;
 DELETE FROM public.alert_history;

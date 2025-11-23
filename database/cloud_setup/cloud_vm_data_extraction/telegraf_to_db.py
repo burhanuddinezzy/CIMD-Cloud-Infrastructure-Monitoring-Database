@@ -2,6 +2,7 @@
 # sudo nano /etc/systemd/system/script.service
 # sudo journalctl -u script.service --since "10 minutes ago"
 # sudo journalctl -u script.service -n 50
+# sudo journalctl -u script.service -f
 
 
 import time

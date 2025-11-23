@@ -185,6 +185,8 @@ Below are ten high-impact business questions and KPIs, with the required tables/
 
 ### 1. **Server Health & Resource Utilization Trends**
 
+**Rename table to:** `ServerHealthTrends`
+
 **Question:** How are CPU, memory, disk, and network usage trending across all servers over time?
 
 - **Tables:** `server_metrics`, `location`
@@ -209,40 +211,22 @@ Below are ten high-impact business questions and KPIs, with the required tables/
 
 ```m
 let
-    server_metrics = Odbc.Query("dsn=PostgresTunnel", "
+    ServerHealthTrends = Odbc.Query("dsn=PostgresTunnel", "
         SELECT server_id, location_id, timestamp, cpu_usage, memory_usage, disk_usage_percent, network_in_bytes, network_out_bytes
         FROM server_metrics
-    "),
-    location = Odbc.Query("dsn=PostgresTunnel", "
-        SELECT location_id, location_name
-        FROM location
-    "),
-    merged = Table.NestedJoin(server_metrics, {"location_id"}, location, {"location_id"}, "location", JoinKind.LeftOuter),
-    expanded = Table.ExpandTableColumn(merged, "location", {"location_name"}),
-    addedDay = Table.AddColumn(expanded, "day", each Date.From([timestamp])),
-    grouped = Table.Group(
-        addedDay,
-        {"server_id", "location_name", "day"},
-        {
-            {"avg_cpu", each List.Average([cpu_usage]), type number},
-            {"avg_memory", each List.Average([memory_usage]), type number},
-            {"avg_disk_usage", each List.Average([disk_usage_percent]), type number},
-            {"avg_network_in", each List.Average([network_in_bytes]), type number},
-            {"avg_network_out", each List.Average([network_out_bytes]), type number}
-        }
-    )
+    ")
 in
-    grouped
+    ServerHealthTrends
 ```
 
 #### DAX
 
 ```dax
-Avg CPU Usage = AVERAGE(ServerHealthTrends[avg_cpu])
-Peak CPU Usage = MAX(ServerHealthTrends[avg_cpu])
-Avg Memory Usage = AVERAGE(ServerHealthTrends[avg_memory])
-High CPU Days = CALCULATE(COUNTROWS(ServerHealthTrends), ServerHealthTrends[avg_cpu] > 80)
-Total Network Throughput = SUM(ServerHealthTrends[avg_network_in]) + SUM(ServerHealthTrends[avg_network_out])
+Avg CPU Usage = AVERAGE(ServerHealthTrends[cpu_usage])
+Peak CPU Usage = MAX(ServerHealthTrends[cpu_usage])
+Avg Memory Usage = AVERAGE(ServerHealthTrends[memory_usage])
+High CPU Days = CALCULATE(COUNTROWS(ServerHealthTrends), ServerHealthTrends[cpu_usage] > 80)
+Total Network Throughput = SUM(ServerHealthTrends[network_in_bytes]) + SUM(ServerHealthTrends[network_out_bytes])
 ```
 
 #### Visualization Steps
@@ -256,6 +240,8 @@ Total Network Throughput = SUM(ServerHealthTrends[avg_network_in]) + SUM(ServerH
 ---
 
 ### 2. **Application Deployment by Hosting Environment**
+
+**Rename table to:** `ApplicationsByHostingEnv`
 
 **Question:** What is the distribution of applications across different hosting environments?
 
@@ -274,27 +260,25 @@ Total Network Throughput = SUM(ServerHealthTrends[avg_network_in]) + SUM(ServerH
 
 ```m
 let
-    applications = Odbc.Query("dsn=PostgresTunnel", "
+    ApplicationsByHostingEnv = Odbc.Query("dsn=PostgresTunnel", "
         SELECT app_id, app_name, app_type, hosting_environment
         FROM applications
-    "),
-    grouped = Table.Group(
-        applications,
-        {"hosting_environment"},
-        {{"app_count", each Table.RowCount(_), Int64.Type}}
-    )
+    ")
 in
-    grouped
+    ApplicationsByHostingEnv
 ```
 
 #### DAX
 
 ```dax
-Total Applications = COUNT(applications[app_id])
-Apps by Environment = CALCULATE(COUNT(applications[app_id]), ALLEXCEPT(applications, applications[hosting_environment]))
-Percent Containerized = DIVIDE(CALCULATE(COUNTROWS(FILTER(applications, applications[hosting_environment] = "Containerized"))), [Total Applications], 0)
-Unique App Types = DISTINCTCOUNT(applications[app_type])
-Unknown Hosting Apps = CALCULATE(COUNTROWS(applications), applications[hosting_environment] = "Unknown")
+Total Applications = COUNT(ApplicationsByHostingEnv[app_id])
+Apps by Environment = CALCULATE(COUNT(ApplicationsByHostingEnv[app_id]), ALLEXCEPT(ApplicationsByHostingEnv, ApplicationsByHostingEnv[hosting_environment]))
+Percent Containerized = DIVIDE(
+    CALCULATE(COUNTROWS(FILTER(ApplicationsByHostingEnv, ApplicationsByHostingEnv[hosting_environment] = "Containerized"))),
+    [Total Applications], 0
+)
+Unique App Types = DISTINCTCOUNT(ApplicationsByHostingEnv[app_type])
+Unknown Hosting Apps = CALCULATE(COUNTROWS(ApplicationsByHostingEnv), ApplicationsByHostingEnv[hosting_environment] = "Unknown")
 ```
 
 #### Visualization Steps
@@ -308,6 +292,8 @@ Unknown Hosting Apps = CALCULATE(COUNTROWS(applications), applications[hosting_e
 ---
 
 ### 3. **Incident Response Effectiveness**
+
+**Rename table to:** `IncidentResponseByTeam`
 
 **Question:** What is the average incident resolution time by team and priority level?
 
@@ -330,28 +316,23 @@ Unknown Hosting Apps = CALCULATE(COUNTROWS(applications), applications[hosting_e
 
 ```m
 let
-    incidents = Odbc.Query("dsn=PostgresTunnel", "
-        SELECT incident_id, response_team_id, priority_level, resolution_time_minutes, status
-        FROM incident_response_logs
-    "),
-    teams = Odbc.Query("dsn=PostgresTunnel", "
-        SELECT team_id, team_name
-        FROM team_management
-    "),
-    merged = Table.NestedJoin(incidents, {"response_team_id"}, teams, {"team_id"}, "team", JoinKind.LeftOuter),
-    expanded = Table.ExpandTableColumn(merged, "team", {"team_name"})
+    IncidentResponseByTeam = Odbc.Query("dsn=PostgresTunnel", "
+        SELECT ir.incident_id, ir.response_team_id, ir.priority_level, ir.resolution_time_minutes, ir.status, tm.team_name
+        FROM incident_response_logs ir
+        LEFT JOIN team_management tm ON ir.response_team_id = tm.team_id
+    ")
 in
-    expanded
+    IncidentResponseByTeam
 ```
 
 #### DAX
 
 ```dax
-Avg Resolution Time = AVERAGE(incident_response_logs[resolution_time_minutes])
-Incidents Within SLA = CALCULATE(COUNTROWS(incident_response_logs), incident_response_logs[resolution_time_minutes] <= 60)
-Open Incidents = CALCULATE(COUNTROWS(incident_response_logs), incident_response_logs[status] <> "Resolved")
-Critical Incidents = CALCULATE(COUNTROWS(incident_response_logs), incident_response_logs[priority_level] = "Critical")
-Avg Resolution By Team = CALCULATE(AVERAGE(incident_response_logs[resolution_time_minutes]), ALLEXCEPT(incident_response_logs, incident_response_logs[response_team_id]))
+Avg Resolution Time = AVERAGE(IncidentResponseByTeam[resolution_time_minutes])
+Incidents Within SLA = CALCULATE(COUNTROWS(IncidentResponseByTeam), IncidentResponseByTeam[resolution_time_minutes] <= 60)
+Open Incidents = CALCULATE(COUNTROWS(IncidentResponseByTeam), IncidentResponseByTeam[status] <> "Resolved")
+Critical Incidents = CALCULATE(COUNTROWS(IncidentResponseByTeam), IncidentResponseByTeam[priority_level] = "Critical")
+Avg Resolution By Team = AVERAGE(IncidentResponseByTeam[resolution_time_minutes])
 ```
 
 #### Visualization Steps
@@ -363,8 +344,9 @@ Avg Resolution By Team = CALCULATE(AVERAGE(incident_response_logs[resolution_tim
 5. Table: `Avg Resolution By Team`
 
 ---
-
 ### 4. **Monthly Infrastructure Cost by Team**
+
+**Rename table to:** `MonthlyCostByTeam`
 
 **Question:** How much is each team spending on infrastructure monthly, and how is this trending?
 
@@ -386,29 +368,85 @@ Avg Resolution By Team = CALCULATE(AVERAGE(incident_response_logs[resolution_tim
 
 ```m
 let
-    cost_data = Odbc.Query("dsn=PostgresTunnel", "
-        SELECT server_id, team_allocation, timestamp, total_monthly_cost
-        FROM cost_data
-    "),
-    teams = Odbc.Query("dsn=PostgresTunnel", "
-        SELECT team_id, team_name
-        FROM team_management
-    "),
-    merged = Table.NestedJoin(cost_data, {"team_allocation"}, teams, {"team_id"}, "team", JoinKind.LeftOuter),
-    expanded = Table.ExpandTableColumn(merged, "team", {"team_name"}),
-    addedMonth = Table.AddColumn(expanded, "month", each Date.Month([timestamp]))
+    MonthlyCostByTeam = Odbc.Query("dsn=PostgresTunnel", "
+        SELECT cd.server_id, cd.team_allocation, cd.timestamp, cd.total_monthly_cost, tm.team_name
+        FROM cost_data cd
+        LEFT JOIN team_management tm ON cd.team_allocation = tm.team_id
+    ")
 in
-    addedMonth
+    MonthlyCostByTeam
 ```
 
 #### DAX
 
 ```dax
-Total Monthly Cost = SUM(cost_data[total_monthly_cost])
-Avg Monthly Cost Per Team = AVERAGEX(VALUES(cost_data[team_allocation]), [Total Monthly Cost])
-Teams Over 10k = CALCULATE(DISTINCTCOUNT(cost_data[team_allocation]), [Total Monthly Cost] > 10000)
-Cost Trend = [Total Monthly Cost] - CALCULATE([Total Monthly Cost], DATEADD(cost_data[timestamp], -1, MONTH))
-Highest Cost Team = TOPN(1, SUMMARIZE(cost_data, cost_data[team_allocation], "Cost", [Total Monthly Cost]), [Total Monthly Cost], DESC)
+Total Monthly Cost = SUM(MonthlyCostByTeam[total_monthly_cost])
+Avg Monthly Cost Per Team = AVERAGEX(VALUES(MonthlyCostByTeam[team_allocation]), [Total Monthly Cost])
+Teams Over 10k =
+CALCULATE(
+    DISTINCTCOUNT(MonthlyCostByTeam[team_allocation]),
+    FILTER(
+        VALUES(MonthlyCostByTeam[team_allocation]),
+        CALCULATE(SUM(MonthlyCostByTeam[total_monthly_cost])) > 10000
+    )
+)
+    For the cost trend dax:
+    Create a separate Date table and relate it to your fact table.
+
+    Step 1: Create a Date Table
+    In Power BI, go to "Modeling" > "New Table" and enter:
+    DateTable = CALENDAR(MIN(MonthlyCostByTeam[timestamp]), MAX(MonthlyCostByTeam[timestamp]))
+
+    Step 2: Create a Month Column in Both Tables
+    In DateTable:
+    Month = FORMAT(DateTable[Date], "YYYY-MM")
+
+    In MonthlyCostByTeam:
+    Month = FORMAT(MonthlyCostByTeam[timestamp], "YYYY-MM")
+
+    Step 3: Create a Relationship
+    Relate MonthlyCostByTeam[Month] to DateTable[Month].
+    In the model view, relate MonthlyCostByTeam[Month] to DateTable[Month].
+
+
+
+    Step 4: Rewrite Your Measure
+    Now, use the date column from the Date table in your measure:
+
+
+Cost Trend =
+VAR CurrentMonth = SELECTEDVALUE(DateTable[Month])
+RETURN
+    [Total Monthly Cost] - CALCULATE([Total Monthly Cost], DATEADD(DateTable[Date], -1, MONTH))
+
+
+Highest Cost Team Value =
+VAR TopTeam =
+    TOPN(
+        1,
+        SUMMARIZE(
+            MonthlyCostByTeam,
+            MonthlyCostByTeam[team_name],
+            "TotalCost", SUM(MonthlyCostByTeam[total_monthly_cost])
+        ),
+        [TotalCost], DESC
+    )
+RETURN
+    MAXX(TopTeam, [TotalCost])
+
+Highest Cost Team Name =
+VAR TopTeam =
+    TOPN(
+        1,
+        SUMMARIZE(
+            MonthlyCostByTeam,
+            MonthlyCostByTeam[team_name],
+            "TotalCost", SUM(MonthlyCostByTeam[total_monthly_cost])
+        ),
+        [TotalCost], DESC
+    )
+RETURN
+    SELECTCOLUMNS(TopTeam, "team_name", MonthlyCostByTeam[team_name])
 ```
 
 #### Visualization Steps
@@ -422,6 +460,8 @@ Highest Cost Team = TOPN(1, SUMMARIZE(cost_data, cost_data[team_allocation], "Co
 ---
 
 ### 5. **Error & Alert Hotspots**
+
+**Rename table to:** `ErrorAndAlertHotspots`
 
 **Question:** Which servers or applications generate the most errors and critical alerts?
 
@@ -448,43 +488,67 @@ Highest Cost Team = TOPN(1, SUMMARIZE(cost_data, cost_data[team_allocation], "Co
 
 ```m
 let
-    error_logs = Odbc.Query("dsn=PostgresTunnel", "
-        SELECT error_id, server_id, app_id, timestamp
-        FROM error_logs
-    "),
-    alert_history = Odbc.Query("dsn=PostgresTunnel", "
-        SELECT alert_id, server_id, alert_severity, timestamp
-        FROM alert_history
-    "),
-    applications = Odbc.Query("dsn=PostgresTunnel", "
-        SELECT app_id, app_name
-        FROM applications
+    ErrorAndAlertHotspots = Odbc.Query("dsn=PostgresTunnel", "
+        SELECT el.error_id, el.server_id, el.timestamp, ah.alert_id, ah.alert_severity, ah.timestamp as alert_timestamp
+        FROM error_logs el
+        LEFT JOIN alert_history ah ON el.server_id = ah.server_id
     ")
 in
-    error_logs
+    ErrorAndAlertHotspots
 ```
 
 #### DAX
 
 ```dax
-Total Errors = COUNT(error_logs[error_id])
-Critical Alerts = COUNTROWS(FILTER(alert_history, alert_history[alert_severity] = "CRITICAL"))
-Servers Over 10 Errors = CALCULATE(DISTINCTCOUNT(error_logs[server_id]), error_logs[timestamp] >= TODAY()-7 && error_logs[error_id] > 10)
-Apps Most Alerts = TOPN(1, SUMMARIZE(alert_history, alert_history[server_id], "AlertCount", COUNT(alert_history[alert_id])), [AlertCount], DESC)
-Avg Error Rate = AVERAGE(alert_history[alert_severity])
+Total Errors = COUNT(ErrorAndAlertHotspots[error_id])
+Critical Alerts = COUNTROWS(FILTER(ErrorAndAlertHotspots, ErrorAndAlertHotspots[alert_severity] = "CRITICAL"))
+Servers Over 10 Errors =
+CALCULATE(
+    COUNTROWS(
+        FILTER(
+            SUMMARIZE(
+                ErrorAndAlertHotspots,
+                ErrorAndAlertHotspots[server_id],
+                "ErrorCount", COUNTROWS(ErrorAndAlertHotspots)
+            ),
+            [ErrorCount] > 10
+        )
+    )
+)
+Server Most Alerts =
+VAR TopServer =
+    TOPN(
+        1,
+        SUMMARIZE(
+            ErrorAndAlertHotspots,
+            ErrorAndAlertHotspots[server_id],
+            "AlertCount", COUNT(ErrorAndAlertHotspots[alert_id])
+        ),
+        [AlertCount], DESC
+    )
+RETURN
+    MAXX(TopServer, [server_id])
+    
+Avg Error Rate =
+AVERAGEX(
+    VALUES(ErrorAndAlertHotspots[server_id]),
+    CALCULATE(COUNTROWS(ErrorAndAlertHotspots))
+)
 ```
 
 #### Visualization Steps
 
-1. Table: `Total Errors` and `Critical Alerts` by `server_id` and `app_id`
+1. Table: `Total Errors` and `Critical Alerts` by `server_id`
 2. Bar chart: `Total Errors` by `server_id`
 3. Card: `Servers Over 10 Errors`
-4. Card: `Apps Most Alerts`
+4. Card: `Servers Most Alerts`
 5. Card: `Avg Error Rate`
 
 ---
 
 ### 6. **Downtime Analysis & SLA Tracking**
+
+**Rename table to:** `DowntimeAndSLA`
 
 **Question:** What is the total planned vs. unplanned downtime, and are we meeting our SLAs?
 
@@ -505,27 +569,31 @@ Avg Error Rate = AVERAGE(alert_history[alert_severity])
 
 ```m
 let
-    downtime_logs = Odbc.Query("dsn=PostgresTunnel", "
+    DowntimeAndSLA = Odbc.Query("dsn=PostgresTunnel", "
         SELECT downtime_id, server_id, start_time, end_time, downtime_duration_minutes, is_planned
         FROM downtime_logs
     ")
 in
-    downtime_logs
+    DowntimeAndSLA
 ```
 
 #### DAX
 
 ```dax
-Total Downtime Minutes = SUM(downtime_logs[downtime_duration_minutes])
-Planned Downtime = CALCULATE(SUM(downtime_logs[downtime_duration_minutes]), downtime_logs[is_planned] = TRUE())
-Unplanned Downtime = CALCULATE(SUM(downtime_logs[downtime_duration_minutes]), downtime_logs[is_planned] = FALSE())
-Downtime Incidents = COUNT(downtime_logs[downtime_id])
-SLA Breaches = CALCULATE(COUNTROWS(downtime_logs), downtime_logs[downtime_duration_minutes] > 60)
+Total Downtime Minutes = SUM(DowntimeAndSLA[downtime_duration_minutes])
+Planned Downtime =
+CALCULATE(
+    SUM(DowntimeAndSLA[downtime_duration_minutes]),
+    VALUE(DowntimeAndSLA[is_planned]) = 1
+)
+Unplanned Downtime = CALCULATE(SUM(DowntimeAndSLA[downtime_duration_minutes]), DowntimeAndSLA[is_planned] = FALSE())
+Downtime Incidents = COUNT(DowntimeAndSLA[downtime_id])
+SLA Breaches = CALCULATE(COUNTROWS(DowntimeAndSLA), DowntimeAndSLA[downtime_duration_minutes] > 60)
 ```
 
 #### Visualization Steps
 
-1. Stacked column chart: `Planned Downtime` vs `Unplanned Downtime` by `server_id`
+1. Stacked column chart: `Planned Downtime` vs `Unplanned Downtime` by `server_id`  
 2. Card: `Total Downtime Minutes`
 3. Card: `Downtime Incidents`
 4. Card: `SLA Breaches`
@@ -534,6 +602,8 @@ SLA Breaches = CALCULATE(COUNTROWS(downtime_logs), downtime_logs[downtime_durati
 ---
 
 ### 7. **Team Member Role Distribution & Coverage**
+
+**Rename table to:** `TeamRoleDistribution`
 
 **Question:** What is the distribution of team member roles, and are there gaps in critical skill areas?
 
@@ -554,28 +624,47 @@ SLA Breaches = CALCULATE(COUNTROWS(downtime_logs), downtime_logs[downtime_durati
 
 ```m
 let
-    team_members = Odbc.Query("dsn=PostgresTunnel", "
-        SELECT member_id, team_id, role
-        FROM team_members
-    "),
-    teams = Odbc.Query("dsn=PostgresTunnel", "
-        SELECT team_id, team_name
-        FROM team_management
-    "),
-    merged = Table.NestedJoin(team_members, {"team_id"}, teams, {"team_id"}, "team", JoinKind.LeftOuter),
-    expanded = Table.ExpandTableColumn(merged, "team", {"team_name"})
+    TeamRoleDistribution = Odbc.Query("dsn=PostgresTunnel", "
+        SELECT tm.member_id, tm.team_id, tm.role, tmg.team_name
+        FROM team_members tm
+        LEFT JOIN team_management tmg ON tm.team_id = tmg.team_id
+    ")
 in
-    expanded
+    TeamRoleDistribution
 ```
 
 #### DAX
 
 ```dax
-Total Team Members = COUNT(team_members[member_id])
-Unique Roles = DISTINCTCOUNT(team_members[role])
-Members Per Role = CALCULATE(COUNT(team_members[member_id]), ALLEXCEPT(team_members, team_members[role]))
-Small Teams = CALCULATE(DISTINCTCOUNT(team_members[team_id]), CALCULATE(COUNT(team_members[member_id]), ALLEXCEPT(team_members, team_members[team_id])) < 3)
-Members Multiple Roles = CALCULATE(DISTINCTCOUNT(team_members[member_id]), CALCULATE(DISTINCTCOUNT(team_members[role]), ALLEXCEPT(team_members, team_members[member_id])) > 1)
+Total Team Members = COUNT(TeamRoleDistribution[member_id])
+Unique Roles = DISTINCTCOUNT(TeamRoleDistribution[role])
+Members Per Role = CALCULATE(COUNT(TeamRoleDistribution[member_id]), ALLEXCEPT(TeamRoleDistribution, TeamRoleDistribution[role]))
+Small Teams =
+CALCULATE(
+    COUNTROWS(
+        FILTER(
+            SUMMARIZE(
+                TeamRoleDistribution,
+                TeamRoleDistribution[team_id],
+                "MemberCount", COUNT(TeamRoleDistribution[member_id])
+            ),
+            [MemberCount] < 3
+        )
+    )
+)
+Members Multiple Roles =
+CALCULATE(
+    COUNTROWS(
+        FILTER(
+            SUMMARIZE(
+                TeamRoleDistribution,
+                TeamRoleDistribution[member_id],
+                "RoleCount", DISTINCTCOUNT(TeamRoleDistribution[role])
+            ),
+            [RoleCount] > 1
+        )
+    )
+)
 ```
 
 #### Visualization Steps
@@ -589,6 +678,8 @@ Members Multiple Roles = CALCULATE(DISTINCTCOUNT(team_members[member_id]), CALCU
 ---
 
 ### 8. **Geographical Distribution of Assets**
+
+**Rename table to:** `GeoAssetDistribution`
 
 **Question:** Where are our servers, applications, and incidents geographically located?
 
@@ -616,34 +707,35 @@ Members Multiple Roles = CALCULATE(DISTINCTCOUNT(team_members[member_id]), CALCU
 
 ```m
 let
-    location = Odbc.Query("dsn=PostgresTunnel", "
-        SELECT location_id, location_name, country, region
-        FROM location
-    "),
-    server_metrics = Odbc.Query("dsn=PostgresTunnel", "
-        SELECT server_id, location_id
-        FROM server_metrics
-    "),
-    applications = Odbc.Query("dsn=PostgresTunnel", "
-        SELECT app_id, app_name
-        FROM applications
-    "),
-    incidents = Odbc.Query("dsn=PostgresTunnel", "
-        SELECT incident_id, server_id
-        FROM incident_response_logs
+    GeoAssetDistribution = Odbc.Query("dsn=PostgresTunnel", "
+        SELECT l.location_id, l.location_name, l.country, l.region, sm.server_id, a.app_id, a.app_name, ir.incident_id
+        FROM location l
+        LEFT JOIN server_metrics sm ON l.location_id = sm.location_id
+        LEFT JOIN applications a ON sm.server_id = a.app_id
+        LEFT JOIN incident_response_logs ir ON sm.server_id = ir.server_id
     ")
 in
-    location
+    GeoAssetDistribution
 ```
 
 #### DAX
 
 ```dax
-Total Locations = COUNT(location[location_id])
-Servers Per Region = CALCULATE(COUNT(server_metrics[server_id]), ALLEXCEPT(location, location[region]))
-Applications Per Country = CALCULATE(COUNT(applications[app_id]), ALLEXCEPT(location, location[country]))
-Incidents Per Location = CALCULATE(COUNT(incident_response_logs[incident_id]), ALLEXCEPT(location, location[location_id]))
-Locations Over 5 Incidents = CALCULATE(DISTINCTCOUNT(location[location_id]), [Incidents Per Location] > 5)
+Total Locations = COUNT(GeoAssetDistribution[location_id])
+Servers Per Region = CALCULATE(COUNT(GeoAssetDistribution[server_id]), ALLEXCEPT(GeoAssetDistribution, GeoAssetDistribution[region]))
+Applications Per Country = CALCULATE(COUNT(GeoAssetDistribution[app_id]), ALLEXCEPT(GeoAssetDistribution, GeoAssetDistribution[country]))
+Incidents Per Location = CALCULATE(COUNT(GeoAssetDistribution[incident_id]), ALLEXCEPT(GeoAssetDistribution, GeoAssetDistribution[location_id]))
+Locations Over 5 Incidents =
+COUNTROWS(
+    FILTER(
+        SUMMARIZE(
+            GeoAssetDistribution,
+            GeoAssetDistribution[location_id],
+            "IncidentCount", COUNT(GeoAssetDistribution[incident_id])
+        ),
+        [IncidentCount] > 5
+    )
+)
 ```
 
 #### Visualization Steps
@@ -657,6 +749,8 @@ Locations Over 5 Incidents = CALCULATE(DISTINCTCOUNT(location[location_id]), [In
 ---
 
 ### 9. **Resource Allocation Efficiency**
+
+**Rename table to:** `ResourceAllocationEfficiency`
 
 **Question:** How efficiently are resources (CPU, memory, disk) being allocated and utilized per application?
 
@@ -684,31 +778,36 @@ Locations Over 5 Incidents = CALCULATE(DISTINCTCOUNT(location[location_id]), [In
 
 ```m
 let
-    resource_allocation = Odbc.Query("dsn=PostgresTunnel", "
-        SELECT server_id, app_id, allocated_memory, allocated_cpu, allocated_disk_space, actual_memory_usage, actual_cpu_usage, actual_disk_usage
-        FROM resource_allocation
-    "),
-    applications = Odbc.Query("dsn=PostgresTunnel", "
-        SELECT app_id, app_name
-        FROM applications
-    "),
-    merged = Table.NestedJoin(resource_allocation, {"app_id"}, applications, {"app_id"}, "app", JoinKind.LeftOuter),
-    expanded = Table.ExpandTableColumn(merged, "app", {"app_name"}),
-    cpu_efficiency = Table.AddColumn(expanded, "cpu_efficiency", each [actual_cpu_usage] / [allocated_cpu]),
-    memory_efficiency = Table.AddColumn(cpu_efficiency, "memory_efficiency", each [actual_memory_usage] / [allocated_memory]),
-    disk_efficiency = Table.AddColumn(memory_efficiency, "disk_efficiency", each [actual_disk_usage] / [allocated_disk_space])
+    ResourceAllocationEfficiency = Odbc.Query("dsn=PostgresTunnel", "
+        SELECT ra.server_id, ra.app_id, ra.allocated_memory, ra.allocated_cpu, ra.allocated_disk_space, ra.actual_memory_usage, ra.actual_cpu_usage, ra.actual_disk_usage, a.app_name
+        FROM resource_allocation ra
+        LEFT JOIN applications a ON ra.app_id = a.app_id
+    ")
 in
-    disk_efficiency
+    ResourceAllocationEfficiency
 ```
 
 #### DAX
 
 ```dax
-Avg CPU Efficiency = AVERAGE(resource_allocation[cpu_efficiency])
-Avg Memory Efficiency = AVERAGE(resource_allocation[memory_efficiency])
-Avg Disk Efficiency = AVERAGE(resource_allocation[disk_efficiency])
-Apps Low CPU Efficiency = CALCULATE(DISTINCTCOUNT(resource_allocation[app_id]), resource_allocation[cpu_efficiency] < 0.5)
-Servers Over Memory = CALCULATE(DISTINCTCOUNT(resource_allocation[server_id]), resource_allocation[memory_efficiency] > 1)
+Avg CPU Efficiency =
+AVERAGEX(
+    ResourceAllocationEfficiency,
+    ResourceAllocationEfficiency[actual_cpu_usage] / ResourceAllocationEfficiency[allocated_cpu]
+)
+Avg Memory Efficiency =
+AVERAGEX(
+    ResourceAllocationEfficiency,
+    ResourceAllocationEfficiency[actual_memory_usage] / ResourceAllocationEfficiency[allocated_memory]
+)
+
+Avg Disk Efficiency =
+AVERAGEX(
+    ResourceAllocationEfficiency,
+    ResourceAllocationEfficiency[actual_disk_usage] / ResourceAllocationEfficiency[allocated_disk_space]
+)
+Apps Low CPU Efficiency = CALCULATE(DISTINCTCOUNT(ResourceAllocationEfficiency[app_id]), ResourceAllocationEfficiency[actual_cpu_usage] / ResourceAllocationEfficiency[allocated_cpu] < 0.5)
+Servers Over Memory = CALCULATE(DISTINCTCOUNT(ResourceAllocationEfficiency[server_id]), ResourceAllocationEfficiency[actual_memory_usage] / ResourceAllocationEfficiency[allocated_memory] > 1)
 ```
 
 #### Visualization Steps
@@ -721,6 +820,8 @@ Servers Over Memory = CALCULATE(DISTINCTCOUNT(resource_allocation[server_id]), r
 ---
 
 ### 10. **User Access & Security Monitoring**
+
+**Rename table to:** `UserAccessSecurity`
 
 **Question:** What are the patterns of user access (read/write/delete/execute) across servers, and are there any anomalies?
 
@@ -743,28 +844,23 @@ Servers Over Memory = CALCULATE(DISTINCTCOUNT(resource_allocation[server_id]), r
 
 ```m
 let
-    user_access_logs = Odbc.Query("dsn=PostgresTunnel", "
-        SELECT access_id, user_id, server_id, access_type, timestamp
-        FROM user_access_logs
-    "),
-    users = Odbc.Query("dsn=PostgresTunnel", "
-        SELECT user_id, username
-        FROM users
-    "),
-    merged = Table.NestedJoin(user_access_logs, {"user_id"}, users, {"user_id"}, "user", JoinKind.LeftOuter),
-    expanded = Table.ExpandTableColumn(merged, "user", {"username"})
+    UserAccessSecurity = Odbc.Query("dsn=PostgresTunnel", "
+        SELECT ual.access_id, ual.user_id, ual.server_id, ual.access_type, ual.timestamp, u.username
+        FROM user_access_logs ual
+        LEFT JOIN users u ON ual.user_id = u.user_id
+    ")
 in
-    expanded
+    UserAccessSecurity
 ```
 
 #### DAX
 
 ```dax
-Total Access Logs = COUNT(user_access_logs[access_id])
-Read Accesses = COUNTROWS(FILTER(user_access_logs, user_access_logs[access_type] = "READ"))
-Write Accesses = COUNTROWS(FILTER(user_access_logs, user_access_logs[access_type] = "WRITE"))
-Unique Users = DISTINCTCOUNT(user_access_logs[user_id])
-Active Users Last 7 Days = CALCULATE(DISTINCTCOUNT(user_access_logs[user_id]), user_access_logs[timestamp] >= TODAY()-7 && user_access_logs[access_id] > 10)
+Total Access Logs = COUNT(UserAccessSecurity[access_id])
+Read Accesses = COUNTROWS(FILTER(UserAccessSecurity, UserAccessSecurity[access_type] = "READ"))
+Write Accesses = COUNTROWS(FILTER(UserAccessSecurity, UserAccessSecurity[access_type] = "WRITE"))
+Unique Users = DISTINCTCOUNT(UserAccessSecurity[user_id])
+Active Users Last 7 Days = CALCULATE(DISTINCTCOUNT(UserAccessSecurity[user_id]), UserAccessSecurity[timestamp] >= TODAY()-7)
 ```
 
 #### Visualization Steps
